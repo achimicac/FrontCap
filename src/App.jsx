@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Signup from './pages/signup';
 import Login from './pages/login';
 
-//Hello this is Pare branch
+//Test Pare branch
 function App() {
   return (
     <>
