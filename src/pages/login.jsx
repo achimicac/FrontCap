@@ -35,8 +35,11 @@ function Login() {
 
     return (
         <>
-            <Popup alert={alert} message={alertMessage} haveButton={false} clickCancel={()=>{setAlert(false)}}/>
-
+            <Popup 
+                alert={alert} 
+                message={alertMessage}
+                clickCancel={()=>{setAlert(false)}}
+            />
             <h1> Sign Up </h1>
             <form onSubmit={handleSubmit}>
                 <label>

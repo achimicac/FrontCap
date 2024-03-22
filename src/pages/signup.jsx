@@ -62,7 +62,7 @@ function Signup() {
 
             const {adduser} = await axios.post('/api/signup', user)
 
-            if ( !adduser.user.success ) {
+            if ( !adduser.data.success ) {
                 setMessage(adduser.text)
                 setAlert(true);
                 return;
@@ -80,7 +80,11 @@ function Signup() {
 
     return (
         <>
-            <Popup alert={alert} message={alertMessage} haveButton={false} clickCancel={()=>{setAlert(false)}}/>
+            <Popup 
+                alert={alert} 
+                message={alertMessage}
+                clickCancel={()=>{setAlert(false)}}
+            />
 
             <h1> Sign Up </h1>
             <form onSubmit={handleSubmit}>
@@ -130,7 +134,7 @@ function Signup() {
                         onChange={handleChange}
                         autoComplete='off'
                         value={ user.firstname }
-                        require
+                        required
                     />
                 </label>
 
