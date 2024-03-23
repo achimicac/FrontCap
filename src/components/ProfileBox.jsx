@@ -1,9 +1,9 @@
-function ProfileBox({firstname, lastname, jobs, clickConfirm, clickCancel, buttonName='ยืนยัน', canClick=true}) {// or false, depending on your requirement
+function ProfileBox({firstname, lastname, jobs, pic, clickConfirm, clickCancel, buttonName='ยืนยัน', canClick=true}) {// or false, depending on your requirement
 
       return (
             <section>
                   <figure>
-
+                        <img src={`data:image/jpeg;base64,${pic}`} />
                   </figure>
                   <article>
                         <header> {firstname} {lastname} </header>

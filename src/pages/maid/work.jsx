@@ -57,6 +57,7 @@ function MaidStatusWork() {
                               firstname={customer.firstname}
                               lastname={customer.lastname}
                               jobs={customer.jobtype}
+                              pic={customer.user_pic}
                               clickConfirm={() => handleClickConfirm(customer.id)}
                               buttonName="สิ้นสุดงาน"
                         />

@@ -33,6 +33,7 @@ function UserStatusWork() {
                             firstname={customer.firstname}
                             lastname={customer.lastname}
                             jobs={customer.jobtype}
+                            pic={customer.user_pic}
                             canClick={false}
                             buttonName="กำลังทำงาน..."
                         />

@@ -10,6 +10,7 @@ import MaidMain from './pages/maid/main';
 import MaidProfile from './pages/maid/profile';
 import UserStatusWait from './pages/customer/wait';
 import UserStatusWork from './pages/customer/work';
+import UserStatusRating from './pages/customer/rating';
 //Component 3 หน้าของ Maid Status รูปแบบเหมือนกันเลย อาจจะมาแก้ให้เป็นใช้ component ร่วมกันไปเลย
 
 function App() {
@@ -64,8 +65,8 @@ function App() {
                             path: 'work',
                             element: <UserStatusWork />
                         },{
-                            path: 'rating',
-                            element: <MaidStatusEnd />
+                            path: 'end',
+                            element: <UserStatusRating />
                         }]
                 },{
                     path: 'profile',
@@ -80,6 +81,6 @@ function App() {
     </>
   );
 }
-//It's OK?
+//Test again
 
 export default App;
