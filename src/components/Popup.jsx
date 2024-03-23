@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import './css/Popup.css'
 
 function Popup({alert, message, haveButton, clickCancel, clickOK, buttonName='OK'}) {
+
+
       return (
             <dialog className={`${alert ? 'show' : ''}`}>
                   <p onClick={clickCancel}><MdCancel/></p>
