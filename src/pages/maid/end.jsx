@@ -31,6 +31,7 @@ function MaidStatusEnd() {
                               firstname={customer.firstname}
                               lastname={customer.lastname}
                               jobs={customer.jobtype}
+                              pic={customer.user_pic}
                               canClick={false}
                               buttonName="เสร็จสิ้นแล้ว"
                         />

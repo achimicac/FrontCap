@@ -32,6 +32,7 @@ function UserStatusWait() {
                             firstname={customer.firstname}
                             lastname={customer.lastname}
                             jobs={customer.jobtype}
+                            pic={customer.user_pic}
                             canClick={false}
                             buttonName="รอแม่บ้านยืนยัน"
                         />
