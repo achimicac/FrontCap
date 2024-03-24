@@ -7,7 +7,9 @@ function RatingBox({ maid, handleSubmit, clickStar }) {
         <section>
             <article>
                 <figure>
-                    <img src={`data:image/jpeg;base64,${maid.user_pic}`} />
+                    {(maid.user_pic !== null && maid.user_pic !== undefined) &&
+                        <img src={`data:image/jpeg;base64,${maid.user_pic}`} />
+                    }
                 </figure>
                 <header>{maid.firstname} {maid.lastname} </header>
                 <p> submit at:  { maid.submit_time } </p>

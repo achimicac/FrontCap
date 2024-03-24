@@ -11,6 +11,7 @@ import MaidProfile from './pages/maid/profile';
 import UserStatusWait from './pages/customer/wait';
 import UserStatusWork from './pages/customer/work';
 import UserStatusRating from './pages/customer/rating';
+import MaidProfileEdit from './pages/maid/profileEdit';
 //Component 3 หน้าของ Maid Status รูปแบบเหมือนกันเลย อาจจะมาแก้ให้เป็นใช้ component ร่วมกันไปเลย
 
 function App() {
@@ -44,7 +45,11 @@ function App() {
                         }]
                 },{
                     path: 'profile',
-                    element: <MaidProfile />
+                    element: <MaidProfile />,
+                    children: [{
+                        path: 'edit',
+                        element: <MaidProfileEdit />
+                    }]
                 }
             ]
         },
