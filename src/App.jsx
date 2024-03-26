@@ -38,18 +38,17 @@ function App() {
                             element: <MaidStatusWait />
                         },{
                             path: 'work',
-                            element: <UserStatusWork />
+                            element: <MaidStatusWork />
                         },{
                             path: 'end',
                             element: <MaidStatusEnd />
                         }]
                 },{
                     path: 'profile',
-                    element: <MaidProfile />,
-                    children: [{
-                        path: 'edit',
-                        element: <MaidProfileEdit />
-                    }]
+                    element: <MaidProfile />
+                },{
+                    path: 'profile/edit',
+                    element: <MaidProfileEdit />
                 }
             ]
         },
@@ -76,6 +75,9 @@ function App() {
                 },{
                     path: 'profile',
                     element: <MaidProfile />
+                },{
+                    path: 'profile/edit',
+                    element: <MaidProfileEdit />
                 }
             ]
         }])

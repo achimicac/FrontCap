@@ -5,80 +5,11 @@ import Popup from "../components/Popup";
 import './styles/signup.css'
 
 function Signup() {
-    const navigate = useNavigate();
+      const [hidepw, setHidepw] = useState()
 
-    const [user, setUser] = useState({
-        role: "",
-        firstname: "",
-        lastname: "",
-        birthday: "",
-        telephone: "",
-        email: "",
-        password: "",
-        user_pic: null
-    })
-    const userImg = useRef(null);
-    const [cfpw, setCfpw] = useState('');
-    const [alert, setAlert] = useState(false);
-    const [alertMessage, setMessage] = useState('');
+      const seePassword = () => {
 
-    const handleChange = useCallback((e) => {
-        if(e.target.name === 'user_pic') {
-            const file = e.target.files[0];
-            /*const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onloadend = () => {
-            const img = new Image();
-            img.src = reader.result;
-            img.onload = () => {
-                const canvas = document.createElement("canvas");
-                canvas.toBlob(
-                (blob) => {
-                    const file = new File([blob], e.target.files[0].name, {
-                    type: "img/jpg",
-                    lastModified: Date.now(),
-                    });
-                    console.log(file);
-                    setUser({ ...user, [e.target.name]: e.target.files[0] });
-                },
-                "image/jpeg",
-                0.8
-                );
-            };
-            };*/
-            setUser({ ...user, [e.target.name]: file });
-
-        } else {
-            setUser({ ...user, [e.target.name]: e.target.value });
-        }
-    }, [user]);
-    const isMatch = user.password === cfpw;
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const formData = new FormData();
-            for (const key in user) {
-                formData.append(key, user[key]);
-            }
-
-            const {adduser} = await axios.post('/api/signup', user)
-
-            if ( !adduser.data.success ) {
-                setMessage(adduser.text)
-                setAlert(true);
-                return;
-            }
-            navigate('/login');
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
-
-    const handleClickImg = () => {
-        userImg.current.click();
-    }
-    console.log(user.user_pic)
+      }
 
     return (
         <>
@@ -93,10 +24,10 @@ function Signup() {
 
                 <figure onClick={handleClickImg}>
                     <label>
-                        {user.user_pic ? (
+                        {userImg ? (
                             <img src={URL.createObjectURL(userImg.current.files[0])} style={{width: '30vw'}} />
                         ) : (
-                            <img src="Making.jpg" style={{width: '50vw'}} />
+                            <img src={`data:image/jpeg;base64,${user.user_pic}`} style={{width: '50vw'}} />
                         )}
                         <input name='user_pic' type="file" ref={userImg} style={{display: 'none'}} onChange={handleChange}></input>
                     </label>
@@ -112,7 +43,8 @@ function Signup() {
                             onChange={handleChange}
                             autoComplete="off"
                             value="user"
-                            
+                            checked={user.role === 'user'}
+                            disabled={true}
                         />
                     </label>
                     <label>
@@ -123,7 +55,8 @@ function Signup() {
                             onChange={handleChange}
                             autoComplete='off'
                             value='maid'
-                            
+                            checked={user.role === 'maid'}
+                            disabled={true}
                         />
                     </label>
                 </label>

@@ -3,8 +3,9 @@ import Profile from "../../components/Profile";
 import { Link, useNavigate } from "react-router-dom";
 
 function MaidProfile() {
-      
-      const [maid, setMaid] = useState([
+      const navigate = useNavigate();
+
+      const [user, setMaid] = useState([
             { id: 1, firstname: "atchima", lastname: "nateepradap", jobtype: ["กวาดบ้าน", "ถูบ้าน", "ล้างจาน", "สักผ้า"] }
       ]);
       //const [maid, setMaid] = useState();
@@ -12,7 +13,7 @@ function MaidProfile() {
       /*useEffect(() => {
             const fetchCustomer = async () => {
                   try {
-                        const res = await axios.get('/api/maid/profile')
+                        const res = await axios.get('/api/user/profile')
                         setMaid(res.data)
                   } catch (err) {
                         console.log(err)

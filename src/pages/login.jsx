@@ -20,13 +20,13 @@ function Login() {
     const handleSubmit = async (e) => {
             e.preventDefault();
             try {
-            const {checkuser} = await axios.post('/api/login', user)
+                const {checkuser} = await axios.post('/api/login', user)
 
-            if ( !checkuser.success ) {
-                  setMessage(checkuser.text)
-                  setAlert(true);
-                  return;
-            }
+            if ( !checkuser.data.success ) {
+                    setMessage(checkuser.text)
+                    setAlert(true);
+                    return;
+                }
             navigate('/');
             } catch (error) {
                   console.error("Error:", error);
@@ -40,7 +40,7 @@ function Login() {
                 message={alertMessage}
                 clickCancel={()=>{setAlert(false)}}
             />
-            <h1> Sign Up </h1>
+            <h1> LogIn </h1>
             <form onSubmit={handleSubmit}>
                 <label>
                     Telephone or Email

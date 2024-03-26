@@ -2,11 +2,11 @@ function Profile({user}) {
 
       return (
             <main>
-                  {/*<figure>
+                  {<figure>
                         {(user.user_pic !== null && user.user_pic !== undefined) &&
                               <img src={`data:image/jpeg;base64,${maid.user_pic}`} />
                         }
-                  </figure>*/}
+                  </figure>}
                   <article>
                         <header> {user.firstname} {user.lastname} </header>
                         <section> 
