@@ -3,10 +3,10 @@ import Profile from "../../components/Profile";
 import { Link, useNavigate } from "react-router-dom";
 
 function MaidProfile() {
-      
-      const [maid, setMaid] = useState([
-            { id: 1, firstname: "atchima", lastname: "nateepradap", jobtype: ["กวาดบ้าน", "ถูบ้าน", "ล้างจาน", "สักผ้า"] }
-      ]);
+      const navigate = useNavigate();
+      const [maid, setMaid] = useState(
+            { id: 1, firstname: "atchima", lastname: "nateepradap", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 3, job_name: "ล้างจาน"}, {job_id: 4, job_name: "สักผ้า"}] }
+      );
       //const [maid, setMaid] = useState();
 
       /*useEffect(() => {
@@ -22,12 +22,14 @@ function MaidProfile() {
             fetchCustomer();
       }, [])*/
 
+      const handleClick = () => {
+            navigate('edit')
+      }
+
       return (
             <>
-                  <Profile user={maid[0]}/>
-                  <Link to={'edit'}>
-                        <button> Edit </button>
-                  </Link>
+                  <Profile user={maid} isMaid={true} />
+                  <button onClick={handleClick}> Edit </button>
             </>
       )
 }

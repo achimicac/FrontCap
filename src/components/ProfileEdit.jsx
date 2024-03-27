@@ -1,33 +1,28 @@
-import { useState, useCallback, useRef } from "react";
-import axios from "axios";
-import { useNavigate } from 'react-router-dom';
-import Popup from "../components/Popup";
-import './styles/signup.css'
+import { useRef, useState } from "react";
 
-function Signup() {
-      const [hidepw, setHidepw] = useState()
+function ProfileEdit({user, jobchoices, handleChange, handleSubmit, handleCancle, isMaid=false}) {
+      const userImg = useRef(null);
+      const [hidepw, setHidepw] = useState(true)
+      const [cfpw, setCfpw] = useState("")
 
       const seePassword = () => {
-
+            console.log("kuay")
       }
+      const handleClickImg = () => {
+            userImg.current.click();
+      }
+      const isMatch = user.password === cfpw;
 
     return (
         <>
-            <Popup 
-                alert={alert} 
-                message={alertMessage}
-                clickCancel={()=>{setAlert(false)}}
-            />
-
-            <h1> Sign Up </h1>
-            <form onSubmit={handleSubmit} className='signup-form'>
+            <form>
 
                 <figure onClick={handleClickImg}>
                     <label>
-                        {userImg ? (
+                        {user.user_pic ? (
                             <img src={URL.createObjectURL(userImg.current.files[0])} style={{width: '30vw'}} />
                         ) : (
-                            <img src={`data:image/jpeg;base64,${user.user_pic}`} style={{width: '50vw'}} />
+                            <img src='MaKing.jpg' style={{width: '50vw'}} />
                         )}
                         <input name='user_pic' type="file" ref={userImg} style={{display: 'none'}} onChange={handleChange}></input>
                     </label>
@@ -148,11 +143,39 @@ function Signup() {
                     />
                     <p style={isMatch ? {display: 'none'}:{}}> Password is not Match!</p>
                 </label>
+                {isMaid && 
+                  <label>
+                        jobtype
+                        {user.jobtype.map((job, jobid) => {
+                              <p> {job.job_name} </p>
+                        })}
+                        {user.jobtype.map((job, jobid) => {
+                              <input
+                                    key={ jobid }
+                                    type='checkbox'
+                                    value={ job}
 
-                <button> Login</button>
+                              />
+                        })}
+                  </label>
+                }
+
+                <label>
+                  Description
+                  <input
+                        name="descript"
+                        type="textarea"
+                        onChange={handleChange}
+                        autoComplete='off'
+                        value={ user.descript }
+                  />
+                </label>
+
+                <button onClick={handleSubmit}> Login</button>
+                <button onClick={handleCancle}> Cancle </button>
             </form>
         </>
     )
 }
 
-export default Signup;
+export default ProfileEdit;
