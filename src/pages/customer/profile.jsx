@@ -1,36 +1,47 @@
 import { useState } from "react";
 import Profile from "../../components/Profile";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function MaidProfile() {
+function UserProfile() {
       const navigate = useNavigate();
 
-      const [user, setMaid] = useState([
-            { id: 1, firstname: "atchima", lastname: "nateepradap", jobtype: ["กวาดบ้าน", "ถูบ้าน", "ล้างจาน", "สักผ้า"] }
-      ]);
-      //const [maid, setMaid] = useState();
+      const [user, setUser] = useState({ 
+            id: 1, 
+            firstname: "atchima", 
+            lastname: "nateepradap",
+            birthday: '12-09-2003', 
+            jobtype: [
+                  {job_id: 1, job_name: "กวาดบ้าน"}, 
+                  {job_id: 2, job_name: "ถูบ้าน"}, 
+                  {job_id: 3, job_name: "ล้างจาน"}
+            ], 
+            role: 'user' 
+      });
+      //const [user, setUser] = useState();
 
       /*useEffect(() => {
-            const fetchCustomer = async () => {
+            const fetchUser = async () => {
                   try {
                         const res = await axios.get('/api/user/profile')
-                        setMaid(res.data)
+                        setUser(res.data)
                   } catch (err) {
                         console.log(err)
                   }
             }
 
-            fetchCustomer();
+            fetchUser();
       }, [])*/
+
+      const handleClick = () => {
+            navigate('edit')
+      }
 
       return (
             <>
-                  <Profile user={maid[0]}/>
-                  <Link to={'edit'}>
-                        <button> Edit </button>
-                  </Link>
+                  <Profile user={maid} isMaid={true} />
+                  <button onClick={handleClick}> Edit </button>
             </>
       )
 }
 
-export default MaidProfile;
+export default UserProfile;

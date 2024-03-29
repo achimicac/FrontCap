@@ -4,9 +4,18 @@ import { Link, useNavigate } from "react-router-dom";
 
 function MaidProfile() {
       const navigate = useNavigate();
-      const [maid, setMaid] = useState(
-            { id: 1, firstname: "atchima", lastname: "nateepradap", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 3, job_name: "ล้างจาน"}, {job_id: 4, job_name: "สักผ้า"}] }
-      );
+      const [maid, setMaid] = useState({ 
+            id: 1, 
+            firstname: "atchima", 
+            lastname: "nateepradap",
+            birthday: '12-09-2003', 
+            jobtype: [
+                  {job_id: 1, job_name: "กวาดบ้าน"}, 
+                  {job_id: 2, job_name: "ถูบ้าน"}, 
+                  {job_id: 3, job_name: "ล้างจาน"}
+            ], 
+            role: 'maid' 
+      });
       //const [maid, setMaid] = useState();
 
       /*useEffect(() => {

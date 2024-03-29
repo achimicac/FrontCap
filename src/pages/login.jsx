@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import Popup from "../components/Popup";
+import './styles/login.css'
 
 function Login() {
     const navigate = useNavigate();
@@ -41,7 +42,7 @@ function Login() {
                 clickCancel={()=>{setAlert(false)}}
             />
             <h1> LogIn </h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="login-container">
                 <label>
                     Telephone or Email
                     <input

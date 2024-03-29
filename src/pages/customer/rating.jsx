@@ -18,8 +18,8 @@ function UserStatusRating() {
         }));
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
         console.log(maids);
     };
 
