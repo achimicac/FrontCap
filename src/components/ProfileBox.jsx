@@ -3,8 +3,9 @@ function ProfileBox({firstname, lastname, jobs, pic, clickConfirm, clickCancel, 
       return (
             <section>
                   <figure>
-                        {(pic !== null && pic !== undefined) &&
-                              <img src={`data:image/jpeg;base64,${pic}`} /> 
+                        {(pic !== null && pic !== undefined) ?
+                              <img src={`data:image/jpeg;base64,${pic}`} /> :
+                              <img src="MaKing.jpg"/>
                         }
                   </figure>
                   <article>

@@ -67,6 +67,10 @@ function Signup() {
                 setAlert(true);
                 return;
             }
+
+            for (const key in user) {
+                formData.append(key, "");
+            }
             navigate('/login');
         } catch (error) {
             console.error("Error:", error);

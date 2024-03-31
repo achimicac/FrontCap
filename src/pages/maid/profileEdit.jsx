@@ -123,7 +123,7 @@ function MaidProfileEdit() {
                               handleCancle={handleClickCancel}
                         />
                         <ManageJob user={maid} jobchoices={jobchoices} handleChange={handleChange} />
-                        <button onClick={handleSubmit}> Login</button>
+                        <button onClick={handleSubmit}> Confirm </button>
                         <button onClick={handleClickCancel}> Cancle </button>
                   </form>
             </>
