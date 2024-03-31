@@ -4,15 +4,14 @@ import Popup from "../../components/Popup";
 import axios from "axios";
 
 function MaidStatusEnd() {
-    const invoiceID = useRef(null);
     const [customers, setCustomers] = useState([
         { id: 1, firstname: "atchima", lastname: "nateepradap", jobtype: ["กวาดบ้าน", "ถูบ้าน", "ล้างจาน", "สักผ้า"] }
     ]);
-
+    //const [customers, setCustomers] = useState([])
     /*useEffect(() => {
       const fetchCustomer = async () => {
             try {
-                  const res = await axios.get('/api/maid/status/work')
+                  const res = await axios.get('/api/maid/status/end')
                   setCustomers(res.data)
             } catch (err) {
                   console.log(err)

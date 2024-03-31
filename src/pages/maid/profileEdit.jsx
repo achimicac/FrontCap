@@ -27,6 +27,7 @@ function MaidProfileEdit() {
             {job_id: 6, job_name: 'รดน้ำต้นไม้'}
       ])
       //const [maid, setMaid] = useState();
+      //const [jobchoices, setJobchoices] = useState([])
       const [alertConfirm, setAlertConfirm] = useState(false);
       const [alertCancel, setAlertCancel] = useState(false);
 
