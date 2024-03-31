@@ -94,7 +94,6 @@ function UserProfileEdit() {
                               handleSubmit={handleSubmit} 
                               handleCancle={handleClickCancel}
                         />
-                        <ManageJob user={user} jobchoices={jobchoices} handleChange={handleChange} />
                         <button onClick={handleSubmit}> Login</button>
                         <button onClick={handleClickCancel}> Cancle </button>
                   </form>
