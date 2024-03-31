@@ -2,40 +2,24 @@ import { useState, useCallback } from "react";
 import ProfileEdit from "../../components/ProfileEdit";
 import Popup from "../../components/Popup";
 import { useNavigate } from "react-router-dom";
-import ManageJob from "../../components/ManageJob";
 
-function MaidProfileEdit() {
+function UserProfileEdit() {
       const navigate = useNavigate();
 
-      const [maid, setMaid] = useState({ 
+      const [user, setUser] = useState({ 
             id: 1, 
             firstname: "atchima", 
-            lastname: "nateepradap", 
-            jobtype: [
-                  {job_id: 1, job_name: "กวาดบ้าน"}, 
-                  {job_id: 2, job_name: "ถูบ้าน"}, 
-                  {job_id: 3, job_name: "ล้างจาน"}
-            ], 
-            role: 'maid' 
+            lastname: "nateepradap" 
       });
-      const [jobchoices, setJobchoices] = useState([
-            {job_id: 1, job_name: "กวาดบ้าน"}, 
-            {job_id: 2, job_name: "ถูบ้าน"}, 
-            {job_id: 3, job_name: "ล้างจาน"}, 
-            {job_id: 4, job_name: "ซักผ้า"},
-            {job_id: 5, job_name: 'จัดห้อง'},
-            {job_id: 6, job_name: 'รดน้ำต้นไม้'}
-      ])
-      //const [maid, setMaid] = useState();
+      //const [user, setUser] = useState();
       const [alertConfirm, setAlertConfirm] = useState(false);
       const [alertCancel, setAlertCancel] = useState(false);
 
       /*useEffect(() => {
             const fetchProfile = async () => {
                   try {
-                        const res = await axios.get('/api/maid/profile/edit')
-                        setMaid(res.data.profile);
-                        setJobchoices(res.data.jobchoices)
+                        const res = await axios.get('/api/user/profile/edit')
+                        setUser(res.data.profile);
                   } catch (err) {
                         console.log(err)
                   }
@@ -47,33 +31,21 @@ function MaidProfileEdit() {
       const handleChange = useCallback((e) => {
             if (e.target.name === 'user_pic') {
                 const file = e.target.files[0];
-                setMaid({ ...maid, [e.target.name]: file });
-            } else if (e.target.name === "jobtype") {
-                const [valueId, valueName] = e.target.value.split('-');
-                const jobTypeId = parseInt(valueId, 10);
-                if (e.target.checked) {
-                    setMaid(prevMaid => ({ ...prevMaid, jobtype: [...prevMaid.jobtype, { job_id: jobTypeId, job_name: valueName }] }));
-                } else {
-                    setMaid(prevMaid => ({ ...prevMaid, jobtype: prevMaid.jobtype.filter(job => job.job_id !== jobTypeId) }));
-                }
+                setUser({ ...user, [e.target.name]: file });
             } else {
-                setMaid({ ...maid, [e.target.name]: e.target.value });
+                setUser({ ...user, [e.target.name]: e.target.value });
             }
-      }, [maid]);
-        
-        
-      console.log(maid.jobtype)
-        
+      }, [user]);
 
       const handleClickConfirmOK = async (e) => {
             e.preventDefault();
             try {
                 const formData = new FormData();
-                for (const key in maid) {
-                    formData.append(key, maid[key]);
+                for (const key in user) {
+                    formData.append(key, user[key]);
                 }
     
-                const {editprofile} = await axios.put('/api/maid/profile/edit', formData)
+                const {editprofile} = await axios.put('/api/user/profile/edit', formData)
     
                 if ( !editprofile.data.success ) {
                     setMessage(editprofile.data.text)
@@ -98,7 +70,7 @@ function MaidProfileEdit() {
             setAlertCancel(true);
       }
 
-      console.log(maid)
+      console.log(user)
 
       return (
             <>
@@ -117,17 +89,17 @@ function MaidProfileEdit() {
                   <h1> Edit Profile </h1>
                   <form>
                         <ProfileEdit 
-                              user={maid} 
+                              user={user} 
                               handleChange={handleChange} 
                               handleSubmit={handleSubmit} 
                               handleCancle={handleClickCancel}
                         />
-                        <ManageJob user={maid} jobchoices={jobchoices} handleChange={handleChange} />
-                        <button onClick={handleSubmit}> Confirm </button>
+                        <ManageJob user={user} jobchoices={jobchoices} handleChange={handleChange} />
+                        <button onClick={handleSubmit}> Login</button>
                         <button onClick={handleClickCancel}> Cancle </button>
                   </form>
             </>
       )
 }
 
-export default MaidProfileEdit;
+export default UserProfileEdit;
