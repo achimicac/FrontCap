@@ -81,9 +81,7 @@ function MaidStatusWait() {
                 <section key={customerid}>
                     {customer.id &&
                         <ProfileBox
-                            firstname={customer.firstname}
-                            lastname={customer.lastname}
-                            jobs={customer.jobtype}
+                            user={customer}
                             clickConfirm={() => handleClickConfirm(customer.id)}
                             clickCancel={() => handleClickCancel(customer.id)}
                         />

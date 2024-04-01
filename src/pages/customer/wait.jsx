@@ -13,7 +13,7 @@ function UserStatusWait() {
     /*useEffect(() => {
       const fetchCustomer = async () => {
             try {
-                  const res = await axios.get('/api/user/status/wait')
+                  const res = await axios.get('/api/customer/status/wait')
                   setCustomers(res.data)
             } catch (err) {
                   console.log(err)

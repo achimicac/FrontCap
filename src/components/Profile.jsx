@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 function Profile({user, isMaid=false}) {
 
       const calculateBirthday = (birthday) => {

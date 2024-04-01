@@ -18,7 +18,7 @@ function UserProfileEdit() {
       /*useEffect(() => {
             const fetchProfile = async () => {
                   try {
-                        const res = await axios.get('/api/user/profile/edit')
+                        const res = await axios.get('/api/customer/profile/edit')
                         setUser(res.data.profile);
                   } catch (err) {
                         console.log(err)
@@ -45,7 +45,7 @@ function UserProfileEdit() {
                     formData.append(key, user[key]);
                 }
     
-                const {editprofile} = await axios.put('/api/user/profile/edit', formData)
+                const {editprofile} = await axios.put('/api/customer/profile/edit', formData)
     
                 if ( !editprofile.data.success ) {
                     setMessage(editprofile.data.text)

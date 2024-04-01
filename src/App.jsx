@@ -14,6 +14,9 @@ import UserStatusRating from './pages/customer/rating';
 import MaidProfileEdit from './pages/maid/profileEdit';
 import UserProfile from './pages/customer/profile';
 import UserProfileEdit from './pages/customer/profileEdit';
+import MaidOtherProfile from './pages/maid/otherProfile';
+import UserOtherProfile from './pages/customer/otherProfile';
+import UserMaidEmploy from './pages/customer/maidEmploy';
 //Component 3 หน้าของ Maid Status รูปแบบเหมือนกันเลย อาจจะมาแก้ให้เป็นใช้ component ร่วมกันไปเลย
 
 function App() {
@@ -51,12 +54,15 @@ function App() {
                 },{
                     path: 'profile/edit',
                     element: <MaidProfileEdit />
+                },{
+                    path: 'maids/profile/:id',
+                    element: <MaidOtherProfile />
                 }
             ]
         },
         //Customer route
         {
-            path: 'user',
+            path: 'customer',
             element: <Navbar />,
             children: [{
                     path: 'main',
@@ -80,6 +86,12 @@ function App() {
                 },{
                     path: 'profile/edit',
                     element: <UserProfileEdit />
+                },{
+                    path: 'maids/profile/:id',
+                    element: <UserOtherProfile />
+                },{
+                    path: 'maids/profile/:id/employ',
+                    element: <UserMaidEmploy />
                 }
             ]
         }])

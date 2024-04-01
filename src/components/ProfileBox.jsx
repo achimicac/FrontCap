@@ -1,17 +1,17 @@
-function ProfileBox({firstname, lastname, jobs, pic, clickConfirm, clickCancel, buttonName='ยืนยัน', canClick=true}) {// or false, depending on your requirement
+function ProfileBox({user, clickConfirm, clickCancel, buttonName='ยืนยัน', canClick=true}) {// or false, depending on your requirement
 
       return (
             <section>
                   <figure>
-                        {(pic !== null && pic !== undefined) ?
+                        {(user.user_pic !== null && user.user_pic !== undefined) ?
                               <img src={`data:image/jpeg;base64,${pic}`} /> :
                               <img src="MaKing.jpg"/>
                         }
                   </figure>
                   <article>
-                        <header> {firstname} {lastname} </header>
+                        <header> {user.firstname} {user.lastname} </header>
                         <table>
-                              {jobs.map((job, jobid) => (
+                              {user.jobtype.map((job, jobid) => (
                                     <tbody key={jobid}>
                                           <tr>
                                                 <td>{job}</td>

@@ -22,7 +22,7 @@ function UserProfile() {
       /*useEffect(() => {
             const fetchUser = async () => {
                   try {
-                        const res = await axios.get('/api/user/profile')
+                        const res = await axios.get('/api/customer/profile')
                         setUser(res.data)
                   } catch (err) {
                         console.log(err)
