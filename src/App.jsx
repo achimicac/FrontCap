@@ -55,7 +55,7 @@ function App() {
                     path: 'profile/edit',
                     element: <MaidProfileEdit />
                 },{
-                    path: 'maids/profile/:id',
+                    path: 'customers/profile/:id',
                     element: <MaidOtherProfile />
                 }
             ]
