@@ -29,10 +29,7 @@ function UserStatusWait() {
                 <section key={customerid}>
                     {customer.id &&
                         <ProfileBox
-                            firstname={customer.firstname}
-                            lastname={customer.lastname}
-                            jobs={customer.jobtype}
-                            pic={customer.user_pic}
+                            user={customer}
                             canClick={false}
                             buttonName="รอแม่บ้านยืนยัน"
                         />

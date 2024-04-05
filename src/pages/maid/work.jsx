@@ -54,10 +54,7 @@ function MaidStatusWork() {
                   <section key={customerid}>
                         {customer.id &&
                         <ProfileBox
-                              firstname={customer.firstname}
-                              lastname={customer.lastname}
-                              jobs={customer.jobtype}
-                              pic={customer.user_pic}
+                              user={customer}
                               clickConfirm={() => handleClickConfirm(customer.id)}
                               buttonName="สิ้นสุดงาน"
                         />

@@ -94,7 +94,7 @@ function UserProfileEdit() {
                               handleSubmit={handleSubmit} 
                               handleCancle={handleClickCancel}
                         />
-                        <button onClick={handleSubmit}> Login</button>
+                        <button onClick={handleSubmit}> Confirm </button>
                         <button onClick={handleClickCancel}> Cancle </button>
                   </form>
             </>
