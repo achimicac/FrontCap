@@ -121,7 +121,6 @@ function Signup() {
                                     onChange={handleChange}
                                     autoComplete="off"
                                     value="user"
-                                    
                                 />
                             </label>
                             <label>
@@ -132,7 +131,6 @@ function Signup() {
                                     onChange={handleChange}
                                     autoComplete='off'
                                     value='maid'
-                                    
                                 />
                             </label>
                         </label>
@@ -229,7 +227,7 @@ function Signup() {
 
                 {page === 1 && (
                     <section className="addjob-form">
-                        <ManageJob user={user} handleChange={handleChange}/>
+                        <ManageJob user={user} jobchoices={jobchoices} handleChange={handleChange}/>
                     </section>
                 )}
 

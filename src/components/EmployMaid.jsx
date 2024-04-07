@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react';
 
 function EmployMaid({ oldInvoice, newInvoice, handleChange, roomChoices, jobchoices }) {
     const [startTimeOptions, setStartTimeOptions] = useState([]);
-    const [endTimeOptions, setEndTimeOptions] = useState([]);
 
     useEffect(() => {
-        setStartTimeOptions(generateTimeOptions('start'));
+        const options = generateTimeOptions('start');
+        setStartTimeOptions(options);
+        handleChange({ target: { name: 'work_date', value: newInvoice.work_date } }, options);
     }, [newInvoice.work_date]);
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (newInvoice.start_time) {
-            setEndTimeOptions(generateTimeOptions('end'));
+            setEndTimeOptions(generateTimeOptions('end')); // Generate end time options if start time is selected
         }
-    }, [newInvoice.start_time]);
+    }, [newInvoice.start_time]);*/
 
     const generateTimeOptions = (type) => {
         const options = [];
@@ -37,7 +38,7 @@ function EmployMaid({ oldInvoice, newInvoice, handleChange, roomChoices, jobchoi
                     options.push(time);
                 }
             }
-        } else if (type === 'end') {
+        } /*else if (type === 'end') {
             const startHour = parseInt(newInvoice.start_time.substring(0, 2), 10);
             for (let hour = startHour + 1; hour <= 23; hour++) {
                 let isOccupied = false;
@@ -52,13 +53,13 @@ function EmployMaid({ oldInvoice, newInvoice, handleChange, roomChoices, jobchoi
                     options.push(time);
                 }
             }
-        }
+        }*/
 
         return options;
     };
 
     const handleNewInvoice = (event) => {
-        handleChange(event)
+        handleChange(event, startTimeOptions); // Pass startTimeOptions to handleChange
     };
 
     const getCurrentDate = () => {
@@ -107,7 +108,7 @@ function EmployMaid({ oldInvoice, newInvoice, handleChange, roomChoices, jobchoi
                 </select>
             </label>
 
-            <label htmlFor="endTime">
+            {/*<label htmlFor="endTime">
                 End Time:
                 <select
                     id="endTime"
@@ -124,7 +125,10 @@ function EmployMaid({ oldInvoice, newInvoice, handleChange, roomChoices, jobchoi
                         </option>
                     ))}
                 </select>
-            </label>
+                    </label>*/}
+            <article>
+                <p> {newInvoice.end_time} </p>
+            </article>
 
             <article>
                 Room size
@@ -144,8 +148,8 @@ function EmployMaid({ oldInvoice, newInvoice, handleChange, roomChoices, jobchoi
 
             <label>
                   job type
-                  {jobchoices.map((job, jobin) => (
-                        <p key={job.job_id}> {job.job_name} </p>
+                  {newInvoice.job_id.map((job, jobin) => (
+                        <p key={jobin}> { jobchoices.find((jobname) => jobname.job_id === job).job_name } </p>
                   ))}
 
                   {jobchoices.map((job, jobin) => (
@@ -169,7 +173,7 @@ function EmployMaid({ oldInvoice, newInvoice, handleChange, roomChoices, jobchoi
                     type='textarea'
                     onChange={handleChange}
                     autoComplete='off'
-                    value={ newInvoice.datail }
+                    value={ newInvoice.detail } // Changed datail to detail
                 />
             </label>
             <article>
@@ -181,4 +185,3 @@ function EmployMaid({ oldInvoice, newInvoice, handleChange, roomChoices, jobchoi
 }
 
 export default EmployMaid;
-

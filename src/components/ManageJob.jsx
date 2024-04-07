@@ -2,9 +2,11 @@ function ManageJob({user, jobchoices, handleChange}) {
       return (
             <label>
                   jobtype
-                  {user.jobtype.map((job, jobin) => (
-                        <p key={job.job_id}> {job.job_name} </p>
-                  ))}
+                  <section>
+                        {user.jobtype.map((job, jobin) => (
+                              <p key={job.job_id}> {job.job_name} </p>
+                        ))}
+                  </section>
 
                   {jobchoices.map((job, jobin) => (
                         <section key={job.job_id}>
