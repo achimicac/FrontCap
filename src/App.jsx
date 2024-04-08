@@ -17,6 +17,7 @@ import UserProfileEdit from './pages/customer/profileEdit';
 import MaidOtherProfile from './pages/maid/otherProfile';
 import UserOtherProfile from './pages/customer/otherProfile';
 import UserMaidEmploy from './pages/customer/maidEmploy';
+import CustomerMain from './pages/customer/main';
 //Component 3 หน้าของ Maid Status รูปแบบเหมือนกันเลย อาจจะมาแก้ให้เป็นใช้ component ร่วมกันไปเลย
 
 function App() {
@@ -66,7 +67,7 @@ function App() {
             element: <Navbar />,
             children: [{
                     path: 'main',
-                    element: <MaidMain />
+                    element: <CustomerMain />
                 },{
                     path: 'status',
                     element: <StatusBar firstpage={'รอยืนยัน'} secondpage={'กำลังทำ'} thirdpage={'ให้คะแนน'} />,
