@@ -1,10 +1,10 @@
 import { useState, useEffect  } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import RecommendBox from "../../components/RecommendBox";
-import { set } from "mongoose";
 
 function CustomerMain() {
       const navigate = useNavigate()
+      const [value, onChange] = useState(new Date());
 
       const [startQueue, setStartQueue] = useState(1);
       const [distance, setDistance] = useState(1);
@@ -181,9 +181,8 @@ function CustomerMain() {
                                     </section>
                               ))}
                         </main>
-
+                        <p> Loading... </p>
                   </main>
-                <p> Loading... </p>
             </>
         );
 }
