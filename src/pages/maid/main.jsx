@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { th } from 'date-fns/locale';
 import { format } from 'date-fns';
-import { DayPicker, DateFormatter } from 'react-day-picker';
+import { DayPicker} from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import './styles/main.css'
 
@@ -45,7 +45,6 @@ function MaidMain() {
                               onSelect={setSelected}
                               modifiersStyles={{disabled: {fontSize: '3%'}}}
                               locale={th}
-                              formatters={{}}
                         />
                   </header>
                   <main className='profile-box'>
