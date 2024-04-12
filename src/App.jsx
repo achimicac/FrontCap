@@ -18,6 +18,7 @@ import MaidOtherProfile from './pages/maid/otherProfile';
 import UserOtherProfile from './pages/customer/otherProfile';
 import UserMaidEmploy from './pages/customer/maidEmploy';
 import CustomerMain from './pages/customer/main';
+import AddressLocation from './components/AddressLocation';
 //Component 3 หน้าของ Maid Status รูปแบบเหมือนกันเลย อาจจะมาแก้ให้เป็นใช้ component ร่วมกันไปเลย
 
 function App() {
@@ -28,6 +29,9 @@ function App() {
         },{
             path: 'login',
             element: <Login />
+        },{
+            path: 'address',
+            element: <AddressLocation />
         },
         //Maid Routes
         {

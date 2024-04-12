@@ -26,7 +26,8 @@ function UserOtherProfile() {
                   { customer_id: 2, review_id: 1, star: 4, comment: "She's ok", rating: 3 },
             ],
             role: 'maid',
-            description: "Hello I'm the best of housework"
+            description: "Hello I'm the best of housework",
+            avg_rate: 0
       });
 
       /*useEffect(() => {
@@ -64,10 +65,11 @@ function UserOtherProfile() {
             <main>
                   <article>
                         <figure>
-                              {(maid.user_pic !== null && maid.user_pic !== undefined) ?
-                                    <img src={`data:image/jpeg;base64,${maid.user_pic}`} /> :
-                                    <img src='ania.jpg' />
-                              }
+                              {maid.user_pic ? (
+                                    <img src={`data:image/jpeg;base64,${maid.user_pic}`} style={{width: '30vw'}} />
+                                    ) : (
+                                    <img src={"/sudlore.png"} style={{width: '30vw'}} />
+                              )}
                         </figure>
                         <article>
                               <section>
@@ -75,7 +77,7 @@ function UserOtherProfile() {
                               </section>
                               <section>
                                     Rating
-                                    <p> {CalculateRating()} / 5.0 </p>
+                                    <p> {maid.avg_rate} / 5.0 </p>
                               </section>
                               <section>
                                     Distance

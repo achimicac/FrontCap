@@ -26,11 +26,11 @@ function CustomerMain() {
             ]
       });
       const [maidsnear, setMaidsnear] = useState([
-            {user_id: 1, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], distance: 2},
-            {user_id: 2, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], distance: 2},
-            {user_id: 3, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], distance: 2},
-            {user_id: 4, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], distance: 2},
-            {user_id: 5, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], distance: 2}
+            {user_id: 1, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], avg_rate: 2.5, distance: 2},
+            {user_id: 2, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], avg_rate: 2.5, distance: 2},
+            {user_id: 3, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], avg_rate: 2.5, distance: 2},
+            {user_id: 4, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], avg_rate: 2.5, distance: 2},
+            {user_id: 5, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], avg_rate: 2.5, distance: 2}
       ])
       const [jobchoices, setJobchoices] = useState([
             {job_id: 1, job_name: "กวาดบ้าน"}, 
@@ -43,7 +43,7 @@ function CustomerMain() {
       /*useEffect(() => {
             const fetchmaidsnear = async () => {
                   try {
-                        const response = await axios.get(`/api/customer/home?queue=${startQueue}&distance=${diatance}&job=${jobselect}`);
+                        const response = await axios.get(`/api/customer/main?queue=${startQueue}&distance=${diatance}&job=${jobselect}`);
                         setMaidsnear(prevMaids => [...prevMaids, ...response.data]);
                   } catch (error) {
                         console.log(error);
@@ -87,15 +87,6 @@ function CustomerMain() {
             }
             setJobselect(value)
       }
-      //มีสองอย่างคือ back cal แล้วส่งมา กับ back ส่ง review มาด้วย ซึ่ง ไม่จำเป็นเลย เพราะมันจะใช้แค่ rating
-      /*const CalculateRating = () => {
-            if (maid.reviews.length === 0) return 0; // Handle empty array case
-            var rate = 0;
-            maid.reviews.forEach((customer) => {
-                  rate += customer.star;
-            });
-            return (rate / maid.reviews.length).toFixed(1); // Use length property directly
-      };*/
 
       return (
             <>
@@ -150,20 +141,20 @@ function CustomerMain() {
                         </header>
                         <main>
                               {maidsnear.map((maid) => (
-                                    <section key={maid.user_id}>
+                                    <section key={maid.user_id} onClick={() => handleClick(maid.user_id)}>
                                           <figure>
-                                                {maid.user_pic !== null && maid.user_pic !== undefined ? (
-                                                      <img src={`data:image/jpeg;base64,${maid.user_pic}`} />
-                                                      ) : (
-                                                      <img src="MaKing.jpg" alt="Profile" />
-                                                )}
+                                          {maid.user_pic ? (
+                                                <img src={`data:image/jpeg;base64,${maid.user_pic}`} style={{width: '30vw'}} />
+                                                ) : (
+                                                <img src={"/sudlore.png"} style={{width: '30vw'}} />
+                                          )}
                                           </figure>
                                           <article>
                                                 <header>{maid.firstname} {maid.lastname}</header>
-                                                {/*<section>
+                                                <section>
                                                       Rating
-                                                      <p> {CalculateRating()} / 5.0 </p>
-                                                      </section>*/}
+                                                      <p> {maid.avg_rate} / 5.0 </p>
+                                                </section>
                                                 <section>
                                                       Distance
                                                       <p> { maid.distance }  km. </p>

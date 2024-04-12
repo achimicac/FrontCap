@@ -153,7 +153,7 @@ function EmployMaid({ oldInvoice, newInvoice, handleChange, roomChoices, jobchoi
                   ))}
 
                   {jobchoices.map((job, jobin) => (
-                        <section key={job.job_id}>
+                        <section key={jobin}>
                               <input
                                     name="job_id"
                                     type="checkbox"

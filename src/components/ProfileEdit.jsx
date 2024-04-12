@@ -17,11 +17,11 @@ function ProfileEdit({user, handleChange}) {
             <>
             <figure onClick={handleClickImg}>
                   <label>
-                  {user.user_pic ? (
-                        <img src={URL.createObjectURL(userImg.current.files[0])} style={{width: '30vw'}} />
-                  ) : (
-                        <img src='MaKing.jpg' style={{width: '50vw'}} />
-                  )}
+                        {user.user_pic ? (
+                              <img src={`data:image/jpeg;base64,${maid.user_pic}`} style={{width: '30vw'}} />
+                              ) : (
+                              <img src={"/sudlore.png"} style={{width: '30vw'}} />
+                        )}
                   <input name='user_pic' type="file" ref={userImg} style={{display: 'none'}} onChange={handleChange}></input>
                   </label>
             </figure>

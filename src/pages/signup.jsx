@@ -27,40 +27,83 @@ function Signup() {
         email: "",
         password: "",
         user_pic: null,
-        jobtype: []
+        jobtype: [],
+        address: {
+            latitude: '',
+            longtitude: '',
+            address: ''
+        }
     })
     const userImg = useRef(null);
     const [cfpw, setCfpw] = useState('');
     const [alert, setAlert] = useState(false);
     const [alertMessage, setMessage] = useState('');
 
-    const handleChange = useCallback((e) => {
-        if(e.target.name === 'user_pic') {
-            const file = e.target.files[0];
-            setUser({ ...user, [e.target.name]: file });
-        } else if (e.target.name === "jobtype") {
-            const [valueId, valueName] = e.target.value.split('-');
-            const jobTypeId = parseInt(valueId, 10);
-            if (e.target.checked) {
-                setUser(prevMaid => ({ ...prevMaid, jobtype: [...prevMaid.jobtype, { job_id: jobTypeId, job_name: valueName }] }));
-            } else {
-                setUser(prevMaid => ({ ...prevMaid, jobtype: prevMaid.jobtype.filter(job => job.job_id !== jobTypeId) }));
-            }
+    useEffect(() => {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                setUser(prevState => ({
+                    ...prevState,
+                    address: {
+                        ...prevState.address,
+                        latitude: position.coords.latitude.toString(),
+                        longitude: position.coords.longitude.toString()
+                    }
+                }));
+            });
         } else {
-            setUser({ ...user, [e.target.name]: e.target.value });
+            console.log("Geolocation is not available in your browser.");
         }
-    }, [user]);
+        const fetchJobchoices = async () => {
+            const response = await axios.get('/api/signup')
+            setJobchoices(response.data)
+        }
+    }, [page === 1]);
+    
+
+    const handleChange = useCallback((e) => {
+        const { name, value, files, checked } = e.target;
+
+        if (name === 'user_pic') {
+            const file = files[0];
+            setUser(prevUser => ({ ...prevUser, user_pic: file }));
+        } else if (name.startsWith('address.')) {
+            const field = name.split('.')[1];
+            setUser(prevUser => ({
+                ...prevUser,
+                address: {
+                    ...prevUser.address,
+                    [field]: value
+                }
+            }));
+        } else if (name === "jobtype") {
+            const [valueId, valueName] = value.split('-');
+            const jobTypeId = parseInt(valueId, 10);
+            setUser(prevUser => ({
+                ...prevUser,
+                jobtype: checked
+                    ? [...prevUser.jobtype, { job_id: jobTypeId, job_name: valueName }]
+                    : prevUser.jobtype.filter(job => job.job_id !== jobTypeId)
+            }));
+        } else {
+            setUser(prevUser => ({ ...prevUser, [name]: value }));
+        }
+    }, []);
     const isMatch = user.password === cfpw;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const formData = new FormData();
-            for (const key in user) {
-                formData.append(key, user[key]);
-            }
+            Object.entries(user).forEach(([key, value]) => {
+                if (key !== 'jobtype' && key !== 'address') {
+                    formData.append(key, value);
+                }
+            });
+            formData.append('jobtype', JSON.stringify(user.jobtype));
+            formData.append('address', JSON.stringify(user.address));
 
-            const {adduser} = await axios.post('/api/signup', user)
+            const {adduser} = await axios.post('/api/signup', formData, {headers: {'Content-Type': 'multipart/form-data'}})
 
             if ( !adduser.data.success ) {
                 setMessage(adduser.text)
@@ -104,8 +147,8 @@ function Signup() {
                             <label>
                                 {user.user_pic ? (
                                     <img src={URL.createObjectURL(userImg.current.files[0])} style={{width: '30vw'}} />
-                                ) : (
-                                    <img src="Making.jpg" style={{width: '50vw'}} />
+                                    ) : (
+                                    <img src={"/sudlore.png"} style={{width: '30vw'}} />
                                 )}
                                 <input name='user_pic' type="file" ref={userImg} style={{display: 'none'}} onChange={handleChange}></input>
                             </label>
@@ -196,6 +239,40 @@ function Signup() {
                                 value={ user.email }
                                 //required
                             />
+                        </label>
+
+                        <label>
+                            Address
+                            <label>
+                                Latitude
+                                <input 
+                                    name="latitude"
+                                    type="number"
+                                    onChange={handleChange}
+                                    autoComplete='off'
+                                    value={ user.address.latitude  }
+                                />
+                            </label>
+                            <label>
+                                Longtitude
+                                <input 
+                                    name="longtitude"
+                                    type="number"
+                                    onChange={handleChange}
+                                    autoComplete='off'
+                                    value={ user.address.longtitude}
+                                />
+                            </label>
+                            <label>
+                                More Information
+                                <input 
+                                    name="address"
+                                    type="text"
+                                    onChange={handleChange}
+                                    autoComplete='off'
+                                    value={ user.address.address }
+                                />
+                            </label>
                         </label>
 
                         <label>

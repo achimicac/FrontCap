@@ -20,10 +20,11 @@ function Profile({user, isMaid=false}) {
       return (
             <main>
                   <figure>
-                        {(user.user_pic !== null && user.user_pic !== undefined) ?
-                              <img src={`data:image/jpeg;base64,${maid.user_pic}`} /> :
-                              <img src='ania.jpg' />
-                        }
+                        {user.user_pic ? (
+                              <img src={`data:image/jpeg;base64,${maid.user_pic}`} style={{width: '30vw'}} />
+                              ) : (
+                              <img src={"/sudlore.png"} style={{width: '30vw'}} />
+                        )}
                   </figure>
                   
                   <article>

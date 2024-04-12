@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Popup from "../../components/Popup";
 import EmployMaid from "../../components/EmployMaid";
@@ -7,6 +7,7 @@ import axios from 'axios';
 function UserMaidEmploy() {
     const { id } = useParams();
     const navigate = useNavigate();
+    const firstrender = useRef(true)
 
     const [oldInvoice, setOldinvoice] = useState([
         { work_date: '2024-04-12', start_time: '13:00:00', end_time: '14:00:00' },
@@ -17,11 +18,10 @@ function UserMaidEmploy() {
     const [newInvoice, setNewInvoice] = useState({
         maid_id: '',
         room_id: '',
-        status: '',
+        status: 'wait',
         work_date: '',
         start_time: '',
         end_time: '',
-        work_time: '',
         submit_time: '',
         job_id: [],
         amount: 0,
@@ -43,41 +43,69 @@ function UserMaidEmploy() {
     ]);
 
     const [alertSelectTime, setAlertSelectTime] = useState(false);
+    const [alertSelectJob, setAlertSelectJob] = useState(false);
     const [alertConfirm, setAlertConfirm] = useState(false);
     const [alertCancel, setAlertCancel] = useState(false);
 
+    /*useEffect(() => {
+        const fetchOldinvoice = async () => {
+            const response = await axios.get(`/api/customer/maids/profile/${id}/employ`)
+            setOldinvoice(response.data.oldinvoice)
+            setRoomchoices(response.data.roomchoices)
+            setJobchoices(response.data.jobchoices)
+            firstrender.current = false
+        }
+        fetchOldinvoice()
+    }, [])
+
+    useEffect(() => {
+        if (firstrender.current === false) {
+            const fetchOldinvoice = async () => {
+                const response = await axios.get(`/api/customer/maids/profile/${id}/employ?date={${newInvoice.work_date}}`)
+                setOldinvoice(response.data.oldinvoice)
+            }
+            return fetchOldinvoice();
+        }
+    }, [newInvoice.work_date])*/
+
     const handleChange = (event, startTimeOptions) => {
-      const { name, value, checked } = event.target;
-      if (name === 'job_id') {
-          if (checked) {
-              const job_count = newInvoice.job_id.length + 1;
-              if (checkTimeOver(Math.ceil(job_count / 2))) {
-                  setNewInvoice(prevState => ({
-                        ...prevState,
-                        [name]: [...prevState[name], parseInt(value)],
-                        amount: job_count % 2 !== 0 ? Math.ceil(job_count / 2) * 100 : Math.floor(job_count / 2) * 100,
-                        end_time: `${String(parseInt(newInvoice.start_time.split(":")[0], 10) + Math.ceil(job_count / 2)).padStart(2, '0')}:00:00`
-                  }));
-              }
-          } else {
-              const job_count = newInvoice.job_id.length - 1;
-              if (checkTimeOver(Math.ceil(job_count / 2))) {
-                  setNewInvoice(prevState => ({
-                        ...prevState,
-                        [name]: [...prevState[name], parseInt(value)],
-                        amount: job_count % 2 !== 0 ? Math.ceil(job_count / 2) * 100 : Math.floor(job_count / 2) * 100,
-                        end_time: `${String(parseInt(newInvoice.start_time.split(":")[0], 10) + Math.ceil(job_count / 2)).padStart(2, '0')}:00:00`
-                  }));
-              }
-          }
-          
-      } else if (name === 'work_date'){
-          setTimeoptions(startTimeOptions)
-          setNewInvoice(prevState => ({ ...prevState, [name]: value }));
-      } else {
-          setNewInvoice(prevState => ({ ...prevState, [name]: value }));
-      }
-  };
+        const { name, value, checked } = event.target;
+        
+        if (name === 'job_id') {
+            if (newInvoice.work_date === '' || newInvoice.start_time === '') {
+                return setAlertSelectJob(true)
+            }
+            let updatedJobIds = [...newInvoice.job_id];
+            const jobIdInt = parseInt(value);
+    
+            if (checked) {
+                updatedJobIds.push(jobIdInt);
+            } else {
+                updatedJobIds = updatedJobIds.filter(jobId => jobId !== jobIdInt);
+            }
+    
+            const job_count = updatedJobIds.length;
+            if (checkTimeOver(Math.ceil(job_count / 2))) {
+                const newAmount = job_count % 2 !== 0 ? Math.ceil(job_count / 2) * 100 : Math.floor(job_count / 2) * 100;
+                const newEndTime = `${String(parseInt(newInvoice.start_time.split(":")[0], 10) + Math.ceil(job_count / 2)).padStart(2, '0')}:00:00`;
+    
+                setNewInvoice(prevState => ({
+                    ...prevState,
+                    job_id: updatedJobIds,
+                    amount: newAmount,
+                    end_time: newEndTime
+                }));
+            }
+        } else if (name === 'work_date') {
+            setTimeoptions(startTimeOptions);
+            setNewInvoice(prevState => ({ ...prevState, job_id: [], start_time: '', work_date: value }));
+        } else if (name === 'start_time') {
+            setNewInvoice(prevState => ({ ...prevState, job_id: [], start_time: value }));
+        } else {
+            setNewInvoice(prevState => ({ ...prevState, [name]: value }));
+        }
+    };
+    
   
   
 
@@ -96,7 +124,7 @@ function UserMaidEmploy() {
           }
           return true;
       } else {
-          setAlertSelectTime(true); // If timeOptions is not available, show alert
+          setAlertSelectTime(true);
           return false;
       }
   };
@@ -146,6 +174,13 @@ function UserMaidEmploy() {
                 message={'กรุณาเลือกวันเวลาใหม่ หรือ ลดจำนวนงาน'}
                 clickCancel={() => {
                     setAlertSelectTime(false);
+                }}
+            />
+            <Popup
+                alert={alertSelectJob}
+                message={'กรุณาเลือกวันและเวลา'}
+                clickCancel={() => {
+                    setAlertSelectJob(false);
                 }}
             />
             <Popup
