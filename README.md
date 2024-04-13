@@ -14,4 +14,3 @@ From P'Aut
 > npm i
 > npm install react-icons --save
 > ```
-> reviewน่าจะต้องเพิ่ม status wait กับ success
