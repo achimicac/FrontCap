@@ -5,9 +5,9 @@ import Popup from "../../components/Popup";
 
 function UserStatusRating() {
     const [invoice, setInvoice] = useState([
-        { id: 1, firstname: "atchima", lastname: "nateepradap", jobtype: ["กวาดบ้าน", "ถูบ้าน", "ล้างจาน", "สักผ้า"], submit_time: '2022-03-12', rating: 0, comment: "" },
-        { id: 2, firstname: "atchima", lastname: "nateepradap", jobtype: ["กวาดบ้าน", "ถูบ้าน", "ล้างจาน", "สักผ้า"], submit_time: '2022-03-12', rating: 0, comment: "" },
-        { id: 3, firstname: "atchi", lastname: "natee", jobtype: ["กวาดบ้าน", "ถูบ้าน", "ล้างจาน", "สักผ้า"], submit_time: '2022-03-12', rating: 0, comment: "" }
+        { id: 1, firstname: "atchima", lastname: "nateepradap", submit_time: '2022-03-12', rating: 0, comment: "" },
+        { id: 2, firstname: "atchima", lastname: "nateepradap", submit_time: '2022-03-12', rating: 0, comment: "" },
+        { id: 3, firstname: "atchi", lastname: "natee", submit_time: '2022-03-12', rating: 0, comment: "" }
     ]);
     const [alert, setAlert] = useState(false);
 

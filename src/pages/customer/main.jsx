@@ -43,7 +43,7 @@ function CustomerMain() {
       /*useEffect(() => {
             const fetchmaidsnear = async () => {
                   try {
-                        const response = await axios.get(`/api/customer/main?queue=${startQueue}&distance=${diatance}&job=${jobselect}`);
+                        const response = await axios.get(`/api/customer/main?queue=${startQueue}&distance=${distance}&job=${jobselect}`);
                         setMaidsnear(prevMaids => [...prevMaids, ...response.data]);
                   } catch (error) {
                         console.log(error);
@@ -54,7 +54,7 @@ function CustomerMain() {
             }
             const fetchmaids = async () => {
                   try {
-                        const response = await axios.get(`/api/customer/home`);
+                        const response = await axios.get(`/api/customer/main`);
                         setMaids({...maids, maids_rmd: response.maids_rmd, maids_hired: response.maid_hired});
                   } catch (error) {
                         console.log(error);
