@@ -16,9 +16,7 @@ function UserMaidEmploy() {
     ]);
     const [timeoptions, setTimeoptions] = useState([])
     const [newInvoice, setNewInvoice] = useState({
-        maid_id: '',
         room_id: '',
-        status: 'wait',
         work_date: '',
         start_time: '',
         end_time: '',
@@ -62,7 +60,7 @@ function UserMaidEmploy() {
         if (firstrender.current === false) {
             const fetchOldinvoice = async () => {
                 const response = await axios.get(`/api/customer/maids/profile/${id}/employ?date={${newInvoice.work_date}}`)
-                setOldinvoice(response.data.oldinvoice)
+                setOldinvoice(data)
             }
             return fetchOldinvoice();
         }
