@@ -1,0 +1,14 @@
+.layout-navbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  .layout-navbar nav {
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #80cbc4;
+  }
+  
