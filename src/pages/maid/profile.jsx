@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Profile from "../../components/Profile";
 import { Link, useNavigate } from "react-router-dom";
+import Axios  from "../../axios"
 
 function MaidProfile() {
       const navigate = useNavigate();
@@ -21,7 +22,7 @@ function MaidProfile() {
       /*useEffect(() => {
             const fetchCustomer = async () => {
                   try {
-                        const res = await axios.get('/api/maid/profile')
+                        const res = await Axios.get('/api/maid/profile')
                         setMaid(res.data)
                   } catch (err) {
                         console.log(err)

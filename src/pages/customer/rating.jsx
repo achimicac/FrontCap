@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from 'axios';
+import Axios  from "../../axios"
 import RatingBox from "../../components/RatingBox";
 import Popup from "../../components/Popup";
 
@@ -14,7 +14,7 @@ function UserStatusRating() {
     /*useEffect(() => {
         const fetchInvoice = async () => {
             try {
-                const res = await axios.get('api/customer/status/rating')
+                const res = await Axios.get('api/customer/status/rating')
                 setInvoice(res.data)
             } catch (error) {
                 console.log(error)
@@ -45,7 +45,7 @@ function UserStatusRating() {
         e.preventDefault();
         try {
             const newreview = invoice.find(maid => maid.id === maidId)
-            const {addreview} = axios.post('api/customer/status/rating', newreview)
+            const {addreview} = Axios.post('api/customer/status/rating', newreview)
             if (!addreview.data.status) {
                 setAlert(true);
                 return;

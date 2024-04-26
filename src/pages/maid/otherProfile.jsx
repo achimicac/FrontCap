@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from 'axios';
+import Axios  from "../../axios"
 import Profile from "../../components/Profile";
 
 function MaidOtherProfile() {
@@ -16,7 +16,7 @@ function MaidOtherProfile() {
       /*useEffect(() => {
             const fetchUserProfile = async () => {
                   try {
-                        const response = await axios.get(`/api/maid/customers/profile/${id}`)
+                        const response = await Axios.get(`/api/maid/customers/profile/${id}`)
                         setUser(response.data)
                         
                   } catch (error) {

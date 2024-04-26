@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import ProfileBox from "../../components/ProfileBox";
 import Popup from "../../components/Popup";
-import axios from "axios";
+import Axios  from "../../axios"
 
 function MaidStatusWait() {
     const invoiceID = useRef(null);
@@ -16,7 +16,7 @@ function MaidStatusWait() {
     /*useEffect(() => {
       const fetchCustomer = async () => {
             try {
-                  const res = await axios.get('/api/maid/status/wait')
+                  const res = await Axios.get('/api/maid/status/wait')
                   setCustomers(res.data)
             } catch (err) {
                   console.log(err)
@@ -28,7 +28,7 @@ function MaidStatusWait() {
 
     const handleClickConfirmOK = async () => {
       try {
-            const changestatus = await axios.put("/api/maid/status/wait", invoiceID.current);
+            const changestatus = await Axios.put("/api/maid/status/wait", invoiceID.current);
             if (changestatus.data.status) {
                   console.log(changestatus.data.text)
             } else {
@@ -41,7 +41,7 @@ function MaidStatusWait() {
 
     const handleClickCancelOK = async () => {
         try {
-            const deletetask = await axios.delete("/api/maid/status/wait", invoiceID.current);
+            const deletetask = await Axios.delete("/api/maid/status/wait", invoiceID.current);
             if (deletetask.data.status) {
                   console.log(deletetask.data.text)
             } else {

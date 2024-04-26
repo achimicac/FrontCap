@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { DayPicker} from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import './styles/main.css'
+import Axios  from "../../axios"
 
 function MaidMain() {
       const today = new Date();
@@ -19,7 +20,7 @@ function MaidMain() {
       /*useEffect(() => {
             const handleDateChange =  async() => {
                   try {
-                        const response = axios.get(`/api/maid/main?date=${format(selected, 'yyyy-MM-dd')}`)
+                        const response = Axios.get(`/api/maid/main?date=${format(selected, 'yyyy-MM-dd')}`)
                         setInvoices(response.data)
                   } catch (error) {
                         console.log(error)

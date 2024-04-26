@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import ProfileBox from "../../components/ProfileBox";
 import Popup from "../../components/Popup";
-import axios from "axios";
+import Axios  from "../../axios"
 
 function MaidStatusEnd() {
     const [customers, setCustomers] = useState([
@@ -11,7 +11,7 @@ function MaidStatusEnd() {
     /*useEffect(() => {
       const fetchCustomer = async () => {
             try {
-                  const res = await axios.get('/api/maid/status/end')
+                  const res = Await axios.get('/api/maid/status/end')
                   setCustomers(res.data)
             } catch (err) {
                   console.log(err)

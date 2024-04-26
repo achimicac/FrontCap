@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Popup from "../../components/Popup";
 import EmployMaid from "../../components/EmployMaid";
-import axios from 'axios';
+import Axios  from "../../axios"
 
 function UserMaidEmploy() {
     const { id } = useParams();
@@ -47,7 +47,7 @@ function UserMaidEmploy() {
 
     /*useEffect(() => {
         const fetchOldinvoice = async () => {
-            const response = await axios.get(`/api/customer/maids/profile/${id}/employ`)
+            const response = await Axios.get(`/api/customer/maids/profile/${id}/employ`)
             setOldinvoice(response.data.oldinvoice)
             setRoomchoices(response.data.roomchoices)
             setJobchoices(response.data.jobchoices)

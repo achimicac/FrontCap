@@ -3,6 +3,7 @@ import ProfileEdit from "../../components/ProfileEdit";
 import Popup from "../../components/Popup";
 import { useNavigate } from "react-router-dom";
 import ManageJob from "../../components/ManageJob";
+import Axios  from "../../axios"
 
 function MaidProfileEdit() {
       const navigate = useNavigate();
@@ -34,7 +35,7 @@ function MaidProfileEdit() {
       /*useEffect(() => {
             const fetchProfile = async () => {
                   try {
-                        const res = await axios.get('/api/maid/profile/edit')
+                        const res = await Axios.get('/api/maid/profile/edit')
                         setMaid(res.data.profile);
                         setJobchoices(res.data.jobchoices)
                   } catch (err) {
@@ -74,7 +75,7 @@ function MaidProfileEdit() {
                     formData.append(key, maid[key]);
                 }
     
-                const {editprofile} = await axios.put('/api/maid/profile/edit', formData)
+                const {editprofile} = await Axios.put('/api/maid/profile/edit', formData)
     
                 if ( !editprofile.data.success ) {
                     setMessage(editprofile.data.text)
