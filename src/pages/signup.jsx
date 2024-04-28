@@ -1,23 +1,16 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import axios from "axios";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Popup from "../components/Popup";
-import './styles/signup.css'
 import ManageJob from "../components/ManageJob";
+import './styles/signup.css'
+import Map from "../components/Map";
 
 function Signup() {
     const navigate = useNavigate();
 
     const [page, setPage] = useState(0); 
-
-    const [jobchoices, setJobchoices] = useState([
-        {job_id: 1, job_name: "กวาดบ้าน"}, 
-        {job_id: 2, job_name: "ถูบ้าน"}, 
-        {job_id: 3, job_name: "ล้างจาน"}, 
-        {job_id: 4, job_name: "ซักผ้า"},
-        {job_id: 5, job_name: 'จัดห้อง'},
-        {job_id: 6, job_name: 'รดน้ำต้นไม้'}
-    ])
+    const [jobchoices, setJobchoices] = useState([]);
     const [user, setUser] = useState({
         role: "",
         firstname: "",
@@ -30,36 +23,16 @@ function Signup() {
         jobtype: [],
         address: {
             latitude: '',
-            longtitude: '',
+            longitude: '',
             address: ''
         }
-    })
+    });
     const userImg = useRef(null);
     const [cfpw, setCfpw] = useState('');
     const [alert, setAlert] = useState(false);
     const [alertMessage, setMessage] = useState('');
-
-    useEffect(() => {
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                setUser(prevState => ({
-                    ...prevState,
-                    address: {
-                        ...prevState.address,
-                        latitude: position.coords.latitude.toString(),
-                        longitude: position.coords.longitude.toString()
-                    }
-                }));
-            });
-        } else {
-            console.log("Geolocation is not available in your browser.");
-        }
-        const fetchJobchoices = async () => {
-            const response = await axios.get('/api/signup')
-            setJobchoices(response.data)
-        }
-    }, [page === 1]);
-    
+    const [showMap, setShowMap] = useState(false)
+    const isMatch = user.password === cfpw;
 
     const handleChange = useCallback((e) => {
         const { name, value, files, checked } = e.target;
@@ -89,7 +62,6 @@ function Signup() {
             setUser(prevUser => ({ ...prevUser, [name]: value }));
         }
     }, []);
-    const isMatch = user.password === cfpw;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -103,10 +75,10 @@ function Signup() {
             formData.append('jobtype', JSON.stringify(user.jobtype));
             formData.append('address', JSON.stringify(user.address));
 
-            const {adduser} = await axios.post('/api/signup', formData, {headers: {'Content-Type': 'multipart/form-data'}})
+            const { data: { success, text } } = await axios.post('/api/signup', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
 
-            if ( !adduser.data.success ) {
-                setMessage(adduser.text)
+            if (!success) {
+                setMessage(text);
                 setAlert(true);
                 return;
             }
@@ -128,29 +100,50 @@ function Signup() {
         setPage(1);
     };
 
-    console.log(user)
+    const SelectLocation = () => {
+        setShowMap(!showMap)
+    }
+
+    const handleLocation = (latitude, longitude) => {
+        setUser(prevState => ({
+            ...prevState,
+            address: {
+                ...prevState.address,
+                latitude: latitude,
+                longitude: longitude
+            }
+        }))
+    }
+
+    console.log("location:  " + user.address.latitude + "  " + user.address.longitude)
 
     return (
         <>
-            <Popup 
-                alert={alert} 
+            <Popup
+                alert={alert}
                 message={alertMessage}
-                clickCancel={()=>{setAlert(false)}}
+                clickCancel={() => { setAlert(false) }}
             />
+            {showMap && 
+                <div className="map-container">
+                    <Map handleLocation={handleLocation} show={showMap} />
+                </div>
+            }
+
+
 
             <h1> Sign Up </h1>
-            <form>
-
+            <form className={showMap ? "blurred" : ""} >
                 {page === 0 && (
                     <section className='signup-form'>
                         <figure onClick={handleClickImg}>
                             <label>
                                 {user.user_pic ? (
-                                    <img src={URL.createObjectURL(userImg.current.files[0])} style={{width: '30vw'}} />
-                                    ) : (
-                                    <img src={"/sudlore.png"} style={{width: '30vw'}} />
+                                    <img src={URL.createObjectURL(userImg.current.files[0])} style={{ width: '30vw' }} />
+                                ) : (
+                                    <img src={"/sudlore.png"} style={{ width: '30vw' }} />
                                 )}
-                                <input name='user_pic' type="file" ref={userImg} style={{display: 'none'}} onChange={handleChange}></input>
+                                <input name='user_pic' type="file" ref={userImg} style={{ display: 'none' }} onChange={handleChange}></input>
                             </label>
                         </figure>
 
@@ -249,11 +242,12 @@ function Signup() {
                                     name="latitude"
                                     type="number"
                                     onChange={handleChange}
+                                    onClick={SelectLocation}
                                     autoComplete='off'
                                     value={ user.address.latitude  }
                                 />
                             </label>
-                            <label>
+                            {/*<label>
                                 Longtitude
                                 <input 
                                     name="longtitude"
@@ -262,7 +256,7 @@ function Signup() {
                                     autoComplete='off'
                                     value={ user.address.longtitude}
                                 />
-                            </label>
+                            </label>*/}
                             <label>
                                 More Information
                                 <input 
@@ -299,21 +293,23 @@ function Signup() {
                             />
                             <p style={isMatch ? {display: 'none'}:{}}> Password is not Match!</p>
                         </label>
+
+                        {(page === 0 && user.role === "maid") && <button type="button" onClick={nextPage}> Next </button>}
+                        {((page === 0 && user.role === "user") || page === 1) && <button type="submit" onClick={handleSubmit}> Sign Up </button>}
+
                     </section>
                 )}
 
                 {page === 1 && (
                     <section className="addjob-form">
-                        <ManageJob user={user} jobchoices={jobchoices} handleChange={handleChange}/>
+                        <ManageJob user={user} jobchoices={jobchoices} handleChange={handleChange} />
                     </section>
                 )}
 
-                {(page === 0 && user.role === "maid") && <button type="button" onClick={nextPage}> Next </button>}
-                {((page === 0 && user.role === "user") || page === 1) && <button type="submit" onClick={handleSubmit}> Sign Up </button>}
-                
             </form>
         </>
     )
 }
 
 export default Signup;
+

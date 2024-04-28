@@ -38,7 +38,7 @@ function Login() {
             } catch (error) {
                   console.error("Error:", error);
             }*/
-            setAuth({role: "user", user: "aut"})
+            setAuth({role: "maid", user: "aut"})
             navigate('/maid/main');
             
       };

@@ -1,7 +1,7 @@
 // CanvasMap.js
 import React, { useEffect, useRef, useState } from 'react';
 
-const Map = () => {
+const Map = ({ handleLocation }) => {
       const canvasRef = useRef(null);
       const containerRef = useRef(null);
       const [scale, setScale] = useState(1);
@@ -18,11 +18,9 @@ const Map = () => {
             const drawMap = () => {
                   context.clearRect(0, 0, canvas.width, canvas.height);
 
-                  // Load the background image
                   const backgroundImage = new Image();
-                  backgroundImage.src = 'map.jpg'; // Replace 'map.jpg' with the path to your image
+                  backgroundImage.src = 'map.jpg';
                   backgroundImage.onload = () => {
-                        // Draw the background image
                         context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
                   };
             };
@@ -41,7 +39,7 @@ const Map = () => {
             const rect = canvasRef.current.getBoundingClientRect();
             const x = (event.clientX - rect.left) / scale;
             const y = (event.clientY - rect.top) / scale;
-            console.log(`Clicked position: (${x}, ${y})`);
+            handleLocation(Math.round(x), Math.round(y))
       };
 
       const handleMouseDown = (event) => {
@@ -56,7 +54,7 @@ const Map = () => {
             if (mouseDown) {
                   const deltaX = event.clientX - lastMouseX;
                   const deltaY = event.clientY - lastMouseY;
-                  setScale((prevScale) => Math.max(0.1, prevScale + deltaY / 100)); // Adjust scale based on vertical movement
+                  setScale((prevScale) => Math.max(1, Math.max(0.1, prevScale + deltaY / 100))); // Adjust scale based on vertical movement
                   setLastMouseX(event.clientX);
                   setLastMouseY(event.clientY);
             }
@@ -108,7 +106,7 @@ const Map = () => {
                         overflow: 'auto',
                         width: '200px',
                         height: '200px',
-                        touchAction: 'none', // Disable default touch gestures
+                        touchAction: 'none',
                   }}
                   onMouseDown={handleMouseDown}
                   onMouseMove={handleMouseMove}
