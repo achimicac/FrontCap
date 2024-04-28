@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ProfileBox from "../../components/ProfileBox";
 import Popup from "../../components/Popup";
-import axios from "axios";
+import Axios  from "../../axios"
 
 function UserStatusWait() {
     const [customers, setCustomers] = useState([
@@ -13,7 +13,7 @@ function UserStatusWait() {
     /*useEffect(() => {
       const fetchCustomer = async () => {
             try {
-                  const res = await axios.get('/api/customer/status/wait')
+                  const res = await Axios.get('/api/customer/status/wait')
                   setCustomers(res.data)
             } catch (err) {
                   console.log(err)

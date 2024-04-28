@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Profile from "../../components/Profile";
 import { useNavigate } from "react-router-dom";
+import Axios  from "../../axios"
 
 function UserProfile() {
       const navigate = useNavigate();
@@ -17,7 +18,7 @@ function UserProfile() {
       /*useEffect(() => {
             const fetchUser = async () => {
                   try {
-                        const res = await axios.get('/api/customer/profile')
+                        const res = await Axios.get('/api/customer/profile')
                         setUser(res.data)
                   } catch (err) {
                         console.log(err)

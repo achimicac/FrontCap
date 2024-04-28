@@ -1,7 +1,7 @@
 import { useState, useEffect  } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaStar } from 'react-icons/fa';
-import axios from 'axios';
+import Axios  from "../../axios"
 import Profile from "../../components/Profile";
 
 
@@ -33,7 +33,7 @@ function UserOtherProfile() {
       /*useEffect(() => {
             const fetchmaidProfile = async () => {
             try {
-                  const response = await axios.get(`/api/customer/maids/profile/${id}`);
+                  const response = await Axios.get(`/api/customer/maids/profile/${id}`);
                   setMaid(response.data);
             } catch (error) {
                   console.log(error);

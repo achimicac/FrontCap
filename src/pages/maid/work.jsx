@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import ProfileBox from "../../components/ProfileBox";
 import Popup from "../../components/Popup";
-import axios from "axios";
+import Axios  from "../../axios"
 
 function MaidStatusWork() {
     const invoiceID = useRef(null);
@@ -14,7 +14,7 @@ function MaidStatusWork() {
     /*useEffect(() => {
       const fetchCustomer = async () => {
             try {
-                  const res = await axios.get('/api/maid/status/work')
+                  const res = await Axios.get('/api/maid/status/work')
                   setCustomers(res.data)
             } catch (err) {
                   console.log(err)
@@ -26,7 +26,7 @@ function MaidStatusWork() {
 
     const handleClickConfirmOK = async () => {
       try {
-            const changestatus = await axios.put("/api/maid/status/work", invoiceID.current);
+            const changestatus = await Axios.put("/api/maid/status/work", invoiceID.current);
             if (changestatus.data.status) {
                   console.log(changestatus.data.text)
             } else {

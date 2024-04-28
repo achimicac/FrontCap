@@ -1,6 +1,7 @@
 import { useState, useEffect  } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import RecommendBox from "../../components/RecommendBox";
+import Axios  from "../../axios"
 
 function CustomerMain() {
       const navigate = useNavigate()
@@ -43,7 +44,7 @@ function CustomerMain() {
       /*useEffect(() => {
             const fetchmaidsnear = async () => {
                   try {
-                        const response = await axios.get(`/api/customer/main?queue=${startQueue}&distance=${distance}&job=${jobselect}`);
+                        const response = await Axios.get(`/api/customer/main?queue=${startQueue}&distance=${distance}&job=${jobselect}`);
                         setMaidsnear(prevMaids => [...prevMaids, ...response.data]);
                   } catch (error) {
                         console.log(error);
@@ -54,7 +55,7 @@ function CustomerMain() {
             }
             const fetchmaids = async () => {
                   try {
-                        const response = await axios.get(`/api/customer/main`);
+                        const response = await Axios.get(`/api/customer/main`);
                         setMaids({...maids, maids_rmd: response.maids_rmd, maids_hired: response.maid_hired});
                   } catch (error) {
                         console.log(error);
@@ -64,19 +65,19 @@ function CustomerMain() {
             fetchmaidsnear()
       }, [startQueue, distance, job]);*/
 
-      const handleScroll = () => {
+      /*const handleScroll = () => {
             const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight;
             if (bottom) {
               setStartQueue(prevPage => prevPage + 10);
             }
-      };
+      };*/
 
-      useEffect(() => {
+      /*useEffect(() => {
             window.addEventListener('scroll', handleScroll);
             return () => {
               window.removeEventListener('scroll', handleScroll);
             };
-      }, []);
+      }, []);*/
       const handleClick = (maidId) => {
             navigate(`/customer/maids/profile/${maidId}`)
       };
