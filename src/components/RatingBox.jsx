@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'; 
 import { FaStar } from 'react-icons/fa';
-import "./css/RatingBox.css"
 
 function RatingBox({ maid, handleSubmit, clickStar, handleChange }) {
 
@@ -8,11 +7,10 @@ function RatingBox({ maid, handleSubmit, clickStar, handleChange }) {
         <section>
             <article>
                 <figure>
-                    {maid.user_pic ? (
-                            <img src={`data:image/jpeg;base64,${maid.user_pic}`} style={{width: '30vw'}} />
-                            ) : (
-                            <img src={"/sudlore.png"} style={{width: '30vw'}} />
-                    )}
+                    {(maid.user_pic !== null && maid.user_pic !== undefined) ?
+                        <img src={`data:image/jpeg;base64,${maid.user_pic}`} /> :
+                        <img src='MaKing.jpg' />
+                    }
                 </figure>
                 <header>{maid.firstname} {maid.lastname} </header>
                 <p> submit at:  { maid.submit_time } </p>
@@ -51,4 +49,3 @@ function RatingBox({ maid, handleSubmit, clickStar, handleChange }) {
 }
 
 export default RatingBox;
-

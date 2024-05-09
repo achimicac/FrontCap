@@ -1,16 +1,19 @@
 function ProfileBox({user, clickConfirm, clickCancel, buttonName='ยืนยัน', canClick=true}) {// or false, depending on your requirement
 
       return (
-            <section>
-                  <figure>
+            <div className="profilebox-wrapper">
+            <section className="profilebox-container">
+              <figure className="profilebox-avatar">
                         {user.user_pic ? (
-                              <img src={`data:image/jpeg;base64,${maid.user_pic}`} style={{width: '30vw'}} />
+                              <img src={`data:image/jpeg;base64,${maid.user_pic}`}/>
                               ) : (
-                              <img src={"/sudlore.png"} style={{width: '30vw'}} />
+                              <img src={"/sudlore.png"}/>
                         )}
-                  </figure>
-                  <article>
-                        <header> {user.firstname} {user.lastname} </header>
+            </figure>
+              <div className="profilebox-content">
+                <article className="profilebox-information">
+                <header> {user.firstname} {user.lastname} </header>
+                  <div className="job-chips">
                         <table>
                               {user.jobtype.map((job, jobid) => (
                                     <tbody key={jobid}>
@@ -20,22 +23,28 @@ function ProfileBox({user, clickConfirm, clickCancel, buttonName='ยืนย�
                                     </tbody>
                               ))}
                         </table>
-                  </article>
-                  {canClick ? 
-                        <footer>
+                  </div>
+                </article>
+
+                {canClick ? 
+                        <footer className="profilebox-actions">
                               {clickConfirm &&
                                     <button onClick={clickConfirm}> {buttonName} </button>
                               }
                               {clickCancel &&
-                                    <button onClick={clickCancel}> ปฏิเสธ </button>
+                                    <button onClick={clickCancel} className="btn-outline"> ปฏิเสธ </button>
                               }
-                        </footer> : 
-                        <footer> 
-                              <p> {buttonName} </p> 
+                        </footer> 
+                        : 
+                        <footer className="profilebox-actions"> 
+                              <p style={{ margin: "12px 0 0 0" }}> {buttonName} </p> 
                         </footer>
                   }
+              </div>
             </section>
-      )
-}
-
-export default ProfileBox;
+          </div>
+        );
+      }
+      
+      export default ProfileBox;
+      
