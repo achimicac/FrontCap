@@ -322,6 +322,7 @@ function Signup() {
                 {((page === 0 && user.role === "user") || page === 1) && <button type="submit" onClick={handleSubmit}> Sign Up </button>}
                 
             </form>
+        </div>
         </>
     )
 }
