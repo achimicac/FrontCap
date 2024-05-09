@@ -1,160 +1,174 @@
 import { useRef, useState } from "react";
 
-function ProfileEdit({user, handleChange}) {
-      const userImg = useRef(null);
-      const [hidepw, setHidepw] = useState(true)
-      const [cfpw, setCfpw] = useState("")
+function ProfileEdit({ user, handleChange }) {
+  const userImg = useRef(null);
+  const [hidepw, setHidepw] = useState(true);
+  const [cfpw, setCfpw] = useState("");
 
-      const seePassword = () => {
-            console.log("kuay")
-      }
-      const handleClickImg = () => {
-            userImg.current.click();
-      }
-      const isMatch = user.password === cfpw;
+  const seePassword = () => {
+    console.log("kuay");
+  };
+  const handleClickImg = () => {
+    userImg.current.click();
+  };
+  const isMatch = user.password === cfpw;
 
-      return (
-            <>
-            <figure onClick={handleClickImg}>
-                  <label>
-                  {user.user_pic ? (
-                        <img src={URL.createObjectURL(userImg.current.files[0])} style={{width: '30vw'}} />
-                  ) : (
-                        <img src='MaKing.jpg' style={{width: '50vw'}} />
-                  )}
-                  <input name='user_pic' type="file" ref={userImg} style={{display: 'none'}} onChange={handleChange}></input>
-                  </label>
-            </figure>
-
-            <label>
-                  Role
-                  <label>
-                  user
-                  <input
-                        name="role"
-                        type="radio"
-                        onChange={handleChange}
-                        autoComplete="off"
-                        value="user"
-                        checked={user.role === 'user'}
-                        disabled={true}
-                  />
-                  </label>
-                  <label>
-                  maid
-                  <input
-                        name='role'
-                        type='radio'
-                        onChange={handleChange}
-                        autoComplete='off'
-                        value='maid'
-                        checked={user.role === 'maid'}
-                        disabled={true}
-                  />
-                  </label>
+  return (
+    <main className="profile-wrapper">
+      <div className="profile-header">
+        <figure onClick={handleClickImg}>
+          <label>
+            {user.user_pic ? (
+              <img
+                src={URL.createObjectURL(userImg.current.files[0])}
+                style={{ width: "30vw" }}
+              />
+            ) : (
+              <img src="MaKing.jpg" style={{ width: "50vw" }} />
+            )}
+            <input
+              name="user_pic"
+              type="file"
+              ref={userImg}
+              style={{ display: "none" }}
+              onChange={handleChange}
+            ></input>
+          </label>
+        </figure>
+      </div>
+      <article className="profile-information">
+        <div className="radio-wrapper">
+          <span style={{ marginBottom: "6px" }}>Role</span>
+          <div className="radio-options">
+            <label className="radio-container">
+              user
+              <input
+                type="radio"
+                name="role"
+                onChange={handleChange}
+                autoComplete="off"
+                value="user"
+                checked={user.role === "user"}
+                disabled={true}
+              />
+              <span className="checkmark"></span>
             </label>
-
-            <label>
-                  Firstname
-                  <input
-                  name='firstname'
-                  type='text'
-                  onChange={handleChange}
-                  autoComplete='off'
-                  value={ user.firstname }
-                  required
-                  />
+            <label className="radio-container">
+              maid
+              <input
+                type="radio"
+                name="role"
+                onChange={handleChange}
+                autoComplete="off"
+                value="maid"
+                checked={user.role === "maid"}
+                disabled={true}
+              />
+              <span className="checkmark"></span>
             </label>
+          </div>
+        </div>
 
-            <label>
-                  Lastname
-                  <input
-                  name='lastname'
-                  type='text'
-                  onChange={handleChange}
-                  autoComplete='off'
-                  value={ user.lastname }
-                  required
-                  />
-            </label>
+        <section>
+          <b>Firstname</b>
+          <input
+            name="firstname"
+            type="text"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.firstname}
+            required
+          />
+        </section>
 
-            <label>
-                  Birthday
-                  <input
-                  name='birthday'
-                  type='date'
-                  onChange={handleChange}
-                  autoComplete='off'
-                  value={ user.birthday }
-                  required
-                  />
-            </label>
+        <section>
+          <b>Lastname</b>
+          <input
+            name="lastname"
+            type="text"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.lastname}
+            required
+          />
+        </section>
 
-            <label>
-                  Telephone
-                  <input
-                  name='telephone'
-                  type='text'
-                  onChange={handleChange}
-                  autoComplete='off'
-                  value={ user.telephone }
-                  //placeholder="xxx-xxx-xxxx"
-                  //pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                  maxLength={10}
-                  required
-                  />
-            </label>
+        <section>
+          <b>Birthday</b>
+          <input
+            name="birthday"
+            type="date"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.birthday}
+            required
+          />
+        </section>
 
-            <label>
-                  Email
-                  <input
-                  name='email'
-                  type='email'
-                  onChange={handleChange}
-                  autoComplete='off'
-                  value={ user.email }
-                  required
-                  />
-            </label>
+        <section>
+          <b>Telephone</b>
+          <input
+            name="telephone"
+            type="text"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.telephone}
+            //placeholder="xxx-xxx-xxxx"
+            //pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            maxLength={10}
+            required
+          />
+        </section>
 
-            <label>
-                  Password
-                  <input
-                  name='password'
-                  type='password'
-                  onChange={handleChange}
-                  autoComplete='off'
-                  value={ user.password }
-                  required
-                  />
-            </label>
+        <section>
+          <b>Email</b>
+          <input
+            name="email"
+            type="email"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.email}
+            required
+          />
+        </section>
 
-            <label>
-                  Confirm Password
-                  <input
-                  name='cfpw'
-                  type='password'
-                  onChange={ (e) => setCfpw(e.target.value) }
-                  autoComplete='off'
-                  value={ cfpw }
-                  required
-                  />
-                  <p style={isMatch ? {display: 'none'}:{}}> Password is not Match!</p>
-            </label>
+        <section>
+          <b>Password</b>
+          <input
+            name="password"
+            type="password"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.password}
+            required
+          />
+        </section>
 
-            <label>
-                  Description
-                  <input
-                        name="descript"
-                        type="textarea"
-                        onChange={handleChange}
-                        autoComplete='off'
-                        value={ user.descript }
-                  />
-            </label>
-            
-            </>
-      )
+        <section>
+          <b> Confirm Password</b>
+          <input
+            name="cfpw"
+            type="password"
+            onChange={(e) => setCfpw(e.target.value)}
+            autoComplete="off"
+            value={cfpw}
+            required
+          />
+        </section>
+        <p style={isMatch ? { display: "none" } : {}}>Password is not Match!</p>
+        <section>
+          <b>Description</b>
+          <input
+            name="descript"
+            type="textarea"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.descript}
+          />
+        </section>
+      </article>
+    </main>
+  );
 }
 
 export default ProfileEdit;
