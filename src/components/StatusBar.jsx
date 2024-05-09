@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom';
+import "./css/StatusBar.css"
 
 function StatusBar({firstpage, secondpage, thirdpage}) {
       return (
