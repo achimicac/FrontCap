@@ -2,7 +2,6 @@ import { useState, useCallback, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import Popup from "../components/Popup";
-import './styles/login.css'
 
 import useAuth from "../Auth/useAuth";
 

@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import Popup from "../components/Popup";
 import "./styles/signup.css";
 import ManageJob from "../components/ManageJob";
-import './styles/signup.css'
 import Map from "../components/Map";
 
 function Signup() {

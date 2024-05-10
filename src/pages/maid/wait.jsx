@@ -82,6 +82,7 @@ function MaidStatusWait() {
                     {customer.id &&
                         <ProfileBox
                             user={customer}
+                            buttonName="รับงานนี้"
                             clickConfirm={() => handleClickConfirm(customer.id)}
                             clickCancel={() => handleClickCancel(customer.id)}
                         />
