@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet} from "react-router-dom";
 import { useState } from "react";
 import { BsFillHouseDoorFill, BsPersonFillGear, BsListUl } from "react-icons/bs";
 import { GiBroom } from "react-icons/gi";
@@ -8,7 +8,7 @@ function StatusBar() {
     color: "#035445",
     fontSize: "42px",
 };*/
-      const navigate = useNavigate()
+      //const navigate = useNavigate()
       const [showNavbar, setShowNavbar] = useState(false)
       const handleShowNavbar = () => {
             setShowNavbar(!showNavbar)
@@ -34,7 +34,7 @@ function StatusBar() {
                                                       </NavLink>
                                                 </li>
                                                 <li>
-                                                      <NavLink to="status" onClick={navigate('status/wait')}>
+                                                      <NavLink to="status">
                                                             <GiBroom />
                                                             งานของคุณ
                                                       </NavLink>

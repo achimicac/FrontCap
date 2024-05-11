@@ -17,7 +17,6 @@
 
 .menu-icon {
   display: none;
-  font-size: 25px;
 }
 
 .nav-elements ul {
@@ -66,6 +65,7 @@
   .menu-icon {
     display: block;
     cursor: pointer;
+    font-size: 30px;
   }
 
   .nav-elements {

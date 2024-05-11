@@ -37,7 +37,7 @@ function App() {
     },
     //Maid Routes
         {
-            element: <ProtectRoute />,
+            //element: <ProtectRoute />,
             children: [{
                 path: 'maid',
                 element: <Navbar />,
@@ -72,7 +72,7 @@ function App() {
         },
         //Customer route
         {
-            element: <ProtectRoute />,
+            //element: <ProtectRoute />,
             children: [{
                 path: 'customer',
                 element: <Navbar />,
@@ -113,9 +113,9 @@ function App() {
 
     return (
         <>
-            <AuthProvider>
+            
                 <RouterProvider router={router} />
-            </AuthProvider>
+            
             
         </>
     )
