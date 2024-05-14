@@ -1,4 +1,6 @@
-const pool  = require("../../db");
+const pool  = require("../../server");
+const Pool = require ("pg").Pool;
+
     
 
 const getAccount =async (req,res) => {
@@ -120,3 +122,4 @@ module.exports = {
     getMaidJobs,
     getInvoiceJobs,
 }; 
+
