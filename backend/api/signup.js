@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+
 const express = require('express');
 const pool = require('./db');
 
