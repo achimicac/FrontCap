@@ -1,3 +1,4 @@
+
 function Profile({user, isMaid=false}) {
 
       const calculateBirthday = (birthday) => {
