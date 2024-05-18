@@ -84,7 +84,7 @@ function UserMaidEmploy() {
     
             const job_count = updatedJobIds.length;
             if (checkTimeOver(Math.ceil(job_count / 2))) {
-                const newAmount = job_count % 2 !== 0 ? Math.ceil(job_count / 2) * 100 : Math.floor(job_count / 2) * 100;
+                const newAmount = job_count % 2 !== 0 ? Math.ceil(job_count / 2) * 200 : Math.floor(job_count / 2) * 200;
                 const newEndTime = `${String(parseInt(newInvoice.start_time.split(":")[0], 10) + Math.ceil(job_count / 2)).padStart(2, '0')}:00:00`;
     
                 setNewInvoice(prevState => ({

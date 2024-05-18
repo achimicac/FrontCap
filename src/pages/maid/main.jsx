@@ -14,7 +14,7 @@ function MaidMain() {
             {invoice_id: 2, user_id: 2, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], start_time: '13:00:00'},
             {invoice_id: 3, user_id: 3, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], start_time: '13:00:00'},
             {invoice_id: 4, user_id: 4, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], start_time: '13:00:00'},
-            {invoice_id: 5, user_id: 5, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], start_time: '13:00:00'}
+                                                                                                                                                                {invoice_id: 5, user_id: 5, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], start_time: '13:00:00'}
       ])
 
       /*useEffect(() => {
@@ -36,7 +36,7 @@ function MaidMain() {
       };*/
 
       return (
-            <>
+            <main className='main-maid'>
                   <header className='calendar'>
                         <DayPicker 
                               classNames={'datepicker-calendar'}
@@ -44,7 +44,7 @@ function MaidMain() {
                               required
                               selected={selected}
                               onSelect={setSelected}
-                              modifiersStyles={{disabled: {fontSize: '3%'}}}
+                              modifiersStyles={{disabled: {fontSize: '4vw'}}}
                               locale={th}
                         />
                   </header>
@@ -54,7 +54,7 @@ function MaidMain() {
                                     <section>
                                           <p> { custom.start_time.split(':')[0]}:00 </p>
                                     </section>
-                                    <section>
+                                    <section className='user-inform'>
                                           {/*<figure>*/}
                                                 {custom.user_pic ? (
                                                       <img src={`data:image/jpeg;base64,${custom.user_pic}`} />
@@ -62,20 +62,21 @@ function MaidMain() {
                                                       <img src={"/sudlore.png"} />
                                                 )}
                                           {/*</figure>*/}
-
-                                          <header>{custom.firstname} {custom.lastname}</header>
-                                          <section>
-                                                {custom.jobtype.slice(0, 9).map((job, jobid) => (
-                                                            <p key={jobid}>{job.job_name}</p>
-                                                ))}
-                                                {custom.jobtype.length >= 10 && <p> more... </p>}
-                                          </section>
+                                          <article>
+                                                <header>{custom.firstname} {custom.lastname}</header>
+                                                <section>
+                                                      {custom.jobtype.slice(0, 5).map((job, jobid) => (
+                                                                  <span key={jobid}>{job.job_name}</span>
+                                                      ))}
+                                                      {custom.jobtype.length > 5 && <span> more... </span>}
+                                                </section>
+                                          </article>
                                     </section>
                               </article>
                         ))}
                   </main>
                   <footer> Loading... </footer>
-            </>
+            </main>
       )
 }
 

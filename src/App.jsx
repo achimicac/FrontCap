@@ -19,12 +19,16 @@ import UserOtherProfile from './pages/customer/otherProfile';
 import UserMaidEmploy from './pages/customer/maidEmploy';
 import CustomerMain from './pages/customer/main';
 import ProtectRoute from './Auth/ProtectRoute';
+import roleAccess from './pages/roleAccess';
 import { AuthProvider } from './Auth/AuthProvider';
 //Component 3 หน้าของ Maid Status รูปแบบเหมือนกันเลย อาจจะมาแก้ให้เป็นใช้ component ร่วมกันไปเลย
 
 function App() {
 
     const router = createBrowserRouter([{
+        path: '',
+        element: <roleAccess />
+    },{
         path: 'signup',
         element: <Signup />
     },{
@@ -33,7 +37,7 @@ function App() {
     },
     //Maid Routes
         {
-            element: <ProtectRoute protectrole={"maid"} />,
+            //element: <ProtectRoute />,
             children: [{
                 path: 'maid',
                 element: <Navbar />,
@@ -68,7 +72,7 @@ function App() {
         },
         //Customer route
         {
-            element: <ProtectRoute protectrole={"customer"} />,
+            //element: <ProtectRoute />,
             children: [{
                 path: 'customer',
                 element: <Navbar />,
@@ -109,9 +113,9 @@ function App() {
 
     return (
         <>
-            <AuthProvider>
+            
                 <RouterProvider router={router} />
-            </AuthProvider>
+            
             
         </>
     )

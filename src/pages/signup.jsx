@@ -2,15 +2,19 @@ import React, { useState, useCallback, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import Popup from "../components/Popup";
+
 import ManageJob from "../components/ManageJob";
-import './styles/signup.css'
 import Map from "../components/Map";
 
 function Signup() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
     const [page, setPage] = useState(0); 
-    const [jobchoices, setJobchoices] = useState([]);
+    const [jobchoices, setJobchoices] = useState([
+        {job_id: 1, job_name: "กวาดบ้าน"}, 
+        {job_id: 2, job_name: "ถูบ้าน"}, 
+        {job_id: 3, job_name: "ล้างจาน"}
+  ]);
     const [user, setUser] = useState({
         role: "",
         firstname: "",
@@ -29,7 +33,7 @@ function Signup() {
     });
     const userImg = useRef(null);
     const [cfpw, setCfpw] = useState('');
-    const [alert, setAlert] = useState(false);
+  const [alert, setAlert] = useState(false);
     const [alertMessage, setMessage] = useState('');
     const [showMap, setShowMap] = useState(false)
     const isMatch = user.password === cfpw;
@@ -83,22 +87,22 @@ function Signup() {
                 return;
             }
 
-            for (const key in user) {
-                formData.append(key, "");
-            }
-            navigate('/login');
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
-
-    const handleClickImg = () => {
-        userImg.current.click();
+      for (const key in user) {
+        formData.append(key, "");
+      }
+      navigate("/login");
+    } catch (error) {
+      console.error("Error:", error);
     }
+  };
 
-    const nextPage = () => {
-        setPage(1);
-    };
+  const handleClickImg = () => {
+    userImg.current.click();
+  };
+
+  const nextPage = () => {
+    setPage(1);
+  };
 
     const SelectLocation = () => {
         setShowMap(!showMap)
@@ -132,14 +136,23 @@ function Signup() {
 
 
 
-            <h1> Sign Up </h1>
+            
+            <div className="signup-container">
+            <div className="form-container"></div>
             <form className={showMap ? "blurred" : ""} >
                 {page === 0 && (
                     <section className='signup-form'>
+                        <h1
+                            style={{
+                                textAlign: "center",
+                                fontStyle: "italic",
+                                color: "#00897B",
+                            }}
+                        ></h1>
                         <figure onClick={handleClickImg}>
                             <label>
                                 {user.user_pic ? (
-                                    <img src={URL.createObjectURL(userImg.current.files[0])} style={{ width: '30vw' }} />
+                                    <img src={URL.createObjectURL(userImg.current.files[0])} style={{ width: '50vw' }} />
                                 ) : (
                                     <img src={"/sudlore.png"} style={{ width: '30vw' }} />
                                 )}
@@ -157,6 +170,7 @@ function Signup() {
                                     onChange={handleChange}
                                     autoComplete="off"
                                     value="user"
+                                    
                                 />
                             </label>
                             <label>
@@ -167,60 +181,61 @@ function Signup() {
                                     onChange={handleChange}
                                     autoComplete='off'
                                     value='maid'
+                                    
                                 />
                             </label>
                         </label>
 
-                        <label>
-                            Firstname
-                            <input
-                                name='firstname'
-                                type='text'
-                                onChange={handleChange}
-                                autoComplete='off'
-                                value={ user.firstname }
-                                //required
-                            />
-                        </label>
+                <label>
+                  Firstname
+                  <input
+                    name="firstname"
+                    type="text"
+                    onChange={handleChange}
+                    autoComplete="off"
+                    value={user.firstname}
+                    //required
+                  />
+                </label>
 
-                        <label>
-                            Lastname
-                            <input
-                                name='lastname'
-                                type='text'
-                                onChange={handleChange}
-                                autoComplete='off'
-                                value={ user.lastname }
-                                //required
-                            />
-                        </label>
+                <label>
+                  Lastname
+                  <input
+                    name="lastname"
+                    type="text"
+                    onChange={handleChange}
+                    autoComplete="off"
+                    value={user.lastname}
+                    //required
+                  />
+                </label>
 
-                        <label>
-                            Birthday
-                            <input
-                                name='birthday'
-                                type='date'
-                                onChange={handleChange}
-                                autoComplete='off'
-                                value={ user.birthday }
-                                //required
-                            />
-                        </label>
+                <label>
+                  Birthday
+                  <input
+                    name="birthday"
+                    type="date"
+                    onChange={handleChange}
+                    autoComplete="off"
+                    value={user.birthday}
+                    //required
+                  />
+                </label>
 
-                        <label>
-                            Telephone
-                            <input
-                                name='telephone'
-                                type='text'
-                                onChange={handleChange}
-                                autoComplete='off'
-                                value={ user.telephone }
-                                //placeholder="xxx-xxx-xxxx"
-                                //pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                                maxLength={10}
-                                //required
-                            />
-                        </label>
+                <label>
+                  Telephone
+                  <input
+                    name="telephone"
+                    type="text"
+                    onChange={handleChange}
+                    autoComplete="off"
+                    value={user.telephone}
+                    //placeholder="xxx-xxx-xxxx"
+                    //pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                    maxLength={10}
+                    //required
+                  />
+                </label>
 
                         <label>
                             Email
@@ -269,17 +284,17 @@ function Signup() {
                             </label>
                         </label>
 
-                        <label>
-                            Password
-                            <input
-                                name='password'
-                                type='password'
-                                onChange={handleChange}
-                                autoComplete='off'
-                                value={ user.password }
-                                //required
-                            />
-                        </label>
+                <label>
+                  Password
+                  <input
+                    name="password"
+                    type="password"
+                    onChange={handleChange}
+                    autoComplete="off"
+                    value={user.password}
+                    //required
+                  />
+                </label>
 
                         <label>
                             Confirm Password
@@ -302,11 +317,15 @@ function Signup() {
 
                 {page === 1 && (
                     <section className="addjob-form">
-                        <ManageJob user={user} jobchoices={jobchoices} handleChange={handleChange} />
+                        <ManageJob user={user} handleChange={handleChange} jobchoices={jobchoices}/>
                     </section>
                 )}
 
+                {(page === 0 && user.role === "maid") && <button type="button" onClick={nextPage}> Next </button>}
+                {((page === 0 && user.role === "user") || page === 1) && <button type="submit" onClick={handleSubmit}> Sign Up </button>}
+                
             </form>
+        </div>
         </>
     )
 }

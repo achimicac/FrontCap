@@ -34,8 +34,7 @@ function UserProfile() {
 
       return (
             <>
-                  <Profile user={user} isMaid={false} />
-                  <button onClick={handleClick}> Edit </button>
+                  <Profile user={user} isMaid={false} clickEdit={handleClick}/>
             </>
       )
 }

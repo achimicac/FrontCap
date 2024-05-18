@@ -15,7 +15,9 @@ function MaidProfile() {
                   {job_id: 2, job_name: "ถูบ้าน"}, 
                   {job_id: 3, job_name: "ล้างจาน"}
             ], 
-            role: 'maid' 
+            role: 'maid',
+            email: 'maidmail@gmail.com',
+            description: 'I love my household. I can do everything, So you can employ me just enter employ button' 
       });
       //const [maid, setMaid] = useState();
 
@@ -38,8 +40,7 @@ function MaidProfile() {
 
       return (
             <>
-                  <Profile user={maid} isMaid={true} />
-                  <button onClick={handleClick}> Edit </button>
+                  <Profile user={maid} isMaid={true} clickEdit={handleClick}/>
             </>
       )
 }
