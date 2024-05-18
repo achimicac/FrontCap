@@ -3,6 +3,7 @@ import ProfileEdit from "../../components/ProfileEdit";
 import Popup from "../../components/Popup";
 import { useNavigate } from "react-router-dom";
 import Axios  from "../../axios"
+import { HiAnnotation } from "react-icons/hi";
 
 function UserProfileEdit() {
       const navigate = useNavigate();
@@ -87,16 +88,14 @@ function UserProfileEdit() {
                         clickCancel={() => { setAlertCancel(false) }} 
                         clickOK={handleClickCancelOK} 
                   />
-                  <h1> Edit Profile </h1>
+
                   <form>
                         <ProfileEdit 
                               user={user} 
                               handleChange={handleChange} 
-                              handleSubmit={handleSubmit} 
-                              handleCancle={handleClickCancel}
+                              clickSubmit={handleSubmit}
+                              clickCancel={handleClickCancel}
                         />
-                        <button onClick={handleSubmit}> Confirm </button>
-                        <button onClick={handleClickCancel}> Cancle </button>
                   </form>
             </>
       )

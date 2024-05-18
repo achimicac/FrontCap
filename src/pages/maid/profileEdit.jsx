@@ -116,17 +116,18 @@ function MaidProfileEdit() {
                         clickCancel={() => { setAlertCancel(false) }} 
                         clickOK={handleClickCancelOK} 
                   />
-                  <h1> Edit Profile </h1>
+                  
                   <form>
                         <ProfileEdit 
                               user={maid} 
                               handleChange={handleChange} 
                               handleSubmit={handleSubmit} 
                               handleCancle={handleClickCancel}
+                              manageJob={handleChange}
+                              jobchoices={jobchoices}
+                              clickSubmit={handleSubmit}
+                              clickCancle={handleClickCancel}
                         />
-                        <ManageJob user={maid} jobchoices={jobchoices} handleChange={handleChange} />
-                        <button onClick={handleSubmit}> Confirm </button>
-                        <button onClick={handleClickCancel}> Cancle </button>
                   </form>
             </>
       )

@@ -1,5 +1,6 @@
+import './css/NewProfile.css'
 
-function Profile({user, isMaid=false}) {
+function Profile({user, isMaid=false, clickEdit}) {
 
       const calculateBirthday = (birthday) => {
         const [day, month, year] = birthday.split("-");
@@ -22,48 +23,54 @@ function Profile({user, isMaid=false}) {
     
       return (
         <main className="profile-wrapper">
-          <div className="profile-header">
-            <figure className="profile-figure">
+          <header>
+            
                   {user.user_pic ? (
                         <img src={`data:image/jpeg;base64,${maid.user_pic}`} />
                         ) : (
                         <img src={"/sudlore.png"} />
                   )}
-            </figure>
-            <header>
+            <span>
               {user.firstname} {user.lastname}{" "}
-            </header>
-          </div>
+            </span>
+            <span> 
+              {user.description}
+            </span>
+          </header>
     
-          <article className="profile-information">
+          <main>
             <section>
               <b>birthday</b>
-              <p> {calculateBirthday(user.birthday)} </p>
+              <span> {user.birthday} </span>
             </section>
             <section>
               <b>age</b>
-              <p> {user.age} </p>
+              <span> {calculateBirthday(user.birthday)} </span>
+            </section>
+            <section>
+              <b>telephone</b>
+              <span> {user.tel} </span>
             </section>
             <section>
               <b>email</b>
-              <p> {user.email} </p>
+              <span> {user.email} </span>
             </section>
             {isMaid && (
-              <section>
+              <section className='jobtype'>
                 <b>job type</b>
                 {user.jobtype.map((job, jobin) => (
-                  <p key={job.job_id}> {job.job_name} </p>
+                  <span key={job.job_id}> {job.job_name} </span>
                 ))}
               </section>
             )}
-            <section>
+            {/*<section className="descript">
               <b>description</b>
-              <p> {user.description} </p>
-            </section>
-          </article>
-          {/*<div className="profile-actions">
-            <button onClick={handleClick}> Edit </button>
-      </div>*/}
+              <span> {user.description} </span>
+          </section>*/}
+            <footer className="profile-footer">
+              <button onClick={clickEdit}> Edit </button>
+            </footer>
+          </main>
         </main>
       );
     }

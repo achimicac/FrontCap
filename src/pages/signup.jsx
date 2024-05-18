@@ -2,7 +2,7 @@ import React, { useState, useCallback, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import Popup from "../components/Popup";
-import "./styles/signup.css";
+
 import ManageJob from "../components/ManageJob";
 import Map from "../components/Map";
 
@@ -10,7 +10,11 @@ function Signup() {
   const navigate = useNavigate();
 
     const [page, setPage] = useState(0); 
-    const [jobchoices, setJobchoices] = useState([]);
+    const [jobchoices, setJobchoices] = useState([
+        {job_id: 1, job_name: "กวาดบ้าน"}, 
+        {job_id: 2, job_name: "ถูบ้าน"}, 
+        {job_id: 3, job_name: "ล้างจาน"}
+  ]);
     const [user, setUser] = useState({
         role: "",
         firstname: "",
@@ -313,7 +317,7 @@ function Signup() {
 
                 {page === 1 && (
                     <section className="addjob-form">
-                        <ManageJob user={user} handleChange={handleChange}/>
+                        <ManageJob user={user} handleChange={handleChange} jobchoices={jobchoices}/>
                     </section>
                 )}
 
