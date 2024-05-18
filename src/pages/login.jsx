@@ -1,10 +1,14 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import Popup from "../components/Popup";
-import './styles/login.css'
+
+import useAuth from "../Auth/useAuth";
 
 function Login() {
+
+    const { setAuth } = useAuth();
+
     const navigate = useNavigate();
 
     const [user, setUser] = useState({
@@ -20,7 +24,8 @@ function Login() {
 
     const handleSubmit = async (e) => {
             e.preventDefault();
-            try {
+
+            /*try {
                 const {checkuser} = await axios.post('/api/login', user)
 
             if ( !checkuser.data.success ) {
@@ -31,7 +36,10 @@ function Login() {
             navigate('/');
             } catch (error) {
                   console.error("Error:", error);
-            }
+            }*/
+            setAuth({role: "maid", user: "aut"})
+            navigate('/maid/main');
+            
       };
 
     return (
@@ -53,7 +61,7 @@ function Login() {
                         value={ user.telephone }
                         //placeholder="xxx-xxx-xxxx"
                         //pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                        maxLength={10}
+                        //maxLength={10}
                         required
                     />
                 </label>
@@ -70,7 +78,7 @@ function Login() {
                     />
                 </label>
 
-                <button> Sign up</button>
+                <button> Login </button>
             </form>
         </>
     )

@@ -1,6 +1,8 @@
 import { useState, useEffect  } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import RecommendBox from "../../components/RecommendBox";
+import Axios  from "../../axios"
+import './css/Main.css'
 
 function CustomerMain() {
       const navigate = useNavigate()
@@ -15,6 +17,8 @@ function CustomerMain() {
                   {user_id: 2, user_pic: ""},
                   {user_id: 3, user_pic: ""},
                   {user_id: 4, user_pic: ""},
+                  {user_id: 5, user_pic: ""},
+                  {user_id: 5, user_pic: ""},
                   {user_id: 5, user_pic: ""}
             ],
             maids_hired: [
@@ -43,7 +47,7 @@ function CustomerMain() {
       /*useEffect(() => {
             const fetchmaidsnear = async () => {
                   try {
-                        const response = await axios.get(`/api/customer/main?queue=${startQueue}&distance=${diatance}&job=${jobselect}`);
+                        const response = await Axios.get(`/api/customer/main?queue=${startQueue}&distance=${distance}&job=${jobselect}`);
                         setMaidsnear(prevMaids => [...prevMaids, ...response.data]);
                   } catch (error) {
                         console.log(error);
@@ -54,7 +58,7 @@ function CustomerMain() {
             }
             const fetchmaids = async () => {
                   try {
-                        const response = await axios.get(`/api/customer/home`);
+                        const response = await Axios.get(`/api/customer/main`);
                         setMaids({...maids, maids_rmd: response.maids_rmd, maids_hired: response.maid_hired});
                   } catch (error) {
                         console.log(error);
@@ -64,19 +68,19 @@ function CustomerMain() {
             fetchmaidsnear()
       }, [startQueue, distance, job]);*/
 
-      const handleScroll = () => {
+      /*const handleScroll = () => {
             const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight;
             if (bottom) {
               setStartQueue(prevPage => prevPage + 10);
             }
-      };
+      };*/
 
-      useEffect(() => {
+      /*useEffect(() => {
             window.addEventListener('scroll', handleScroll);
             return () => {
               window.removeEventListener('scroll', handleScroll);
             };
-      }, []);
+      }, []);*/
       const handleClick = (maidId) => {
             navigate(`/customer/maids/profile/${maidId}`)
       };
@@ -89,9 +93,8 @@ function CustomerMain() {
       }
 
       return (
-            <>
+            <div className="customer-main">
                   <header>
-                        <section> แม่บ้านใกล้คุณ </section>
                         <section>
                               <p> แม่บ้านแนะนำ </p>
                               <RecommendBox maids={maids.maids_rmd} handleClick={handleClick}/>
@@ -104,7 +107,7 @@ function CustomerMain() {
                   <main>
                         <header>
                               <label>
-                                    distance
+                                    <span> distance </span>
                                     <select
                                           id="distance"
                                           name="distance"
@@ -121,7 +124,7 @@ function CustomerMain() {
                                     </select>
                               </label>
                               <label>
-                                    category
+                                    <span>category</span>
                                     <select
                                           id="job"
                                           name="job"
@@ -141,40 +144,40 @@ function CustomerMain() {
                         </header>
                         <main>
                               {maidsnear.map((maid) => (
-                                    <section key={maid.user_id} onClick={() => handleClick(maid.user_id)}>
-                                          <figure>
-                                          {maid.user_pic ? (
-                                                <img src={`data:image/jpeg;base64,${maid.user_pic}`} style={{width: '30vw'}} />
-                                                ) : (
-                                                <img src={"/sudlore.png"} style={{width: '30vw'}} />
-                                          )}
-                                          </figure>
-                                          <article>
-                                                <header>{maid.firstname} {maid.lastname}</header>
-                                                <section>
-                                                      Rating
-                                                      <p> {maid.avg_rate} / 5.0 </p>
-                                                </section>
-                                                <section>
-                                                      Distance
-                                                      <p> { maid.distance }  km. </p>
-                                                </section>
-                                                <table>
-                                                      {maid.jobtype.map((job, jobid) => (
-                                                            <tbody key={jobid}>
-                                                                  <tr>
-                                                                        <td>{job.job_name}</td>
-                                                                  </tr>
-                                                            </tbody>
-                                                      ))}
-                                                </table>
-                                          </article>
-                                    </section>
+                                    <div className="main-profilebox-wrapper">
+                                          <section key={maid.user_id} onClick={() => handleClick(maid.user_id)}>
+                                                
+                                                {maid.user_pic ? (
+                                                      <img src={`data:image/jpeg;base64,${maid.user_pic}`} style={{width: '30vw'}} />
+                                                      ) : (
+                                                      <img src={"/sudlore.png"} style={{width: '30vw'}} />
+                                                )}
+                                                <div className="main-profilebox-content">
+                                                      <article>
+                                                            <header>{maid.firstname} {maid.lastname}</header>
+                                                            <section>
+                                                                  <span>Rating: </span>
+                                                                  <span> {maid.avg_rate} / 5.0 </span>
+                                                            </section>
+                                                            <section>
+                                                                  <span>Distance: </span>
+                                                                  <span> { maid.distance }  km. </span>
+                                                            </section>
+                                                            <section className="main-job-chips">
+                                                                  {maid.jobtype.map((job, jobindex) => (
+                                                                        <span key={jobindex}> {job.job_name} </span>
+                                                                  ))}
+                                                            </section>
+                                                            
+                                                      </article>
+                                                </div>
+                                          </section>
+                                    </div>
                               ))}
                         </main>
                         <p> Loading... </p>
                   </main>
-            </>
+            </div>
         );
 }
 

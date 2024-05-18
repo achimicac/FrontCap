@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Popup from "../../components/Popup";
 import EmployMaid from "../../components/EmployMaid";
-import axios from 'axios';
+import Axios  from "../../axios"
 
 function UserMaidEmploy() {
     const { id } = useParams();
@@ -16,9 +16,7 @@ function UserMaidEmploy() {
     ]);
     const [timeoptions, setTimeoptions] = useState([])
     const [newInvoice, setNewInvoice] = useState({
-        maid_id: '',
         room_id: '',
-        status: 'wait',
         work_date: '',
         start_time: '',
         end_time: '',
@@ -49,7 +47,7 @@ function UserMaidEmploy() {
 
     /*useEffect(() => {
         const fetchOldinvoice = async () => {
-            const response = await axios.get(`/api/customer/maids/profile/${id}/employ`)
+            const response = await Axios.get(`/api/customer/maids/profile/${id}/employ`)
             setOldinvoice(response.data.oldinvoice)
             setRoomchoices(response.data.roomchoices)
             setJobchoices(response.data.jobchoices)
@@ -62,7 +60,7 @@ function UserMaidEmploy() {
         if (firstrender.current === false) {
             const fetchOldinvoice = async () => {
                 const response = await axios.get(`/api/customer/maids/profile/${id}/employ?date={${newInvoice.work_date}}`)
-                setOldinvoice(response.data.oldinvoice)
+                setOldinvoice(data)
             }
             return fetchOldinvoice();
         }
@@ -86,7 +84,7 @@ function UserMaidEmploy() {
     
             const job_count = updatedJobIds.length;
             if (checkTimeOver(Math.ceil(job_count / 2))) {
-                const newAmount = job_count % 2 !== 0 ? Math.ceil(job_count / 2) * 100 : Math.floor(job_count / 2) * 100;
+                const newAmount = job_count % 2 !== 0 ? Math.ceil(job_count / 2) * 200 : Math.floor(job_count / 2) * 200;
                 const newEndTime = `${String(parseInt(newInvoice.start_time.split(":")[0], 10) + Math.ceil(job_count / 2)).padStart(2, '0')}:00:00`;
     
                 setNewInvoice(prevState => ({
