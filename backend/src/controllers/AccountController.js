@@ -48,7 +48,6 @@ const addAccount = async (req, res) => {
     } = req.body;
 
     try {
-        // ตรวจสอบว่าอีเมลมีอยู่แล้วหรือไม่
         const emailCheckResult = await pool.query(queries.checkEmailExists, [Email]);
         if (emailCheckResult.rows.length > 0) {
             return res.status(400).json({ error: 'Email already exists.' });
