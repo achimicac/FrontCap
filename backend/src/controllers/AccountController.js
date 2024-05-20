@@ -25,14 +25,24 @@ exports.createAccount = async (req, res) => {
     }
 };
 
-exports.updateAccount = async (req, res) => {
-    const { User_Role, User_Pic, Firstname, Lastname, Birthday, Tel, Email, Pass, Description } = req.body;
-    const { id } = req.params;
+const addAccount = async (req, res) => {
+    const {
+        User_Role,
+        User_Pic,
+        Firstname,
+        Lastname,
+        Birthday,
+        Tel,
+        Email,
+        Pass,
+        Description
+    } = req.body;
 
     try {
-        const result = await database.pool.query(queries.updateAccount, [User_Role, User_Pic, Firstname, Lastname, Birthday, Tel, Email, Pass, Description, id]);
-        if (result.rowCount === 0) {
-            return res.status(404).json({ error: 'Account not found' });
+        // ตรวจสอบว่าอีเมลมีอยู่แล้วหรือไม่
+        const emailCheckResult = await pool.query(queries.checkEmailExists, [Email]);
+        if (emailCheckResult.rows.length > 0) {
+            return res.status(400).json({ error: 'Email already exists.' });
         }
         return res.status(200).json(result.rows[0]);
     } catch (error) {
