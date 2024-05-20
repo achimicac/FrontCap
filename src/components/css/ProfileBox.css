@@ -1,0 +1,123 @@
+.profilebox-wrapper{
+      padding: 5vw;
+      font-size: 4vw;
+}
+
+.profilebox-wrapper header{
+      font-size: 4vw;
+      font-weight: 600;
+      padding-bottom: 1vw;
+}
+
+.profilebox-container {
+      padding: 5vw;
+      background-color: #E0F2F1;
+      display: grid;
+      grid-template-columns: 25% auto;
+      border-radius: 30px;
+}
+
+.profilebox-container img{
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      max-width: 100%;
+      height: auto;
+      grid-row: 1 / 2;
+      align-items: center;
+      align-self: center;
+}
+
+.profilebox-content {
+      display: flex;
+      flex-direction: column;
+      padding-left: 5vw;
+      
+}
+
+.profilebox-information{
+      display: flex;
+      flex-direction: column;
+}
+
+.profilebox-information .job-chips{
+      padding-top: 3vw;
+      padding-bottom: 2vw;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2vw;
+      font-size: 3vw;
+}
+
+.profilebox-information .job-chips span {
+      background-color: #ffbed798;
+      padding: 1vw;
+      border-radius: 10px;
+}
+
+.profilebox-information .job-date{
+      font-size: 2.5vw;
+      border-bottom: 1px solid black;
+}
+
+.profilebox-information .job-date span{
+      font-weight: 400px;
+      padding-right: 2vw;
+      margin-left: 2vw;
+      font-size: 2.5vw;
+}
+
+.profilebox-content footer {
+      margin-top: auto;
+      align-self: flex-end;
+}
+
+.profilebox-content .footer-nobutton{
+      font-size: 3vw;
+      display: flex;
+      flex-direction: column;
+}
+
+.profilebox-content .footer-nobutton p {
+      align-self: flex-end;
+}
+
+.profilebox-content .footer-nobutton span {
+      align-self: flex-end;
+      font-size: 3vw;
+}
+
+.profilebox-wrapper footer button {
+      border: 3px solid #00897B;
+      font-size: 3vw;
+      border-radius: 30px;
+      margin-left: 1vw;
+      width: 20vw;
+      height: 4vh;
+}
+
+.profilebox-wrapper footer button:first-child{
+      background-color: #00897B;
+      color: white;
+}
+
+.profilebox-wrapper footer button:nth-child(2){
+      background-color: transparent;
+      color:  #00897B;
+}
+
+@media (min-width: 600px) {
+      .profilebox-wrapper header{
+            font-size: 3vw;
+      }
+      .profilebox-information .job-chips{
+            font-size: 2vw;
+      }
+      .profilebox-wrapper footer button {
+            font-size: 1.5vw;
+            width: 10vw;
+            height: 4vw;
+      }
+      .profilebox-content .footer-nobutton, .profilebox-content .footer-nobutton span {
+            font-size: 1.5vw;
+      }
+}
