@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express(); 
-const controllersRoutes = require("./src/routes");
+const accountRoutes = require("./src/routes/accountRoute");
+const bodyParser = require('body-parser');
 
 
 app.listen(5000 , ()=> {
@@ -9,12 +10,14 @@ app.listen(5000 , ()=> {
 
 // Middleware 
 app.use(express.json());
+app.use(bodyParser.json());
 
-app.use("/api/v1/Account" , controllersRoutes);
+app.use("/api/v1/account" , accountRoutes);
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.get("/" , (req,res) => {
     res.send("hello world");  
 } );         
-
+    
 
