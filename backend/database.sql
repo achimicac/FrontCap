@@ -1,5 +1,5 @@
 CREATE TABLE Account (
-    User_ID SMALLINT PRIMARY KEY,
+    User_ID SERIAL PRIMARY KEY,
     User_Role VARCHAR(8),
     User_Gender VARCHAR(6),
     User_Pic bytea,
@@ -8,12 +8,12 @@ CREATE TABLE Account (
     Birthday DATE,
     Tel VARCHAR(10),
     Email VARCHAR(100) UNIQUE,
-    Pass INT ,
+    Pass VARCHAR(42) ,
     Description VARCHAR(500)
 );
 
 CREATE TABLE Room (
-    Room_ID INT PRIMARY KEY ,
+    Room_ID SMALLINT PRIMARY KEY ,
     Room_Size VARCHAR(3),
     Room_Type VARCHAR(20),
     Room_Ratio FLOAT
@@ -25,7 +25,7 @@ CREATE TABLE Job (
 );
 
 CREATE TABLE Address (
-    Add_ID SMALLINT PRIMARY KEY ,
+    Add_ID SERIAL PRIMARY KEY ,
     User_ID SMALLINT,
     Latitude SMALLINT,
     Longitude SMALLINT,

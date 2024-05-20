@@ -1,28 +1,37 @@
-const queries = require("../queries");
-const database = require('../../db');
+const queries = require("../queries/accountQueries");
+const pool = require("../../db");
 
-exports.getAllAccounts = async (req, res) => {
-    try {
-        const result = await database.pool.query(queries.getAllAccounts);
-        return res.status(200).json(result.rows);
-    } catch (error) {
-        return res.status(500).json({ error: error.message });
-    }};
-
-exports.createAccount = async (req, res) => {
-    const { User_Role, User_Pic, Firstname, Lastname, Birthday, Tel, Email, Pass, Descript } = req.body;
-
-    try {
-        const existsResult = await database.pool.query(queries.checkEmailExists, [Email]);
-        if (existsResult.rows[0].exists) {
-            return res.status(409).json({ error: 'Email already exists' });
+const getAccount = async (req, res) => {
+    pool.query("SELECT * FROM Account", (error, results) => {
+        if (error) {
+            console.error('Error executing query:', error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
         }
+        res.status(200).json(results.rows);
+    });
+};
 
-        const result = await database.pool.query(queries.createAccount, [User_Role, User_Pic, Firstname, Lastname, Birthday, Tel, Email, Pass, Descript]);
-        return res.status(201).json(result.rows[0]);
-    } catch (error) {
-        return res.status(500).json({ error: error.message });
+const getAccountById = async (req, res) => {
+    console.log(req.params);
+    const id = parseInt(req.params.user_id);
+
+    if (isNaN(id)) {
+        return res.status(400).json({ error: 'Invalid ID' });
     }
+
+    pool.query('SELECT * FROM Account WHERE User_ID = $1', [id], (error, results) => {
+        if (error) {
+            console.error('Error executing query:', error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        if (results.rows.length === 0) {
+            res.status(404).json({ error: 'Account not found' });
+            return;
+        }
+        res.status(200).json(results.rows[0]);
+    });
 };
 
 const addAccount = async (req, res) => {
@@ -34,52 +43,74 @@ const addAccount = async (req, res) => {
         Birthday,
         Tel,
         Email,
-        Pass,
-        Description
+        Description,
+        Pass
     } = req.body;
 
     try {
-        // ตรวจสอบว่าอีเมลมีอยู่แล้วหรือไม่
         const emailCheckResult = await pool.query(queries.checkEmailExists, [Email]);
         if (emailCheckResult.rows.length > 0) {
             return res.status(400).json({ error: 'Email already exists.' });
         }
-        return res.status(200).json(result.rows[0]);
+
+        
+        const query = `
+            INSERT INTO Account (User_Role, User_Pic, Firstname, Lastname, Birthday, Tel, Email, Description, Pass)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+            RETURNING *
+        `;
+        const values = [User_Role, User_Pic, Firstname, Lastname, Birthday, Tel, Email, Description, Pass];
+        const result = await pool.query(query, values);
+
+        if (result.rows.length === 0) {
+            return res.status(500).json({ error: 'No account was created' });
+        }
+
+        res.status(201).json(result.rows[0]);
     } catch (error) {
-        return res.status(500).json({ error: error.message });
+        console.error('Error executing query:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
 };
 
-exports.deleteAccount = async (req, res) => {
+exports.updateAccount = async (req, res) => {
+    const { User_Role, User_Pic, Firstname, Lastname, Birthday, Tel, Email, Pass, Description } = req.body;
     const { id } = req.params;
 
     try {
-        const result = await database.pool.query(queries.deleteAccount, [id]);
+        const result = await database.pool.query(queries.updateAccount, [User_Role, User_Pic, Firstname, Lastname, Birthday, Tel, Email, Pass, Description, id]);
         if (result.rowCount === 0) {
             return res.status(404).json({ error: 'Account not found' });
         }
-        return res.status(204).send();
+
+        res.status(200).json(result.rows[0]);
     } catch (error) {
-        return res.status(500).json({ error: error.message });
+        console.error('Error executing query:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+const deleteAccount = async (req, res) => {
+    const { user_id } = req.params;
+
+    try {
+        const result = await pool.query('DELETE FROM Account WHERE User_ID = $1 RETURNING *', [user_id]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Account not found' });
+        }
+
+        res.status(200).json({ message: 'Account deleted successfully' });
+    } catch (error) {
+        console.error('Error executing query:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
 };
 
-exports.checkEmailExists = async (req, res) => {
-    const { Email } = req.body;
 
-    try {
-        const result = await database.pool.query(queries.checkEmailExists, [Email]);
-
-        if (result.rows[0].exists) {
-            return res.status(409).json({ error: 'Email already exists' });
-        } else {
-            return res.status(200).json({ message: 'Email is available' });
-        }
-    }
-    catch (error) {
-        return res.status(500).json({ error: error.message });
-    }
-}; 
-
-
-
+module.exports = {
+    addAccount,
+    getAccount, 
+    getAccountById,
+    updateAccount,
+    deleteAccount,
+};
