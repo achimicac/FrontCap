@@ -16,14 +16,20 @@ div.customer-main {
       font-weight: 600;
 }
 
-.customer-main > main {
-      padding: 5vw;
+.customer-main main {
+      padding: 3vw;
       gap: 5vw;
       background-color: white;
       border-top-left-radius: 30px;
       border-top-right-radius: 30px;
       display: flex;
       flex-direction: column;
+}
+
+
+
+.customer-main > main header {
+      padding-left: 3vw;
 }
 
 .customer-main > main header label {
@@ -86,4 +92,8 @@ div.customer-main {
       background-color: #ffbed798;
       padding: 1vw;
       border-radius: 10px;
+}
+
+.main-profilebox-content article header {
+      padding-left: 0vw;
 }
