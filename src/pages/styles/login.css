@@ -1,60 +1,44 @@
-/* src/App.css */
-/* Login.css */
-
-.login-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+.login {
+  background-color: #80CBC4;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
 }
-
-.login-heading {
-    text-align: center;
-    margin-bottom: 20px;
+.login > main {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 50vh;
 }
-
-.login-form {
-    display: flex;
-    flex-direction: column;
+.login h1{
+  color: #00897B;
 }
-
-.form-label {
-    margin-bottom: 8px;
-    font-weight: bold;
+.login form {
+  display: flex;
+  flex-direction: column;
+  gap: 5vw;
 }
-
-.form-input {
-    padding: 8px;
-    margin-bottom: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.login form label {
+  display: flex;
+  flex-direction: column;
+  width: 60vw;
 }
-
-.form-button {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #549e87;
-    color: #4c9a91;
-    cursor: pointer;
-}
-
-.alert-container {
-    margin-top: 20px;
-}
-
-.alert-message {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #dc3545;
-    border-radius: 5px;
-    background-color: #f8d7da;
-    color: #721c24;
-}
-
-.close-button {
-    float: right;
-    cursor: pointer;
+.login input{
+  appearance: none; 
+  border: none;
+  /*outline: none;*/
+  -webkit-appearance: none;
+  background-color: #E0F2F1;
+  border-radius: 30px;
+  caret-color: #00897B;
+  transition: border .3s ease;
+  padding: 1.5vw;
+  font-size: 3vw;
+    &:focus {
+      outline: none;
+      box-shadow: #00897B 0px 1px 2px 0px, #00897B 0px 1px 4px 1px;
+    }
 }

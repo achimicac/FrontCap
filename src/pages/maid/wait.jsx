@@ -1,14 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 import ProfileBox from "../../components/ProfileBox";
 import Popup from "../../components/Popup";
-import axios from "axios";
+import Axios  from "../../axios"
 
 function MaidStatusWait() {
     const invoiceID = useRef(null);
     const [customers, setCustomers] = useState([
-        { id: 1, firstname: "atchima", lastname: "nateepradap", jobtype: ["กวาดบ้าน", "ถูบ้าน", "ล้างจาน", "สักผ้า"] },
-        { id: 2, firstname: "atchima", lastname: "nateepradap", jobtype: ["กวาดบ้าน", "ถูบ้าน", "ล้างจาน", "สักผ้า"] },
-        { id: 3, firstname: "atchi", lastname: "natee", jobtype: ["กวาดบ้าน", "ถูบ้าน", "ล้างจาน", "สักผ้า"] }
+        { id: 1, firstname: "atchima", lastname: "nateepradap", jobtype: ["กวาดบ้าน", "ถูบ้าน", "ล้างจาน", "สักผ้า", "ถูบ้าน", "ล้างจาน", "สักผ้า"], start_time: '13:00:00', end_time: '14:00:00', work_date: '12 ก.ย. 66' },
+        { id: 2, firstname: "atchima", lastname: "nateepradap", jobtype: ["กวาดบ้าน", "ถูบ้าน", "ล้างจาน", "สักผ้า"], start_time: '13:00:00', end_time: '14:00:00', work_date: '12 ก.ย. 66' },
+        { id: 3, firstname: "atchi", lastname: "natee", jobtype: ["กวาดบ้าน", "ถูบ้าน", "ล้างจาน", "สักผ้า"], start_time: '13:00:00', end_time: '14:00:00', work_date: '12 ก.ย. 66' }
     ]);
     const [alertConfirm, setAlertConfirm] = useState(false);
     const [alertCancel, setAlertCancel] = useState(false);
@@ -16,7 +16,7 @@ function MaidStatusWait() {
     /*useEffect(() => {
       const fetchCustomer = async () => {
             try {
-                  const res = await axios.get('/api/maid/status/wait')
+                  const res = await Axios.get('/api/maid/status/wait')
                   setCustomers(res.data)
             } catch (err) {
                   console.log(err)
@@ -28,7 +28,7 @@ function MaidStatusWait() {
 
     const handleClickConfirmOK = async () => {
       try {
-            const changestatus = await axios.put("/api/maid/status/wait", invoiceID.current);
+            const changestatus = await Axios.put("/api/maid/status/wait", invoiceID.current);
             if (changestatus.data.status) {
                   console.log(changestatus.data.text)
             } else {
@@ -41,7 +41,7 @@ function MaidStatusWait() {
 
     const handleClickCancelOK = async () => {
         try {
-            const deletetask = await axios.delete("/api/maid/status/wait", invoiceID.current);
+            const deletetask = await Axios.delete("/api/maid/status/wait", invoiceID.current);
             if (deletetask.data.status) {
                   console.log(deletetask.data.text)
             } else {
@@ -82,6 +82,7 @@ function MaidStatusWait() {
                     {customer.id &&
                         <ProfileBox
                             user={customer}
+                            buttonName="รับงานนี้"
                             clickConfirm={() => handleClickConfirm(customer.id)}
                             clickCancel={() => handleClickCancel(customer.id)}
                         />

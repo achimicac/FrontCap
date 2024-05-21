@@ -2,6 +2,8 @@ import { useState, useCallback } from "react";
 import ProfileEdit from "../../components/ProfileEdit";
 import Popup from "../../components/Popup";
 import { useNavigate } from "react-router-dom";
+import Axios  from "../../axios"
+import { HiAnnotation } from "react-icons/hi";
 
 function UserProfileEdit() {
       const navigate = useNavigate();
@@ -18,7 +20,7 @@ function UserProfileEdit() {
       /*useEffect(() => {
             const fetchProfile = async () => {
                   try {
-                        const res = await axios.get('/api/customer/profile/edit')
+                        const res = await Axios.get('/api/customer/profile/edit')
                         setUser(res.data.profile);
                   } catch (err) {
                         console.log(err)
@@ -45,7 +47,7 @@ function UserProfileEdit() {
                     formData.append(key, user[key]);
                 }
     
-                const {editprofile} = await axios.put('/api/customer/profile/edit', formData)
+                const {editprofile} = await Axios.put('/api/customer/profile/edit', formData)
     
                 if ( !editprofile.data.success ) {
                     setMessage(editprofile.data.text)
@@ -86,16 +88,14 @@ function UserProfileEdit() {
                         clickCancel={() => { setAlertCancel(false) }} 
                         clickOK={handleClickCancelOK} 
                   />
-                  <h1> Edit Profile </h1>
+
                   <form>
                         <ProfileEdit 
                               user={user} 
                               handleChange={handleChange} 
-                              handleSubmit={handleSubmit} 
-                              handleCancle={handleClickCancel}
+                              clickSubmit={handleSubmit}
+                              clickCancel={handleClickCancel}
                         />
-                        <button onClick={handleSubmit}> Confirm </button>
-                        <button onClick={handleClickCancel}> Cancle </button>
                   </form>
             </>
       )

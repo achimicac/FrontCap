@@ -3,6 +3,7 @@ import ProfileEdit from "../../components/ProfileEdit";
 import Popup from "../../components/Popup";
 import { useNavigate } from "react-router-dom";
 import ManageJob from "../../components/ManageJob";
+import Axios  from "../../axios"
 
 function MaidProfileEdit() {
       const navigate = useNavigate();
@@ -34,7 +35,7 @@ function MaidProfileEdit() {
       /*useEffect(() => {
             const fetchProfile = async () => {
                   try {
-                        const res = await axios.get('/api/maid/profile/edit')
+                        const res = await Axios.get('/api/maid/profile/edit')
                         setMaid(res.data.profile);
                         setJobchoices(res.data.jobchoices)
                   } catch (err) {
@@ -74,7 +75,7 @@ function MaidProfileEdit() {
                     formData.append(key, maid[key]);
                 }
     
-                const {editprofile} = await axios.put('/api/maid/profile/edit', formData)
+                const {editprofile} = await Axios.put('/api/maid/profile/edit', formData)
     
                 if ( !editprofile.data.success ) {
                     setMessage(editprofile.data.text)
@@ -115,17 +116,18 @@ function MaidProfileEdit() {
                         clickCancel={() => { setAlertCancel(false) }} 
                         clickOK={handleClickCancelOK} 
                   />
-                  <h1> Edit Profile </h1>
+                  
                   <form>
                         <ProfileEdit 
                               user={maid} 
                               handleChange={handleChange} 
                               handleSubmit={handleSubmit} 
                               handleCancle={handleClickCancel}
+                              manageJob={handleChange}
+                              jobchoices={jobchoices}
+                              clickSubmit={handleSubmit}
+                              clickCancle={handleClickCancel}
                         />
-                        <ManageJob user={maid} jobchoices={jobchoices} handleChange={handleChange} />
-                        <button onClick={handleSubmit}> Confirm </button>
-                        <button onClick={handleClickCancel}> Cancle </button>
                   </form>
             </>
       )

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Profile from "../../components/Profile";
 import { useNavigate } from "react-router-dom";
+import Axios  from "../../axios"
 
 function UserProfile() {
       const navigate = useNavigate();
@@ -9,12 +10,7 @@ function UserProfile() {
             id: 1, 
             firstname: "atchima", 
             lastname: "nateepradap",
-            birthday: '12-09-2003', 
-            jobtype: [
-                  {job_id: 1, job_name: "กวาดบ้าน"}, 
-                  {job_id: 2, job_name: "ถูบ้าน"}, 
-                  {job_id: 3, job_name: "ล้างจาน"}
-            ], 
+            birthday: '12-09-2003',  
             role: 'user' 
       });
       //const [user, setUser] = useState();
@@ -22,7 +18,7 @@ function UserProfile() {
       /*useEffect(() => {
             const fetchUser = async () => {
                   try {
-                        const res = await axios.get('/api/customer/profile')
+                        const res = await Axios.get('/api/customer/profile')
                         setUser(res.data)
                   } catch (err) {
                         console.log(err)
@@ -38,8 +34,7 @@ function UserProfile() {
 
       return (
             <>
-                  <Profile user={user} isMaid={false} />
-                  <button onClick={handleClick}> Edit </button>
+                  <Profile user={user} isMaid={false} clickEdit={handleClick}/>
             </>
       )
 }
