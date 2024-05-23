@@ -34,7 +34,7 @@ function StatusBar() {
                                                       </NavLink>
                                                 </li>
                                                 <li>
-                                                      <NavLink to="status">
+                                                      <NavLink to="status/wait">
                                                             <GiBroom />
                                                             งานของคุณ
                                                       </NavLink>

@@ -34,6 +34,8 @@ function App() {
     },{
         path: 'login',
         element: <Login />
+    },{
+        path: 'logout'
     },
     //Maid Routes
         {

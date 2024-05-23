@@ -2,9 +2,9 @@ import React, { useState, useCallback, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import Popup from "../components/Popup";
-
 import ManageJob from "../components/ManageJob";
 import Map from "../components/Map";
+import './styles/register.css'
 
 function Signup() {
   const navigate = useNavigate();
@@ -122,7 +122,7 @@ function Signup() {
     console.log("location:  " + user.address.latitude + "  " + user.address.longitude)
 
     return (
-        <>
+        <div className="signup">
             <Popup
                 alert={alert}
                 message={alertMessage}
@@ -134,199 +134,195 @@ function Signup() {
                 </div>
             }
 
+            <main>
+                <form className={showMap ? "blurred" : ""} >
+                    {page === 0 && (
+                        <section className='signup-form'>
+                            <h1
+                                style={{
+                                    textAlign: "center",
+                                    fontStyle: "italic",
+                                    color: "#00897B",
+                                }}
+                            ></h1>
+                            <figure onClick={handleClickImg}>
+                                <label>
+                                    {user.user_pic ? (
+                                        <img src={URL.createObjectURL(userImg.current.files[0])} style={{ width: '50vw' }} />
+                                    ) : (
+                                        <img src={"/sudlore.png"} style={{ width: '30vw' }} />
+                                    )}
+                                    <input name='user_pic' type="file" ref={userImg} style={{ display: 'none' }} onChange={handleChange}></input>
+                                </label>
+                            </figure>
 
-
-            
-            <div className="signup-container">
-            <div className="form-container"></div>
-            <form className={showMap ? "blurred" : ""} >
-                {page === 0 && (
-                    <section className='signup-form'>
-                        <h1
-                            style={{
-                                textAlign: "center",
-                                fontStyle: "italic",
-                                color: "#00897B",
-                            }}
-                        ></h1>
-                        <figure onClick={handleClickImg}>
                             <label>
-                                {user.user_pic ? (
-                                    <img src={URL.createObjectURL(userImg.current.files[0])} style={{ width: '50vw' }} />
-                                ) : (
-                                    <img src={"/sudlore.png"} style={{ width: '30vw' }} />
-                                )}
-                                <input name='user_pic' type="file" ref={userImg} style={{ display: 'none' }} onChange={handleChange}></input>
+                                Role
+                                <label>
+                                    user
+                                    <input
+                                        name="role"
+                                        type="radio"
+                                        onChange={handleChange}
+                                        autoComplete="off"
+                                        value="user"
+                                        
+                                    />
+                                </label>
+                                <label>
+                                    maid
+                                    <input
+                                        name='role'
+                                        type='radio'
+                                        onChange={handleChange}
+                                        autoComplete='off'
+                                        value='maid'
+                                        
+                                    />
+                                </label>
                             </label>
-                        </figure>
 
-                        <label>
-                            Role
+                    <label>
+                    Firstname
+                    <input
+                        name="firstname"
+                        type="text"
+                        onChange={handleChange}
+                        autoComplete="off"
+                        value={user.firstname}
+                        //required
+                    />
+                    </label>
+
+                    <label>
+                    Lastname
+                    <input
+                        name="lastname"
+                        type="text"
+                        onChange={handleChange}
+                        autoComplete="off"
+                        value={user.lastname}
+                        //required
+                    />
+                    </label>
+
+                    <label>
+                    Birthday
+                    <input
+                        name="birthday"
+                        type="date"
+                        onChange={handleChange}
+                        autoComplete="off"
+                        value={user.birthday}
+                        //required
+                    />
+                    </label>
+
+                    <label>
+                    Telephone
+                    <input
+                        name="telephone"
+                        type="text"
+                        onChange={handleChange}
+                        autoComplete="off"
+                        value={user.telephone}
+                        //placeholder="xxx-xxx-xxxx"
+                        //pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                        maxLength={10}
+                        //required
+                    />
+                    </label>
+
                             <label>
-                                user
+                                Email
                                 <input
-                                    name="role"
-                                    type="radio"
+                                    name='email'
+                                    type='email'
                                     onChange={handleChange}
-                                    autoComplete="off"
-                                    value="user"
-                                    
+                                    autoComplete='off'
+                                    value={ user.email }
+                                    //required
                                 />
                             </label>
+
                             <label>
-                                maid
+                                Address
+                                <label>
+                                    Latitude
+                                    <input 
+                                        name="latitude"
+                                        type="number"
+                                        onChange={handleChange}
+                                        onClick={SelectLocation}
+                                        autoComplete='off'
+                                        value={ user.address.latitude  }
+                                    />
+                                </label>
+                                {/*<label>
+                                    Longtitude
+                                    <input 
+                                        name="longtitude"
+                                        type="number"
+                                        onChange={handleChange}
+                                        autoComplete='off'
+                                        value={ user.address.longtitude}
+                                    />
+                                </label>*/}
+                                <label>
+                                    More Information
+                                    <input 
+                                        name="address"
+                                        type="text"
+                                        onChange={handleChange}
+                                        autoComplete='off'
+                                        value={ user.address.address }
+                                    />
+                                </label>
+                            </label>
+
+                    <label>
+                    Password
+                    <input
+                        name="password"
+                        type="password"
+                        onChange={handleChange}
+                        autoComplete="off"
+                        value={user.password}
+                        //required
+                    />
+                    </label>
+
+                            <label>
+                                Confirm Password
                                 <input
-                                    name='role'
-                                    type='radio'
-                                    onChange={handleChange}
+                                    name='cfpw'
+                                    type='password'
+                                    onChange={ (e) => setCfpw(e.target.value) }
                                     autoComplete='off'
-                                    value='maid'
-                                    
+                                    value={ cfpw }
+                                    //required
                                 />
+                                <p style={isMatch ? {display: 'none'}:{}}> Password is not Match!</p>
                             </label>
-                        </label>
 
-                <label>
-                  Firstname
-                  <input
-                    name="firstname"
-                    type="text"
-                    onChange={handleChange}
-                    autoComplete="off"
-                    value={user.firstname}
-                    //required
-                  />
-                </label>
+                            {(page === 0 && user.role === "maid") && <button type="button" onClick={nextPage}> Next </button>}
+                            {((page === 0 && user.role === "user") || page === 1) && <button type="submit" onClick={handleSubmit}> Sign Up </button>}
 
-                <label>
-                  Lastname
-                  <input
-                    name="lastname"
-                    type="text"
-                    onChange={handleChange}
-                    autoComplete="off"
-                    value={user.lastname}
-                    //required
-                  />
-                </label>
+                        </section>
+                    )}
 
-                <label>
-                  Birthday
-                  <input
-                    name="birthday"
-                    type="date"
-                    onChange={handleChange}
-                    autoComplete="off"
-                    value={user.birthday}
-                    //required
-                  />
-                </label>
+                    {page === 1 && (
+                        <section className="addjob-form">
+                            <ManageJob user={user} handleChange={handleChange} jobchoices={jobchoices}/>
+                        </section>
+                    )}
 
-                <label>
-                  Telephone
-                  <input
-                    name="telephone"
-                    type="text"
-                    onChange={handleChange}
-                    autoComplete="off"
-                    value={user.telephone}
-                    //placeholder="xxx-xxx-xxxx"
-                    //pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                    maxLength={10}
-                    //required
-                  />
-                </label>
-
-                        <label>
-                            Email
-                            <input
-                                name='email'
-                                type='email'
-                                onChange={handleChange}
-                                autoComplete='off'
-                                value={ user.email }
-                                //required
-                            />
-                        </label>
-
-                        <label>
-                            Address
-                            <label>
-                                Latitude
-                                <input 
-                                    name="latitude"
-                                    type="number"
-                                    onChange={handleChange}
-                                    onClick={SelectLocation}
-                                    autoComplete='off'
-                                    value={ user.address.latitude  }
-                                />
-                            </label>
-                            {/*<label>
-                                Longtitude
-                                <input 
-                                    name="longtitude"
-                                    type="number"
-                                    onChange={handleChange}
-                                    autoComplete='off'
-                                    value={ user.address.longtitude}
-                                />
-                            </label>*/}
-                            <label>
-                                More Information
-                                <input 
-                                    name="address"
-                                    type="text"
-                                    onChange={handleChange}
-                                    autoComplete='off'
-                                    value={ user.address.address }
-                                />
-                            </label>
-                        </label>
-
-                <label>
-                  Password
-                  <input
-                    name="password"
-                    type="password"
-                    onChange={handleChange}
-                    autoComplete="off"
-                    value={user.password}
-                    //required
-                  />
-                </label>
-
-                        <label>
-                            Confirm Password
-                            <input
-                                name='cfpw'
-                                type='password'
-                                onChange={ (e) => setCfpw(e.target.value) }
-                                autoComplete='off'
-                                value={ cfpw }
-                                //required
-                            />
-                            <p style={isMatch ? {display: 'none'}:{}}> Password is not Match!</p>
-                        </label>
-
-                        {(page === 0 && user.role === "maid") && <button type="button" onClick={nextPage}> Next </button>}
-                        {((page === 0 && user.role === "user") || page === 1) && <button type="submit" onClick={handleSubmit}> Sign Up </button>}
-
-                    </section>
-                )}
-
-                {page === 1 && (
-                    <section className="addjob-form">
-                        <ManageJob user={user} handleChange={handleChange} jobchoices={jobchoices}/>
-                    </section>
-                )}
-
-                {(page === 0 && user.role === "maid") && <button type="button" onClick={nextPage}> Next </button>}
-                {((page === 0 && user.role === "user") || page === 1) && <button type="submit" onClick={handleSubmit}> Sign Up </button>}
-                
-            </form>
+                    {(page === 0 && user.role === "maid") && <button type="button" onClick={nextPage}> Next </button>}
+                    {((page === 0 && user.role === "user") || page === 1) && <button type="submit" onClick={handleSubmit}> Sign Up </button>}
+                    
+                </form>
+            </main>
         </div>
-        </>
     )
 }
 
