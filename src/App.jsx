@@ -6,7 +6,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import Signup from "./pages/signup";
+import Register from "./pages/register";
 import Login from "./pages/login";
 import Navbar from "./components/Navbar";
 import StatusBar from "./components/StatusBar";
@@ -38,7 +38,7 @@ function App() {
     },
     {
       path: "register",
-      element: <Signup />,
+      element: <Register />,
     },
     {
       path: "login",
