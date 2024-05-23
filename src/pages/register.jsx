@@ -381,7 +381,7 @@ function Register() {
           {((page === 0 && user.user_role === "user") || page === 1) && (
             <button type="submit" onClick={handleSubmit}>
               {" "}
-              Sign Up{" "}
+              Register{" "}
             </button>
           )}
         </form>
