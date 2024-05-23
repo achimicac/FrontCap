@@ -1,5 +1,6 @@
 // CanvasMap.js
 import React, { useEffect, useRef, useState } from 'react';
+import './css/map.css'
 
 const Map = ({ handleLocation }) => {
       const canvasRef = useRef(null);
@@ -101,13 +102,8 @@ const Map = ({ handleLocation }) => {
 
       return (
             <div
+                  className='map-location'
                   ref={containerRef}
-                  style={{
-                        overflow: 'auto',
-                        width: '200px',
-                        height: '200px',
-                        touchAction: 'none',
-                  }}
                   onMouseDown={handleMouseDown}
                   onMouseMove={handleMouseMove}
                   onMouseUp={handleMouseUp}
