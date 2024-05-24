@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import ProfileBox from "../../components/ProfileBox";
 import Popup from "../../components/Popup";
 import Axios  from "../../axios"
+import './styles/blurBackground.css'
 
 function MaidStatusWork() {
     const invoiceID = useRef(null);
@@ -50,17 +51,19 @@ function MaidStatusWork() {
                   clickCancel={() => { setAlertConfirm(false) }} 
                   clickOK={handleClickConfirmOK}
             />
-            {customers.map((customer, customerid) => (
-                  <section key={customerid}>
-                        {customer.id &&
-                        <ProfileBox
-                              user={customer}
-                              clickConfirm={() => handleClickConfirm(customer.id)}
-                              buttonName="สิ้นสุดงาน"
-                        />
-                        }
-                  </section>
-            ))}
+            <div  className={`page-container ${alertConfirm ? 'blurred' : ''}`}>
+                  {customers.map((customer, customerid) => (
+                        <section key={customerid}>
+                              {customer.id &&
+                              <ProfileBox
+                                    user={customer}
+                                    clickConfirm={() => handleClickConfirm(customer.id)}
+                                    buttonName="สิ้นสุดงาน"
+                              />
+                              }
+                        </section>
+                  ))}
+            </div>
         </>
     )
 }

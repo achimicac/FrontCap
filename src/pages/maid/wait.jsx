@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import ProfileBox from "../../components/ProfileBox";
 import Popup from "../../components/Popup";
 import Axios  from "../../axios"
+import './styles/blurBackground.css'
 
 function MaidStatusWait() {
     const invoiceID = useRef(null);
@@ -77,18 +78,20 @@ function MaidStatusWait() {
                   clickCancel={() => { setAlertCancel(false) }} 
                   clickOK={handleClickCancelOK} 
             />
-            {customers.map((customer, customerid) => (
-                <section key={customerid}>
-                    {customer.id &&
-                        <ProfileBox
-                            user={customer}
-                            buttonName="รับงานนี้"
-                            clickConfirm={() => handleClickConfirm(customer.id)}
-                            clickCancel={() => handleClickCancel(customer.id)}
-                        />
-                    }
-                </section>
-            ))}
+            <div  className={`page-container ${alertConfirm || alertCancel ? 'blurred' : ''}`}>
+                  {customers.map((customer, customerid) => (
+                  <section key={customerid} >
+                        {customer.id &&
+                              <ProfileBox
+                              user={customer}
+                              buttonName="รับงานนี้"
+                              clickConfirm={() => handleClickConfirm(customer.id)}
+                              clickCancel={() => handleClickCancel(customer.id)}
+                              />
+                        }
+                  </section>
+                  ))}
+            </div>
         </>
     )
 }

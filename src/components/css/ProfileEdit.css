@@ -55,6 +55,7 @@ main.editprofile-wrapper main section b {
       font-size: 4vw;
       border-radius: 50px;
       padding: 0vw 2vw ;
+      align-self: center;
 }
 main.editprofile-wrapper main section:nth-child(-n + 7) input {
       font-size: 3vw;
@@ -138,20 +139,24 @@ main.editprofile-wrapper footer button:disabled {
             height: 100%;
       }
       main.editprofile-wrapper main section b {
-            font-size: 1.5vw;
+            font-size: 3vh;
       }
       main.editprofile-wrapper main section input {
-            font-size: 1.5vw;
+            font-size: 5vh;
       }
       main.editprofile-wrapper footer button {
-            font-size: 2vw;
+            font-size: 3vh;
       }
       main.editprofile-wrapper main {
-            row-gap: 1.5vw;
+            row-gap: 2vh;
             border-top-right-radius: 0px;
             border-bottom-left-radius: 30px;
       }
       main.editprofile-wrapper main section {
             padding: 1vw;
+      }
+      main.editprofile-wrapper main section:nth-child(-n + 7) input,
+      main.editprofile-wrapper radio-wrapper label{
+            font-size: 3vh;
       }
 }

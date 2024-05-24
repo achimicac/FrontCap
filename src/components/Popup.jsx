@@ -6,17 +6,15 @@ import './css/Popup.css'
 
 function Popup({alert, message, clickCancel, clickOK, buttonName='OK'}) {
       return (
-            <dialog className={`${alert ? 'show' : ''}`}>
-                  <p onClick={clickCancel}><MdCancel/></p>
-                  <p> {message} </p>
-
-                  
+            <dialog className={`${alert ? 'show' : ''}`} id="popup">
+                  <span onClick={clickCancel}><MdCancel color="#00897B"/></span>
+                  <span> {message} </span>
                   <section className='popup_button'>
                         {clickOK && 
                               <button onClick={clickOK}> {buttonName} </button>
                         }
                         {clickCancel && 
-                              <button onClick={clickCancel} > CANCLE </button>
+                              <button onClick={clickCancel} className="cancle"> ยกเลิก </button>
                         }
                   </section>
                   

@@ -1,0 +1,24 @@
+
+.page-container.blurred {
+      filter: blur(5px);
+}
+  
+dialog.show {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      z-index: 50;
+      margin-top: 30vh;
+      border: 0;
+      border-radius: 30px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+dialog.show::backdrop {
+      backdrop-filter: blur(5px) !important;
+}
+
+dialog.show .popup_button {
+      align-self: flex-end;
+}
+  
