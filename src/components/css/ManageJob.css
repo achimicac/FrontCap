@@ -13,6 +13,11 @@ section.manage-job{
       display: flex;
       flex-wrap: wrap;
 }
+.manage-job section:nth-child(2).joblist > p{
+      background-color: pink;
+      padding: 2vw;
+      border-radius: 30px;
+}
 .manage-job section:nth-child(3).job-choices {
       height: 20vh;
       flex-direction: column;
