@@ -31,18 +31,18 @@ import { AuthProvider } from "./Auth/AuthProvider";
 //Component 3 หน้าของ Maid Status รูปแบบเหมือนกันเลย อาจจะมาแก้ให้เป็นใช้ component ร่วมกันไปเลย
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "",
-      element: <roleAccess />,
-    },
-    {
-      path: "register",
-      element: <Register />,
-    },
-    {
-      path: "login",
-      element: <Login />,
+
+    const router = createBrowserRouter([{
+        path: '',
+        element: <roleAccess />
+    },{
+        path: 'register',
+        element: <Register />
+    },{
+        path: 'login',
+        element: <Login />
+    },{
+        path: 'logout'
     },
     //Maid Routes
     {

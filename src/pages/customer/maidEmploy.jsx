@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Popup from "../../components/Popup";
 import EmployMaid from "../../components/EmployMaid";
 import Axios  from "../../axios"
+import './css/maidEmploy.css'
 
 function UserMaidEmploy() {
     const { id } = useParams();
@@ -27,8 +28,17 @@ function UserMaidEmploy() {
     });
 
     const [roomchoices, setRoomchoices] = useState([
-        { room_id: 1, room_type: "S", room_size: "10.5", room_price: 100 },
+        { room_id: 1, room_type: "S", room_size: "10.5 x 5", room_price: 100 },
         { room_id: 2, room_type: "M", room_size: "20.5", room_price: 200 },
+        { room_id: 3, room_type: "L", room_size: "30.5", room_price: 300 },
+        { room_id: 3, room_type: "L", room_size: "30.5", room_price: 300 },
+        { room_id: 3, room_type: "L", room_size: "30.5", room_price: 300 },
+        { room_id: 3, room_type: "L", room_size: "30.5", room_price: 300 },
+        { room_id: 1, room_type: "S", room_size: "10.5 x 5", room_price: 100 },
+        { room_id: 2, room_type: "M", room_size: "20.5", room_price: 200 },
+        { room_id: 3, room_type: "L", room_size: "30.5", room_price: 300 },
+        { room_id: 3, room_type: "L", room_size: "30.5", room_price: 300 },
+        { room_id: 3, room_type: "L", room_size: "30.5", room_price: 300 },
         { room_id: 3, room_type: "L", room_size: "30.5", room_price: 300 },
     ]);
 
@@ -37,6 +47,12 @@ function UserMaidEmploy() {
         { job_id: 2, job_name: "ถูบ้าน" },
         { job_id: 3, job_name: "ล้างจาน" },
         { job_id: 4, job_name: "ถูบ้าน" },
+        { job_id: 5, job_name: "ถูบ้าน" },
+        { job_id: 5, job_name: "ถูบ้าน" },
+        { job_id: 5, job_name: "ถูบ้าน" },
+        { job_id: 5, job_name: "ถูบ้าน" },
+        { job_id: 5, job_name: "ถูบ้าน" },
+        { job_id: 5, job_name: "ถูบ้าน" },
         { job_id: 5, job_name: "ถูบ้าน" },
     ]);
 
@@ -162,11 +178,10 @@ function UserMaidEmploy() {
         setAlertCancel(true);
     }
 
-    console.log(newInvoice.amount)
-    console.log(newInvoice.end_time)
+    console.log(newInvoice.job_id)
 
     return (
-        <>
+        <div className="maid-employ">
             <Popup
                 alert={alertSelectTime}
                 message={'กรุณาเลือกวันเวลาใหม่ หรือ ลดจำนวนงาน'}
@@ -206,10 +221,12 @@ function UserMaidEmploy() {
                     jobchoices={jobchoices}
                     handleChange={handleChange}
                 />
-                <button onClick={handleSubmit}> Confirm </button>
-                <button onClick={handleClickCancel}> Cancel </button>
+                <footer>
+                    <button className="cancle" onClick={handleClickCancel}> Cancel </button>
+                    <button onClick={handleSubmit}> Confirm </button>
+                </footer>
             </form>
-        </>
+        </div>
     );
 }
 

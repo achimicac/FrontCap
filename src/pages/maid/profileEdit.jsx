@@ -4,6 +4,7 @@ import Popup from "../../components/Popup";
 import { useNavigate } from "react-router-dom";
 import ManageJob from "../../components/ManageJob";
 import Axios  from "../../axios"
+import './styles/blurBackground.css'
 
 function MaidProfileEdit() {
       const navigate = useNavigate();
@@ -117,18 +118,20 @@ function MaidProfileEdit() {
                         clickOK={handleClickCancelOK} 
                   />
                   
-                  <form>
-                        <ProfileEdit 
-                              user={maid} 
-                              handleChange={handleChange} 
-                              handleSubmit={handleSubmit} 
-                              handleCancle={handleClickCancel}
-                              manageJob={handleChange}
-                              jobchoices={jobchoices}
-                              clickSubmit={handleSubmit}
-                              clickCancle={handleClickCancel}
-                        />
-                  </form>
+                  <div  className={`page-container ${alertConfirm || alertCancel ? 'blurred' : ''}`}>
+                        <form>
+                              <ProfileEdit 
+                                    user={maid} 
+                                    handleChange={handleChange} 
+                                    handleSubmit={handleSubmit} 
+                                    handleCancle={handleClickCancel}
+                                    manageJob={handleChange}
+                                    jobchoices={jobchoices}
+                                    clickSubmit={handleSubmit}
+                                    clickCancle={handleClickCancel}
+                              />
+                        </form>
+                  </div>
             </>
       )
 }

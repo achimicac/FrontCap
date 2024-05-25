@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Axios  from "../../axios"
 import RatingBox from "../../components/RatingBox";
 import Popup from "../../components/Popup";
+import './css/rating.css'
 
 function UserStatusRating() {
     const [invoice, setInvoice] = useState([
@@ -64,9 +65,11 @@ function UserStatusRating() {
                 message={"Review success"}
                 clickCancel={()=>{setAlert(false)}}
             />
-            {invoice.map((maid, index) => (
-                <RatingBox key={index} handleSubmit={handleSubmit} maid={maid} clickStar={handleStarClick} handleChange={handleComment}/>
-            ))}
+            <section className="rating-page">
+                {invoice.map((maid, index) => (
+                    <RatingBox key={index} handleSubmit={handleSubmit} maid={maid} clickStar={handleStarClick} handleChange={handleComment}/>
+                ))}
+            </section>
         </>
     );
 }

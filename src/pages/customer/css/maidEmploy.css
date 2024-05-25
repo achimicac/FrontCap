@@ -1,38 +1,12 @@
-dialog.show{
-      display: block;
-      z-index: 50;
-}
-dialog.show {
-      margin-top: 30vh;
+.maid-employ > form {
       display: flex;
       flex-direction: column;
-      position: fixed;
-      border: 0px;
-      border-radius: 30px;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-      width: 80vw;
-      padding: 5vw;
 }
-dialog.show > span:first-child{
-      font-size: 5vw;
-      margin-bottom: 3vw;
-      align-self: flex-end;
-}
-dialog.show > span:nth-child(2){
-      font-size: 4vw;
-}
-dialog.show .popup_button{
-      align-self: flex-end;
-}
-
-
-dialog.show .popup_button {
-      padding: 5vw;
-      display: flex;
+.maid-employ > form > footer {
       align-self: center;
-      gap: 2vw;
+      margin-bottom: 10vw;
 }
-dialog.show .popup_button button {
+.maid-employ > form > footer > button {
       appearance: button;
       background-color: #00897B;
       background-image: linear-gradient(180deg, rgba(255, 255, 255, .15), rgba(255, 255, 255, 0));
@@ -57,63 +31,46 @@ dialog.show .popup_button button {
       touch-action: manipulation;
       vertical-align: middle;
 }
-dialog.show .popup_button button.cancle{
+.maid-employ > form > footer > button.cancle{
       background-color: white;
       border: 2px solid #00897B;
       color: #00897B
 }
-dialog.show .popup_button button:focus:not(:focus-visible),
-dialog.show .popup_button button:focus {
+.maid-employ > form > footer > button:focus:not(:focus-visible),
+.maid-employ > form > footer > button:focus {
       outline: 0;
 }
-dialog.show .popup_button button:hover {
+.maid-employ > form > footer > button:hover {
       background-color: #00897B;
       border-color: #00897B;
 }
-dialog.show .popup_button button.cancle{
+.maid-employ > form > footer > button.cancle{
       background-color: white;
       border-color: #00897B;
 }
-dialog.show .popup_button button:focus {
+.maid-employ > form > footer > button:focus {
       background-color: #80CBCE;
       border-color: #93c9ca;
       box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0 inset, rgba(46, 54, 80, 0.075) 0 1px 1px, rgba(104, 101, 235, 0.5) 0 0 0 .2rem;
 }
-dialog.show .popup_button button:active {
+.maid-employ > form > footer > button:active {
       background-color: #519ea1;
       background-image: none;
       border-color: #5bc6cc;
       box-shadow: rgba(46, 54, 80, 0.125) 0 3px 5px inset;
 }
-dialog.show .popup_button button:focus {
+.maid-employ > form > footer > button:focus {
       box-shadow: rgba(3, 84, 69, 0.125) 0 3px 5px inset, rgba(104, 101, 235, 0.5) 0 0 0 .2rem;
 }
-dialog.show .popup_button button:disabled {
+.maid-employ > form > footer > button:disabled {
       background-image: none;
       box-shadow: none;
       opacity: 0.65;
       pointer-events: none;
 }
 
-@media (min-width: 600px) {
-      dialog.show {
-            margin-top: 30vh;
-            height: 30vh;
-            width: 50vw;
-            padding: 5vh;
-      }
-      dialog.show > span:first-child{
-            font-size: 5vh;
-            margin-bottom: 3vh;
-      }
-      dialog.show > span:nth-child(2){
-            font-size: 4vh;
-      }
-      dialog.show .popup_button {
-            padding: 5vh;
-            gap: 2vh;
-      }
-      dialog.show .popup_button button {
+@media (min-width: 600px){
+      .maid-employ > form > footer > button {
             font-size: 3vh;
             padding: 0.5vw 5vh;
       }

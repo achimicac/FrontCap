@@ -151,12 +151,12 @@ function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubm
             <p style={isMatch ? { display: "none" } : {}}>Password is not Match!</p>*/}
             <section>
                 <b>Description</b>
-                <input
-                name="descript"
-                type="textarea"
-                onChange={handleChange}
-                autoComplete="off"
-                value={user.descript}
+                <textarea
+                    name="descript"
+                    type="text"
+                    onChange={handleChange}
+                    autoComplete="off"
+                    value={user.descript}
                 />
             </section>
                 {manageJob &&

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { FaStar } from 'react-icons/fa';
 import Axios  from "../../axios"
 import Profile from "../../components/Profile";
+import './css/maidProfile.css'
 
 
 function UserOtherProfile() {
@@ -17,13 +18,17 @@ function UserOtherProfile() {
             jobtype: [
                   { job_id: 1, job_name: "กวาดบ้าน" },
                   { job_id: 2, job_name: "ถูบ้าน" },
+                  { job_id: 3, job_name: "ล้างจาน" },
                   { job_id: 3, job_name: "ล้างจาน" }
             ],
             distance: 3.0,
             reviews: [
-                  { customer_id: 2, review_id: 1, star: 4, comment: "She's ok", rating: 2 },
-                  { customer_id: 2, review_id: 1, star: 3, comment: "She's ok", rating: 4 },
-                  { customer_id: 2, review_id: 1, star: 4, comment: "She's ok", rating: 3 },
+                  { customer_id: 2, review_id: 1, star: 4, comment: "She's okShe's okShe's okShe's okShe's okShe's okShe's okShe's okShe's okShe's okShe's okShe's okShe's okShe's okShe's okShe's okShe's okShe's okShe's ok", rating: 2, firstname: 'สมหมาย' },
+                  { customer_id: 2, review_id: 1, star: 3, comment: "She's ok okShe's okShe's okShe's okShe's okShe's okShe's okShe's okShe's okShe's okShe's okShe's okShe's ok", rating: 4, firstname: 'สมหมาย' },
+                  { customer_id: 2, review_id: 1, star: 4, comment: "She's ok", rating: 3, firstname: 'สมหมาย' },
+                  { customer_id: 2, review_id: 1, star: 4, comment: "She's ok", rating: 3, firstname: 'สมหมาย' },
+                  { customer_id: 2, review_id: 1, star: 4, comment: "She's ok", rating: 3, firstname: 'สมหมาย' },
+                  { customer_id: 2, review_id: 1, star: 4, comment: "She's ok", rating: 3, firstname: 'สมหมาย' },
             ],
             role: 'maid',
             description: "Hello I'm the best of housework",
@@ -60,9 +65,7 @@ function UserOtherProfile() {
 
     return (
         <>
-            <header>
-            </header>
-            <main>
+            <main className="customer-maidprofile">
                   <article>
                         <figure>
                               {maid.user_pic ? (
@@ -72,47 +75,55 @@ function UserOtherProfile() {
                               )}
                         </figure>
                         <article>
+                              <header> {maid.firstname}  {maid.lastname} </header>
                               <section>
-                                    <p> {maid.firstname}  {maid.lastname} </p>
+                                    <span>คะแนน</span>
+                                    <span>{maid.avg_rate} / 5.0</span>
                               </section>
                               <section>
-                                    Rating
-                                    <p> {maid.avg_rate} / 5.0 </p>
+                                    <span>ระยะทาง</span>
+                                    <span> {maid.distance} km. </span>
                               </section>
                               <section>
-                                    Distance
-                                    <p> {maid.distance} m. </p>
+                                    <span>ประเภทงาน</span>
+                                    <section className="job-chips">
+                                          {maid.jobtype.map((job, jobin) => (
+                                                <span key={jobin}>{job.job_name}</span>
+                                          ))}
+                                    </section>
                               </section>
                               <section>
-                                    job type
-                                    {maid.jobtype.map((job, jobin) => (
-                                          <p key={job.job_id}> {job.job_name} </p>
-                                    ))}
+                                    <span>ข้อมูลเพิ่มเติม</span>
+                                    <span> {maid.description} </span>
                               </section>
-                              <section>
-                                    Description
-                                    <p> {maid.description} </p>
-                              </section>
-
-                              <button onClick={clickButton}> จ้างแม่บ้าน </button>
+                              <footer>
+                                    <button onClick={clickButton}> จ้างแม่บ้าน </button>
+                              </footer>
                         </article>
                   </article>
                   <article>
-                    Review
+                    <header>รีวิว</header>
                     {maid.reviews.map((review, reviewid) => (
                         <section key={reviewid}>
-                            Rating
-                            {[...Array(5)].map((star, starid) => {
-                                const ratingValue = starid + 1;
-                                return (
-                                    <label key={starid}>
-                                        <FaStar
-                                            color={ratingValue <= review.rating ? '#ffc107' : '#e4e5e9'}
-                                        />
-                                    </label>
-                                );
-                            })}
-                            <p> {review.comment} </p>
+                              <section>
+                                    <span><b>{review.firstname}***</b></span>
+                                    ให้คะแนน
+                                    {[...Array(5)].map((star, starid) => {
+                                          const ratingValue = starid + 1;
+                                          return (
+                                                <label key={starid}>
+                                                <FaStar
+                                                      color={ratingValue <= review.rating ? '#ffc107' : '#e4e5e9'}
+                                                />
+                                                </label>
+                                          );
+                                    })}
+                              </section>
+                              <section className="read-more mb-12">
+                                    <input id={`read-more-checkbox-${reviewid}`} type="checkbox" className="read-more__checkbox" aria-hidden="true" />
+                                    <p className="read-more__text mb-2">{review.comment}</p>
+                                    <label htmlFor={`read-more-checkbox-${reviewid}`} className="read-more__label" data-read-more="Read more" data-read-less="See less" aria-hidden="true"></label>
+                              </section>
                         </section>
                     ))}
                 </article>

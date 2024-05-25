@@ -12,6 +12,8 @@
   flex-direction: column;
   align-items: center;
   padding-bottom: 50vh;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
 }
 .login h1{
   color: #00897B;
@@ -41,4 +43,86 @@
       outline: none;
       box-shadow: #00897B 0px 1px 2px 0px, #00897B 0px 1px 4px 1px;
     }
+}
+.login button {
+  appearance: button;
+  background-color: #00897B;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, .15), rgba(255, 255, 255, 0));
+  border: 1px solid #00897B;
+  border-radius: 1rem;
+  box-shadow: rgba(3, 84, 69, 0.15) 0 1px 0 inset,rgba(46, 54, 80, 0.075) 0 1px 1px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Inter,sans-serif;
+  font-size: 4vw;
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0.5vh 5vw;
+  text-align: center;
+  text-transform: none;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+}
+.login button:focus:not(:focus-visible),
+.login button{
+  outline: 0;
+}
+.login button:hover {
+  background-color: #00897B;
+  border-color: #00897B;
+}
+.login button:focus {
+  background-color: #80CBCE;
+  border-color: #93c9ca;
+  box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0 inset, rgba(46, 54, 80, 0.075) 0 1px 1px, rgba(104, 101, 235, 0.5) 0 0 0 .2rem;
+}
+.login button:active {
+  background-color: #519ea1;
+  background-image: none;
+  border-color: #5bc6cc;
+  box-shadow: rgba(46, 54, 80, 0.125) 0 3px 5px inset;
+}
+.login button:focus {
+  box-shadow: rgba(3, 84, 69, 0.125) 0 3px 5px inset, rgba(104, 101, 235, 0.5) 0 0 0 .2rem;
+}
+.login button:disabled {
+  background-image: none;
+  box-shadow: none;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+@media (min-width: 600px) {
+  .login {
+    justify-content: center;
+    align-items: center;
+  }
+  .login h1{
+    font-size: 4vh;
+  }
+  .login > main {
+    width: 50vw;
+    height: 50vh;
+    padding-bottom: 5vh;
+    border-radius: 30px;
+  }
+  .login form {
+    gap: 5vh;
+  }
+  .login form label {
+    width: 40vh;
+  }
+  .login input{
+    padding: 0.5vw;
+    font-size: 3vh;
+  }
+  .login button {
+    font-size: 3vh;
+  }
 }

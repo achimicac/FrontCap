@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import ProfileBox from "../../components/ProfileBox";
 import Popup from "../../components/Popup";
 import Axios  from "../../axios"
+import '../../components/Helmet.jsx'
 
 function MaidStatusEnd() {
     const [customers, setCustomers] = useState([
@@ -24,6 +25,7 @@ function MaidStatusEnd() {
 
     return (
         <>
+            <maidappHelmet title={'จ้างงานเมด'} description={'จ้าง'}/>
             {customers.map((customer, customerid) => (
                   <section key={customerid}>
                         {customer.id &&
