@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './css/employMaid.css'
 
 function EmployMaid({ oldInvoice, newInvoice, handleChange, roomChoices, jobchoices }) {
     const [startTimeOptions, setStartTimeOptions] = useState([]);
@@ -75,110 +76,129 @@ function EmployMaid({ oldInvoice, newInvoice, handleChange, roomChoices, jobchoi
     };
 
     return (
-        <article>
-            <label htmlFor="date">
-                Date:
-                <input
-                    type="date"
-                    id="date"
-                    name="work_date"
-                    value={newInvoice.work_date}
-                    onChange={handleNewInvoice}
-                    min={getCurrentDate()}
-                    required
-                />
-            </label>
-
-            <label htmlFor="startTime">
-                Start Time:
-                <select
-                    id="startTime"
-                    name="start_time"
-                    value={newInvoice.start_time}
-                    onChange={handleNewInvoice}
-                    disabled={!newInvoice.work_date}
-                    required
-                >
-                    <option value=""> Select Start Time </option>
-                    {startTimeOptions.map((time, index) => (
-                        <option key={index} value={time}>
-                            {time}
-                        </option>
-                    ))}
-                </select>
-            </label>
-
-            {/*<label htmlFor="endTime">
-                End Time:
-                <select
-                    id="endTime"
-                    name="end_time"
-                    value={newInvoice.end_time}
-                    onChange={handleNewInvoice}
-                    disabled={!newInvoice.start_time}
-                    required
-                >
-                    <option value=""> Select End Time </option>
-                    {endTimeOptions.map((time, index) => (
-                        <option key={index} value={time}>
-                            {time}
-                        </option>
-                    ))}
-                </select>
-                    </label>*/}
+        <article className='employ-maid'>
+            <header>รายละเอียดการจ้างงาน</header>
             <article>
-                <p> {newInvoice.end_time} </p>
-            </article>
-
-            <article>
-                Room size
-                {roomChoices.map((room, roomid) => (
-                    <label key={roomid}>
+                <header>เลือกวันเวลา</header>
+                <section>
+                    <label htmlFor="date">
+                        <span>วันที่:</span>
                         <input
-                            type="radio"
-                            name="room_id"
-                            value={room.room_id}
-                            onChange={handleChange}
+                            type="date"
+                            id="date"
+                            name="work_date"
+                            value={newInvoice.work_date}
+                            onChange={handleNewInvoice}
+                            min={getCurrentDate()}
+                            required
                         />
-                        {room.room_type}
-                        {room.room_size}
                     </label>
-                ))}
+                </section>
+                <section>
+                    <label htmlFor="startTime">
+                        <span>เวลาเริ่มงาน:</span>
+                        <select
+                            id="startTime"
+                            name="start_time"
+                            value={newInvoice.start_time}
+                            onChange={handleNewInvoice}
+                            disabled={!newInvoice.work_date}
+                            required
+                        >
+                            <option value=""> เลือกเวลาเริ่มงาน </option>
+                            {startTimeOptions.map((time, index) => (
+                                <option key={index} value={time}>
+                                    {time}
+                                </option>
+                            ))}
+                        </select>
+                    </label>
+                    <label>
+                        <span>เวลาสิ้นสุดงาน:</span>
+                        <span> {newInvoice.end_time} </span>
+                    </label>
+                </section>
+
+                {/*<label htmlFor="endTime">
+                    End Time:
+                    <select
+                        id="endTime"
+                        name="end_time"
+                        value={newInvoice.end_time}
+                        onChange={handleNewInvoice}
+                        disabled={!newInvoice.start_time}
+                        required
+                    >
+                        <option value=""> Select End Time </option>
+                        {endTimeOptions.map((time, index) => (
+                            <option key={index} value={time}>
+                                {time}
+                            </option>
+                        ))}
+                    </select>
+                        </label>*/}
             </article>
 
-            <label>
-                  job type
-                  {newInvoice.job_id.map((job, jobin) => (
-                        <p key={jobin}> { jobchoices.find((jobname) => jobname.job_id === job).job_name } </p>
-                  ))}
-
-                  {jobchoices.map((job, jobin) => (
-                        <section key={jobin}>
-                              <input
-                                    name="job_id"
-                                    type="checkbox"
-                                    value={job.job_id}
-                                    checked={newInvoice.job_id.some(maidJob => maidJob === job.job_id)}
-                                    onChange={handleChange}
-                              />
-                              {job.job_name}
-                        </section>
-                  ))}
-            </label>
-
-            <label>
-                More Detail
-                <input 
-                    name='detail'
-                    type='textarea'
-                    onChange={handleChange}
-                    autoComplete='off'
-                    value={ newInvoice.detail } // Changed datail to detail
-                />
-            </label>
             <article>
-                <header> price </header>
-                <p> { newInvoice.amount } </p>
+                <header>เลือกขนาดห้อง</header>
+                <section>
+                    {roomChoices.map((room, roomid) => (
+                        <label key={roomid}>
+                            <input
+                                type="radio"
+                                name="room_id"
+                                value={room.room_id}
+                                onChange={handleChange}
+                                style={{'display': 'none'}}
+                                required
+                            />
+                            <span>{room.room_type}</span>
+                            <span>{room.room_size} ตรม.</span>
+                        </label>
+                    ))}
+                </section>
+            </article>
+            <article>
+                <b>ชนิดงาน:</b>
+                <section className="joblist">
+                    {newInvoice.job_id.map((job, jobin) => (
+                        <p key={job.job_id} >
+                            <span key={jobin}> { jobchoices.find((jobname) => jobname.job_id === job).job_name } </span>
+                        </p>
+                    ))}
+                </section>
+                <section className="job-choices">
+                    {jobchoices.map((job, jobin) => (
+                        <label key={job.job_id}>
+                            <input
+                                name="job_id"
+                                type="checkbox"
+                                value={job.job_id}
+                                checked={newInvoice.job_id.some(maidJob => maidJob === job.job_id)}
+                                onChange={handleChange}
+                            />
+                            <span></span>
+                            {job.job_name}
+                        </label>
+                    ))}
+                </section>
+            </article>
+
+            <article>
+                <header>รายละเอียดเพิ่มเติม:</header>
+                <label>
+                    <input 
+                        name='detail'
+                        type='textarea'
+                        onChange={handleChange}
+                        autoComplete='off'
+                        value={ newInvoice.detail } // Changed datail to detail
+                    />
+                </label>
+            </article>
+            <article>
+                <header>ราคารวม:</header>
+                <span> { newInvoice.amount } บาท</span>
             </article>
         </article>
     );

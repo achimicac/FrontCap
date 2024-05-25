@@ -69,7 +69,7 @@ main.profile-wrapper section.jobtype{
 }
 main.profile-wrapper section.jobtype span{
       grid-area: job;
-      border: 2px solid black;
+      
 }
 main.profile-wrapper footer {
       padding: 5vw;
