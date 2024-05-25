@@ -2,6 +2,7 @@
   width: 100%;
   position: fixed;
   bottom: 0px;
+  transition: height .600s ease;
 }
 .statusbar-nav {
   width: 100%;
@@ -14,23 +15,28 @@
   justify-content: space-evenly;
   align-items: center;
 }
-
 .statusbar-nav a {
   color: #035445;
   font-weight: bold;
+  text-decoration: none;
 }
-
 .statusbar-nav a:active {
   color: #035445;
   border-bottom: 2px #035445 solid;
   font-weight: bold;
 }
-
-
-
 nav a.active {
   background-color: #E1829B;
   color: white;
   padding: 2vw;
   border-radius: 20px;
+}
+
+@media (min-width: 600px) {
+    .statusbar-nav {
+      padding-bottom: 5vh;
+    }
+    nav a.active {
+      padding: 2vh;
+    }
 }
