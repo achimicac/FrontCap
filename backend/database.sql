@@ -2,7 +2,7 @@ CREATE TABLE Account (
     User_ID SERIAL PRIMARY KEY,
     User_Role VARCHAR(8),
     User_Gender VARCHAR(6),
-    User_Pic bytea,
+    User_Pic VARCHAR,
     Firstname VARCHAR(50),
     Lastname VARCHAR(50),
     Birthday DATE,
@@ -34,9 +34,9 @@ CREATE TABLE Address (
 );
 
 CREATE TABLE Rating (
-    Maid_ID SMALLINT PRIMARY KEY,
-    Avg_Rate    numeric ,
-    FOREIGN KEY (Maid_ID) REFERENCES Account(User_ID)
+    User_ID SMALLINT PRIMARY KEY,
+    Avg_Rate FLOAT,
+    FOREIGN KEY (User_ID) REFERENCES Account(User_ID)
 );
 
 CREATE TABLE Review (
@@ -67,11 +67,11 @@ CREATE TABLE Invoice (
     FOREIGN KEY (Review_ID) REFERENCES Review(Review_ID)
 );
 
-CREATE TABLE MaidJob (
-    Maid_ID SMALLINT,
+CREATE TABLE UserJob (
+    User_ID SMALLINT,
     Job_ID SMALLINT,
-    PRIMARY KEY (Maid_ID, Job_ID),
-    FOREIGN KEY (Maid_ID) REFERENCES Account(User_ID),
+    PRIMARY KEY (User_ID, Job_ID),
+    FOREIGN KEY (User_ID) REFERENCES Account(User_ID),
     FOREIGN KEY (Job_ID) REFERENCES Job(Job_ID)
 );
 
@@ -89,3 +89,30 @@ SELECT setval('job_job_id_seq', COALESCE((SELECT MAX(job_id) + 1 FROM job), 1), 
 SELECT setval('room_room_id_seq', COALESCE((SELECT MAX(room_id) + 1 FROM room), 1), false);
 SELECT setval('review_review_id_seq', COALESCE((SELECT MAX(review_id) + 1 FROM review), 1), false);
 SELECT setval('invoice_invoice_id_seq', COALESCE((SELECT MAX(invoice_id) + 1 FROM invoice), 1), false);
+
+CREATE VIEW recommend_maid AS
+SELECT
+    m.user_id AS user_id,
+    m.user_role AS user_role,
+    MAX(a.latitude) AS latitude,
+    MAX(a.longitude) AS longitude,
+    MAX(CASE WHEN mj.Job_ID = 1 THEN 1 ELSE 0 END) AS job1,
+    MAX(CASE WHEN mj.Job_ID = 2 THEN 1 ELSE 0 END) AS job2,
+    MAX(CASE WHEN mj.Job_ID = 3 THEN 1 ELSE 0 END) AS job3,
+    MAX(CASE WHEN mj.Job_ID = 4 THEN 1 ELSE 0 END) AS job4,
+    MAX(CASE WHEN mj.Job_ID = 5 THEN 1 ELSE 0 END) AS job5,
+    MAX(CASE WHEN mj.Job_ID = 6 THEN 1 ELSE 0 END) AS job6,
+    MAX(CASE WHEN mj.Job_ID = 7 THEN 1 ELSE 0 END) AS job7,
+    MAX(CASE WHEN mj.Job_ID = 8 THEN 1 ELSE 0 END) AS job8,
+    MAX(CASE WHEN mj.Job_ID = 9 THEN 1 ELSE 0 END) AS job9,
+    MAX(CASE WHEN mj.Job_ID = 10 THEN 1 ELSE 0 END) AS job10,
+    (
+        SELECT AVG(r.Avg_Rate)
+        FROM Rating r
+        WHERE r.User_ID = m.User_ID
+    ) AS avg_rating
+FROM Account m
+LEFT JOIN UserJob mj ON m.User_ID = mj.User_ID
+INNER JOIN Address a ON m.User_ID = a.User_ID
+GROUP BY m.user_id, a.latitude, a.longitude
+ORDER BY m.user_id;

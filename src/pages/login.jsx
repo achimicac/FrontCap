@@ -28,13 +28,18 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    login({ email: user.account, pass: user.password }).then((res) => {
-      setAuth({
-        role: res.data.payload.user.role,
-        user: res.data.payload.user.email,
+    login({ email: user.account, pass: user.password })
+      .then((res) => {
+        window.localStorage.setItem("authtoken", res.data.token);
+        setAuth({
+          role: res.data.payload.user.role,
+          user: res.data.payload.user.email,
+        });
+        navigate("/" + res.data.payload.user.role + "/main");
+      })
+      .catch((err) => {
+        console.log(err);
       });
-      navigate("/" + res.data.payload.user.role + "/main");
-    });
   };
 
   return (

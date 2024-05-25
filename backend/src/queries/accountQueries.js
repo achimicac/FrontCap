@@ -1,5 +1,16 @@
 const getAccount = "SELECT * FROM Account";
-const getAccountById = "SELECT * FROM Account WHERE user_id = $1";
+const getAccountById = `SELECT 
+                        User_ID,
+                        User_Role,
+                        User_Gender,
+                        User_Pic,
+                        Firstname,
+                        Lastname,
+                        Birthday,
+                        Tel,
+                        Email,
+                        Description 
+                      FROM Account WHERE user_id = $1`;
 const checkEmailExists = "SELECT * FROM Account WHERE Email = $1";
 const addAccount = `INSERT INTO Account (
                         User_Role, 
@@ -28,11 +39,16 @@ const updateAccount = `UPDATE Account SET
 const deleteAccount =
   "DELETE FROM Account WHERE User_ID = $1 RETURNING *', [user_id]";
 
+const updatePicture = `UPDATE Account SET 
+                        User_Pic = $1, 
+                    WHERE User_ID = $2 RETURNING *`;
+
 module.exports = {
   getAccount,
   getAccountById,
   checkEmailExists,
   addAccount,
   updateAccount,
+  updatePicture,
   deleteAccount,
 };

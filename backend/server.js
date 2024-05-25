@@ -9,7 +9,8 @@ const InvoiceRoutes = require("./src/routes/invoiceRoute");
 const invoiceJobRoutes = require("./src/routes/invoiceJobRoute");
 const RatingRoutes = require("./src/routes/RatingRoute");
 const ReviewRoutes = require("./src/routes/ReviewRoute");
-const maidJobRoutes = require("./src/routes/maidJobRoute");
+const userJobRoutes = require("./src/routes/UserJobRoute");
+const RecommendRoutes = require("./src/routes/RecommendRoute");
 
 // Middleware
 app.use(express.json());
@@ -29,9 +30,10 @@ app.use("/api/v1/job", JobRoutes);
 app.use("/api/v1/address", addressRoutes);
 app.use("/api/v1/invoice", InvoiceRoutes);
 app.use("/api/v1/invoiceJob", invoiceJobRoutes);
-app.use("/api/v1/maidJob", maidJobRoutes);
+app.use("/api/v1/userJob", userJobRoutes);
 app.use("/api/v1/rating", RatingRoutes);
 app.use("/api/v1/review", ReviewRoutes);
+app.use("/api/v1/recommend", RecommendRoutes);
 
 app.get("/", (req, res) => {
   res.send("hello world");
