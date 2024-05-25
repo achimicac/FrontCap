@@ -1,0 +1,13 @@
+section.rating-page{
+      display: flex;
+      flex-direction: column;
+      padding: 5vw;
+      gap: 5vw;
+}
+
+@media (min-width: 600px) {
+      section.rating-page{
+            padding: 5vh;
+            gap: 5vh;
+      }
+}

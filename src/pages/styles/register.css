@@ -1,0 +1,325 @@
+.register {
+      background-color: #80CBC4;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+}
+.register > main {
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 5vh;
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
+      overflow-y: scroll;
+}
+.register h1{
+      color: #00897B;
+}
+.register section.signup-form{
+      display: flex;
+      flex-direction: column;
+      gap: 5vw;
+      width: 100%;
+      height: 70vh;
+}
+.register section.signup-form > label {
+      display: flex;
+      flex-direction: column;
+      width: 60vw;
+}
+section.signup-form > section > section{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2vw;
+}
+section.signup-form > section > section > label {
+      /*display: flex;
+      padding: 1vw;
+      background-color: #E0F2F1;
+      border-radius: 20px;*/
+      display: flex;
+      cursor: pointer;
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 0.375em;
+
+}
+section.signup-form > section > section > label input{
+      position: absolute;
+      left: -9999px;
+}
+section.signup-form > section > section > label input:checked + span {
+      background-color: #E0F2F1;
+}
+section.signup-form > section > section > label input:checked + span:before {
+      box-shadow: inset 0 0 0 0.4375em #E1829B;
+}
+section.signup-form > section > section > label span {
+      display: flex;
+      align-items: center;
+      padding: 0.375em 0.75em 0.375em 0.375em;
+      border-radius: 99em;
+      transition: 0.25s ease;
+}
+section.signup-form > section > section > label span:hover {
+      background-color: #FFBED7;
+}
+section.signup-form > section > section > label span:before {
+      display: flex;
+      flex-shrink: 0;
+      content: "";
+      background-color: #fff;
+      width: 1.5em;
+      height: 1.5em;
+      border-radius: 50%;
+      margin-right: 0.375em;
+      transition: 0.25s ease;
+      box-shadow: inset 0 0 0 0.125em #E1829B;
+}
+.register input:not(.birthday){
+      appearance: none; 
+      border: none;
+      /*outline: none;*/
+      -webkit-appearance: none;
+      background-color: #E0F2F1;
+      border-radius: 30px;
+      caret-color: #00897B;
+      transition: border .3s ease;
+      padding: 1.5vw;
+      font-size: 3vw;
+      &:focus {
+            outline: none;
+            box-shadow: #00897B 0px 1px 2px 0px, #00897B 0px 1px 4px 1px;
+      }
+}
+.register button.select-map{
+      font-size: 4vw;
+      padding: 0.5vh 5vw;
+      text-align: center;
+      background-color: #FFBED7;
+      border-radius: 30px;
+      color: black;
+      border: none;
+}
+section.signup-form label.birthday-label input{
+      appearance: none;
+      border: none;
+      background-color: #E0F2F1;
+      font-size: 3vw;
+      color: black;
+}
+section.signup-form label.birthday-label > section{
+      background-color: #E0F2F1;
+      border-radius: 30px;
+      padding: 1.5vw;
+      font-size: 3vw;
+      color: #E1829B;
+      gap: 2vw;
+}
+.register button {
+      appearance: button;
+      background-color: #00897B;
+      background-image: linear-gradient(180deg, rgba(255, 255, 255, .15), rgba(255, 255, 255, 0));
+      border: 1px solid #00897B;
+      border-radius: 1rem;
+      box-shadow: rgba(3, 84, 69, 0.15) 0 1px 0 inset,rgba(46, 54, 80, 0.075) 0 1px 1px;
+      box-sizing: border-box;
+      color: #FFFFFF;
+      cursor: pointer;
+      display: inline-block;
+      font-family: Inter,sans-serif;
+      font-size: 4vw;
+      font-weight: 600;
+      line-height: 1.5;
+      margin: 0;
+      padding: 0.5vh 5vw;
+      text-align: center;
+      text-transform: none;
+      transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      vertical-align: middle;
+}
+.register button:focus:not(:focus-visible),
+.register button{
+      outline: 0;
+}
+.register button:hover {
+      background-color: #00897B;
+      border-color: #00897B;
+}
+.register button:focus {
+      background-color: #80CBCE;
+      border-color: #93c9ca;
+      box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0 inset, rgba(46, 54, 80, 0.075) 0 1px 1px, rgba(104, 101, 235, 0.5) 0 0 0 .2rem;
+}
+.register button:active {
+      background-color: #519ea1;
+      background-image: none;
+      border-color: #5bc6cc;
+      box-shadow: rgba(46, 54, 80, 0.125) 0 3px 5px inset;
+}
+.register button:focus {
+      box-shadow: rgba(3, 84, 69, 0.125) 0 3px 5px inset, rgba(104, 101, 235, 0.5) 0 0 0 .2rem;
+}
+.register button:disabled {
+      background-image: none;
+      box-shadow: none;
+      opacity: 0.65;
+      pointer-events: none;
+}
+.register .map-container{
+      position: fixed;
+      top: 50%;
+      left: 40%;
+      transform: translate(-50%, -50%);
+      z-index: 50;
+}
+
+@media (min-width: 600px) {
+      .register {
+            justify-content: center;
+            align-items: center;
+      }
+      .register > main {
+            background-color: white;
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            padding-bottom: 5vh;
+            border-radius: 30px;
+            width: 80vw;
+            height: 80vh;
+      }
+      .register .map-container {
+            top: none;
+            left: none;
+            transform: none;
+      }
+      .register > main section.signup-form{
+            width: 90%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto;
+            grid-template-areas: 
+                  "role gender"
+                  "fname lname"
+                  "bd ."
+                  "tel mail"
+                  "address moreinfo"
+                  "pw checkpw"
+                  ". button"
+            ;
+            gap: 2vh;
+      }
+      .register section.signup-form > section:nth-child(1){
+            grid-area: role;
+      }
+      .register section.signup-form > section:nth-child(2){
+            grid-area: gender;
+      }
+      .register section.signup-form > label:nth-child(3){
+            grid-area: fname;
+      }
+      .register section.signup-form > label:nth-child(4){
+            grid-area: lname;
+      }
+      .register section.signup-form > label:nth-child(5){
+            grid-area: bd;
+      }
+      .register section.signup-form > label:nth-child(6){
+            grid-area: tel;
+      }
+      .register section.signup-form > label:nth-child(7){
+            grid-area: mail;
+      }
+      .register section.signup-form > label:nth-child(8){
+            grid-area: address;
+      }
+      .register section.signup-form > label:nth-child(9){
+            align-self: end;
+            grid-area: moreinfo;
+      }
+      .register section.signup-form > label:nth-child(10){
+            grid-area: pw;
+      }
+      .register section.signup-form > label:nth-child(11){
+            grid-area: checkpw;
+            padding-bottom: 5vh;
+      }
+      .register button{
+            justify-self: end;
+            grid-area: button;
+            width: 40vh;
+      }
+      .register h1{
+        font-size: 4vh;
+        justify-self: center;
+      }
+      .register section.signup-form > label {
+            width: 100%;
+      }
+      section.signup-form > section > section > label input{
+            position: absolute;
+            left: -9999px;
+      }
+      section.signup-form > section > section > label input:checked + span {
+            background-color: #E0F2F1;
+      }
+      section.signup-form > section > section > label input:checked + span:before {
+            box-shadow: inset 0 0 0 0.4375em #E1829B;
+      }
+      section.signup-form > section > section > label span {
+            display: flex;
+            align-items: center;
+            padding: 0.375em 0.75em 0.375em 0.375em;
+            border-radius: 99em;
+            transition: 0.25s ease;
+      }
+      section.signup-form > section > section > label span:hover {
+            background-color: #FFBED7;
+      }
+      section.signup-form > section > section > label span:before {
+            display: flex;
+            flex-shrink: 0;
+            content: "";
+            background-color: #fff;
+            width: 1.5em;
+            height: 1.5em;
+            border-radius: 50%;
+            margin-right: 0.375em;
+            transition: 0.25s ease;
+            box-shadow: inset 0 0 0 0.125em #E1829B;
+      }
+      .register input:not(.birthday){
+            padding: 0.5vw;
+            font-size: 2vh;
+      }
+      section.signup-form label.birthday-label input{
+            font-size: 1.5vw;
+            color: black;
+      }
+      section.signup-form label.birthday-label > section{
+            padding: 0vw;
+            font-size: 1.5vw;
+            gap: 2vw;
+      }
+      .register button.select-map{
+            font-size: 2vh;
+      }
+      section.signup-form label.birthday-label input{
+            font-size: 2vh;
+      }
+      section.signup-form label.birthday-label > section{
+            padding: 0.5vw;
+            font-size: 1.5vw;
+      }
+      .register button {
+            font-size: 3vh;
+      }
+}

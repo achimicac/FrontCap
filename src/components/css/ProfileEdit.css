@@ -1,0 +1,162 @@
+main.editprofile-wrapper{
+      overflow: auto;
+      background-color: #80cbc4;
+      display: flex;
+      flex-direction: column;
+}
+main.editprofile-wrapper header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+}
+main.editprofile-wrapper header figure img{
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+}
+
+main.editprofile-wrapper main {
+      padding: 5vw;
+      row-gap: 3vw;
+      background-color: white;
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 2vw;
+}
+
+main.editprofile-wrapper section.radio-wrapper div{
+      position: relative;
+      font-size: 4vw;
+      display: flex;
+      gap: 2vw;   
+}
+main.editprofile-wrapper section.radio-wrapper label {
+      background-color: #E0F2F1;
+      font-size: 3vw;
+      border-radius: 50px;
+      cursor: pointer;
+      padding: 0vw 2vw ;
+}
+
+main.editprofile-wrapper main section:nth-child(-n + 7) {
+      background-color: #E0F2F1;
+      object-fit: contain;
+      padding: 2vw;
+      border-radius: 50px;
+      gap: 2vw;
+      display: grid;
+      grid-template-columns: 1.5fr 3fr;
+      grid-template-rows: auto;
+}
+main.editprofile-wrapper main section b {
+      background-color: #80CBC4;
+      font-size: 4vw;
+      border-radius: 50px;
+      padding: 0vw 2vw ;
+      align-self: center;
+}
+main.editprofile-wrapper main section:nth-child(-n + 7) input {
+      font-size: 3vw;
+      align-self: center;
+}
+
+main.editprofile-wrapper footer {
+      padding: 5vw;
+      display: flex;
+      align-self: center;
+      gap: 2vw;
+}
+main.editprofile-wrapper footer button {
+      appearance: button;
+      background-color: #00897B;
+      background-image: linear-gradient(180deg, rgba(255, 255, 255, .15), rgba(255, 255, 255, 0));
+      border: 1px solid #00897B;
+      border-radius: 1rem;
+      box-shadow: rgba(3, 84, 69, 0.15) 0 1px 0 inset,rgba(46, 54, 80, 0.075) 0 1px 1px;
+      box-sizing: border-box;
+      color: #FFFFFF;
+      cursor: pointer;
+      display: inline-block;
+      font-family: Inter,sans-serif;
+      font-size: 4vw;
+      font-weight: 600;
+      line-height: 1.5;
+      margin: 0;
+      padding: 0.5vh 5vw;
+      text-align: center;
+      text-transform: none;
+      transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      vertical-align: middle;
+}
+main.editprofile-wrapper footer button.cancle{
+      background-color: white;
+      border: 2px solid #00897B;
+      color: #00897B
+}
+main.editprofile-wrapper footer button:focus:not(:focus-visible),
+main.editprofile-wrapper footer button:focus {
+      outline: 0;
+}
+main.editprofile-wrapper footer button:hover {
+      background-color: #00897B;
+      border-color: #00897B;
+}
+main.editprofile-wrapper footer button.cancle{
+      background-color: white;
+      border-color: #00897B;
+}
+main.editprofile-wrapper footer button:focus {
+      background-color: #80CBCE;
+      border-color: #93c9ca;
+      box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0 inset, rgba(46, 54, 80, 0.075) 0 1px 1px, rgba(104, 101, 235, 0.5) 0 0 0 .2rem;
+}
+main.editprofile-wrapper footer button:active {
+      background-color: #519ea1;
+      background-image: none;
+      border-color: #5bc6cc;
+      box-shadow: rgba(46, 54, 80, 0.125) 0 3px 5px inset;
+}
+main.editprofile-wrapper footer button:focus {
+      box-shadow: rgba(3, 84, 69, 0.125) 0 3px 5px inset, rgba(104, 101, 235, 0.5) 0 0 0 .2rem;
+}
+main.editprofile-wrapper footer button:disabled {
+      background-image: none;
+      box-shadow: none;
+      opacity: 0.65;
+      pointer-events: none;
+}
+
+@media (min-width: 600px) {
+      main.editprofile-wrapper {
+            padding: 0px;
+            display: grid;
+            grid-template-columns: 1.5fr 2fr;
+            height: 100%;
+      }
+      main.editprofile-wrapper main section b {
+            font-size: 3vh;
+      }
+      main.editprofile-wrapper main section input {
+            font-size: 5vh;
+      }
+      main.editprofile-wrapper footer button {
+            font-size: 3vh;
+      }
+      main.editprofile-wrapper main {
+            row-gap: 2vh;
+            border-top-right-radius: 0px;
+            border-bottom-left-radius: 30px;
+      }
+      main.editprofile-wrapper main section {
+            padding: 1vw;
+      }
+      main.editprofile-wrapper main section:nth-child(-n + 7) input,
+      main.editprofile-wrapper radio-wrapper label{
+            font-size: 3vh;
+      }
+}

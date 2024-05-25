@@ -1,0 +1,113 @@
+div.customer-main {
+  overflow: auto;
+  background-color: #80cbc4;
+  display: flex;
+  flex-direction: column;
+}
+.customer-main > header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 5vw;
+}
+.customer-main > header section > p {
+  font-size: 4vw;
+  font-weight: 600;
+}
+
+.customer-main main {
+  padding: 3vw;
+  gap: 5vw;
+  background-color: white;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.customer-main > main header {
+  padding-left: 3vw;
+}
+
+.customer-main > main header label {
+  margin-right: 5vw;
+}
+.customer-main > main header label > span {
+  font-size: 3vw;
+}
+.customer-main > main header label > select {
+  font-size: 3vw;
+}
+
+.customer-main > main header label > .category_list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  list-style-type: none;
+  font-size: 3vw;
+}
+
+.customer-main > main header label > .category_list li {
+  background-color: #ffbed798;
+  padding: 1vw;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.customer-main > .main-profilebox-wrapper {
+  padding: 5vw;
+  font-size: 4vw;
+}
+
+.main-profilebox-wrapper header {
+  font-size: 4vw;
+  font-weight: 600;
+  padding: 1vw;
+}
+.customer-main main .main-profilebox-wrapper {
+  row-gap: 5vw;
+}
+.main-profilebox-wrapper > section {
+  padding: 5vw;
+  background-color: #e0f2f1;
+  display: grid;
+  grid-template-columns: 25% auto;
+  border-radius: 30px;
+}
+.main-profilebox-wrapper img {
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  max-width: 100%;
+  height: auto;
+  grid-row: 1 / 2;
+  align-items: center;
+  align-self: center;
+}
+.main-profilebox-content {
+  display: flex;
+  flex-direction: column;
+  padding-left: 5vw;
+}
+.main-profilebox-content > article {
+  display: flex;
+  flex-direction: column;
+}
+.main-profilebox-content .main-job-chips {
+  padding-top: 3vw;
+  padding-bottom: 2vw;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2vw;
+  font-size: 3vw;
+}
+.main-profilebox-content .main-job-chips span {
+  background-color: #ffbed798;
+  padding: 1vw;
+  border-radius: 10px;
+}
+
+.main-profilebox-content article header {
+  padding-left: 0vw;
+}

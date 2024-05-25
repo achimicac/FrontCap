@@ -1,0 +1,141 @@
+.rating-box{
+    display: flex;
+    flex-direction: column;
+    padding: 5vw;
+    background-color:  #E0F2F1;
+    border-radius: 30px;
+}
+.rating-box > article{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.rating-box > article > img {
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    max-width: 40%;
+    height: auto;
+}
+.rating-box > article > section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.rating-box > article > section > header{
+    font-size: 5vw;
+    font-weight: 600;
+}
+.rating-box > form {
+    display: flex;
+    flex-direction: column;
+    padding-top: 5vw;
+    padding-bottom: 5vw;
+}
+.rating-box > form > section {
+    display: flex;
+    align-items: center;
+}
+.rating-box > form > section > span{
+    padding-right: 2vw;
+}
+.rating-box > form > section:first-child label{
+    font-size: 10vw;
+	cursor: pointer;
+}
+.rating-box > form > section:nth-child(2){
+    align-items: start;
+}
+.rating-box > form > section:nth-child(2) label textarea{
+    border: 2px solid #80CBC4;
+    padding: 2vw;
+    width: 50vw;
+    height: 5vh;
+    text-wrap: wrap;
+    border-radius: 20px;
+    resize: none;
+}
+.rating-box .rating-button {
+    margin-top: 3vw;
+    display: flex;
+    align-self: center;
+}
+.rating-box .rating-button button {
+    appearance: button;
+    background-color: #00897B;
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, .15), rgba(255, 255, 255, 0));
+    border: 1px solid #00897B;
+    border-radius: 1rem;
+    box-shadow: rgba(3, 84, 69, 0.15) 0 1px 0 inset,rgba(46, 54, 80, 0.075) 0 1px 1px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Inter,sans-serif;
+    font-size: 4vw;
+    font-weight: 600;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0.5vh 5vw;
+    text-align: center;
+    text-transform: none;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+}
+.rating-box .rating-button button:focus:not(:focus-visible),
+.rating-box .rating-button button:focus {
+    outline: 0;
+}
+.rating-box .rating-button button:hover {
+    background-color: #00897B;
+    border-color: #00897B;
+}
+.rating-box .rating-button button:focus {
+    background-color: #80CBCE;
+    border-color: #93c9ca;
+    box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0 inset, rgba(46, 54, 80, 0.075) 0 1px 1px, rgba(104, 101, 235, 0.5) 0 0 0 .2rem;
+}
+.rating-box .rating-button button:active {
+    background-color: #519ea1;
+    background-image: none;
+    border-color: #5bc6cc;
+    box-shadow: rgba(46, 54, 80, 0.125) 0 3px 5px inset;
+}
+.rating-box .rating-button button:focus {
+    box-shadow: rgba(3, 84, 69, 0.125) 0 3px 5px inset, rgba(104, 101, 235, 0.5) 0 0 0 .2rem;
+}
+.rating-box .rating-button button:disabled {
+    background-image: none;
+    box-shadow: none;
+    opacity: 0.65;
+    pointer-events: none;
+}
+
+
+@media (min-width: 600px) {
+    .rating-box{
+        padding: 5vh;
+        display: grid;
+        grid-template-columns: 30% auto;
+    }
+    .rating-box > article > section > header{
+        font-size: 3vh;
+    }
+    .rating-box > form {
+        padding-top: 5vh;
+        padding-bottom: 0vh;
+    }
+    .rating-box > form > section:first-child label{
+        font-size: 5vh;
+    }
+    .rating-box .rating-button {
+        margin-top: 3vh;
+        align-self: flex-end;
+    }
+    .rating-box .rating-button button {
+        font-size: 2vh;
+        padding: 0.5vw 5vh;
+    }
+}
