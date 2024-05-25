@@ -56,3 +56,5 @@ function RatingBox({ maid, handleSubmit, clickStar, handleChange }) {
 }
 
 export default RatingBox;
+
+

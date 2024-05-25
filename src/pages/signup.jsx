@@ -27,22 +27,29 @@ function Signup() {
     email: "",
     password: "",
     user_pic: null,
-        jobtype: []
-    })
+    jobtype: [],
+  });
   const userImg = useRef(null);
-    const [cfpw, setCfpw] = useState('');
+  const [cfpw, setCfpw] = useState("");
   const [alert, setAlert] = useState(false);
-    const [alertMessage, setMessage] = useState('');
+  const [alertMessage, setMessage] = useState("");
 
-    const handleChange = useCallback((e) => {
-        if(e.target.name === 'user_pic') {
+  const handleChange = useCallback(
+    (e) => {
+      if (e.target.name === "user_pic") {
         const file = e.target.files[0];
         setUser({ ...user, [e.target.name]: file });
       } else if (e.target.name === "jobtype") {
-            const [valueId, valueName] = e.target.value.split('-');
+        const [valueId, valueName] = e.target.value.split("-");
         const jobTypeId = parseInt(valueId, 10);
         if (e.target.checked) {
-                setUser(prevMaid => ({ ...prevMaid, jobtype: [...prevMaid.jobtype, { job_id: jobTypeId, job_name: valueName }] }));
+          setUser((prevMaid) => ({
+            ...prevMaid,
+            jobtype: [
+              ...prevMaid.jobtype,
+              { job_id: jobTypeId, job_name: valueName },
+            ],
+          }));
         } else {
           setUser((prevMaid) => ({
             ...prevMaid,
