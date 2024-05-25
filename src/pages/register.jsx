@@ -91,7 +91,7 @@ function Register() {
       );
       if (user.user_role === "maid") {
         const result3 = await axios.post(
-          "http://localhost:5000/api/v1/maidJob/addMaidjobs",
+          "http://localhost:5000/api/v1/userJob/addUserjobs",
           {
             email: user.email,
             jobs: user.jobs,
@@ -187,7 +187,7 @@ function Register() {
                     type="radio"
                     onChange={handleChange}
                     autoComplete="off"
-                    value="user"
+                    value="customer"
                   />
                 </label>
                 user
