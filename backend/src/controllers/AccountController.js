@@ -2,6 +2,7 @@ const queries = require("../queries/accountQueries");
 const pool = require("../../db");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
 
 const getAccount = async (req, res) => {
   pool.query("SELECT * FROM Account", (error, results) => {
@@ -14,30 +15,20 @@ const getAccount = async (req, res) => {
   });
 };
 
-const getAccountById = async (req, res) => {
-  console.log(req.params);
-  const id = parseInt(req.params.user_id);
+const getAccountByIds = async (req, res) => {
+  const { ids } = req.body;
 
-  if (isNaN(id)) {
-    return res.status(400).json({ error: "Invalid ID" });
+  let result = [];
+  for (let i = 0; i < ids.length; i++) {
+    const select_query = await pool.query(queries.getAccountById, [ids[i]]);
+    result.push(select_query.rows[0]);
   }
 
-  pool.query(
-    "SELECT * FROM Account WHERE User_ID = $1",
-    [id],
-    (error, results) => {
-      if (error) {
-        console.error("Error executing query:", error);
-        res.status(500).json({ error: "Internal server error" });
-        return;
-      }
-      if (results.rows.length === 0) {
-        res.status(404).json({ error: "Account not found" });
-        return;
-      }
-      res.status(200).json(results.rows[0]);
-    }
-  );
+  if (result.length > 0) {
+    return res.status(200).json({ success: true, maid_data: result });
+  } else {
+    res.status(404).json({ success: false });
+  }
 };
 
 const addAccount = async (req, res) => {
@@ -245,8 +236,7 @@ const login = async (req, res) => {
 
       jwt.sign(payload, "jwtS3cr3t", { expiresIn: "1d" }, (err, token) => {
         if (err) throw err;
-        res.cookie("authtoken", token);
-        return res.json({ payload });
+        return res.json({ token, payload });
       });
     } else {
       return res.status(400).send("ไม่พบบัญชีผู้ใช้");
@@ -259,12 +249,28 @@ const login = async (req, res) => {
   }
 };
 
+// const uploadImage = async (req, res) => {
+//   // console.log("yay");
+//   const imageName = req.file.filename;
+
+//   try {
+//     const upload_query = `UPDATE Account SET
+//                         User_Pic = $1
+//                     WHERE User_Pic IS NULL RETURNING *`;
+//     const { rows } = await pool.query(upload_query, [imageName]);
+//     res.json({ success: true });
+//   } catch (err) {
+//     res.json({ success: false, error: err });
+//   }
+// };
+
 module.exports = {
   addAccount,
   getAccount,
-  getAccountById,
+  getAccountByIds,
   updateAccount,
   deleteAccount,
   register,
   login,
+  // uploadImage,
 };

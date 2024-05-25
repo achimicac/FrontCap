@@ -92,7 +92,7 @@ function Register() {
       );
       if (user.user_role === "maid") {
         const result3 = await axios.post(
-          "http://localhost:5000/api/v1/maidJob/addMaidjobs",
+          "http://localhost:5000/api/v1/userJob/addUserjobs",
           {
             email: user.email,
             jobs: user.jobs,
@@ -173,6 +173,7 @@ function Register() {
                     </label>
                     </figure>*/}
 
+
                     <section>
                         สมัครเป็น
                         <section>
@@ -182,7 +183,7 @@ function Register() {
                                 type="radio"
                                 onChange={handleChange}
                                 autoComplete="off"
-                                value="user"
+                                value="customer"
                                 />
                                 <span>ผู้ใช้ทั่วไป</span>
                             </label>
