@@ -1,14 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../axios";
 import RecommendBox from "../../components/RecommendBox";
 import "./css/Main.css";
 
 function CustomerMain() {
-  const navigate = useNavigate();
-  const [value, onChange] = useState(new Date());
-
-  const [startQueue, setStartQueue] = useState(1);
   const [distance, setDistance] = useState(1);
   const [maids, setMaids] = useState({
     maids_hired: [
@@ -19,48 +15,46 @@ function CustomerMain() {
       { user_id: 5, user_pic: "" },
     ],
   });
+  const [jobchoices, setJobchoices] = useState([]);
+  const [jchoiceSelector, setJChoiceSelector] = useState([]);
+  const [recommendMaid, setRecommendMaid] = useState([]);
+  const [isShowRecommend, setShowRecommend] = useState(true);
 
-  // const onInputChange = (e) => {
-  //   console.log(e.target.files[0]);
-  //   setImage(e.target.files[0]);
-  // };
-  const fetchJobs = async () =>
-    await axios.get("http://localhost:4800/api/v1/job");
+  const fetchJobs = async () => await api.get("/api/v1/job");
 
   const fetchUsers = async (_ids) =>
-    await axios.post("http://localhost:4800/api/v1/account/getByIDs", {
+    await api.post("/api/v1/account/getByIDs", {
       ids: _ids,
     });
 
   const updateJobs = async (_jobs) =>
-    await axios.post("http://localhost:4800/api/v1/userJob/updateUserJob", {
+    await api.post("/api/v1/userJob/updateUserJob", {
       token: window.localStorage.getItem("authtoken"),
       jobs: _jobs,
     });
 
   const getRecommendMaid = async () =>
-    await axios
-      .post("http://localhost:4800/api/v1/recommend/giveRecommendation", {
+    await api
+      .post("/api/v1/recommend/giveRecommendation", {
         token: window.localStorage.getItem("authtoken"),
       })
       .then((res) => {
-        if (res.data.success) console.log("แนะนำแม่บ้านสำเร็จ");
+        // if (res.data.success) console.log("แนะนำแม่บ้านสำเร็จ");
         const recommend_data = res.data.recommend_maid;
         const maid_ids = recommend_data.map((maid) => maid.user.user_id);
+
+        const customer_address = res.data.customer_address;
+
         fetchUsers(maid_ids).then((res) => {
           const maid_data = res.data.maid_data;
-          console.log(mergeRecommendMaid(recommend_data, maid_data));
-          setRecommendMaid(mergeRecommendMaid(recommend_data, maid_data));
+          console.log(
+            mergeRecommendMaid(recommend_data, maid_data, customer_address)
+          );
+          setRecommendMaid(
+            mergeRecommendMaid(recommend_data, maid_data, customer_address)
+          );
         });
       });
-
-  const [jobchoices, setJobchoices] = useState([]);
-
-  const [jchoiceSelector, setJChoiceSelector] = useState([]);
-
-  const [recommendMaid, setRecommendMaid] = useState([]);
-
-  const [isShowRecommend, setShowRecommend] = useState(true);
 
   useEffect(() => {
     fetchJobs().then((res) => {
@@ -90,7 +84,7 @@ function CustomerMain() {
     return updateJobs;
   };
 
-  function mergeRecommendMaid(_recommendData, _maidData) {
+  function mergeRecommendMaid(_recommendData, _maidData, _userAddress) {
     const mergedList = _recommendData.map((recommendedItem) => {
       const matchingMaid = _maidData.find(
         (maid) => maid.user_id === recommendedItem.user.user_id
@@ -103,6 +97,10 @@ function CustomerMain() {
         return null;
       }
 
+      const diff_lat = _userAddress.latitude - recommendedItem.user.latitude;
+      const diff_long = _userAddress.longitude - recommendedItem.user.longitude;
+      const sumSquaredDiff = Math.pow(diff_lat, 2) + Math.pow(diff_long, 2);
+
       const mergedObject = {
         user_id: recommendedItem.user.user_id,
         user_role: recommendedItem.user.user_role,
@@ -113,9 +111,10 @@ function CustomerMain() {
         birthday: matchingMaid.birthday,
         email: matchingMaid.email,
         tel: matchingMaid.tel,
+        address_distance: Math.sqrt(sumSquaredDiff) / 10,
         jobs: [],
         avg_rating: recommendedItem.user.avg_rating,
-        distance: (recommendedItem.distance / 100).toFixed(2),
+        distance: recommendedItem.distance,
         description: matchingMaid.description,
       };
 
@@ -141,8 +140,17 @@ function CustomerMain() {
       });
   };
 
-  const handleClick = (maidId) => {
-    navigate(`/customer/maids/profile/${maidId}`);
+  const handleClick = (email) => {
+    const selected_maid = recommendMaid.filter(
+      (maid) => maid.email == email
+    )[0];
+    const cut_id_maid = Object.fromEntries(
+      Object.entries(selected_maid).filter(([key]) => key !== "user_id")
+    );
+    if (window.localStorage.getItem("selectedMaid"))
+      window.localStorage.removeItem("selectedMaid");
+    window.localStorage.setItem("selectedMaid", JSON.stringify(cut_id_maid));
+    // navigate(`/customer/maids/profile/${email}`);
   };
   const handleFilter = (e) => {
     const { name, value } = e.target;
@@ -222,46 +230,56 @@ function CustomerMain() {
           {isShowRecommend
             ? recommendMaid.map((maid, index) => (
                 <div key={index} className="main-profilebox-wrapper">
-                  <section
-                    key={maid.user_id}
-                    onClick={() => handleClick(maid.user_id)}
+                  <a
+                    href={`/customer/maids/profile/${maid.email}`}
+                    style={{ textDecoration: "none", color: "inherit" }}
                   >
-                    {maid.user_pic ? (
-                      <img
-                        src={"../../../public/imageGalleries/" + maid.user_pic}
-                        style={{ width: "30vw" }}
-                      />
-                    ) : (
-                      <img
-                        src={
-                          "../../../public/imageGalleries/1716567567852no_account"
-                        }
-                        style={{ width: "30vw" }}
-                      />
-                    )}
-                    <div className="main-profilebox-content">
-                      <article>
-                        <header>
-                          {maid.firstname} {maid.lastname}
-                        </header>
-                        <section>
-                          <span>Rating: </span>
-                          <span> {maid.avg_rating} / 5.0 </span>
-                        </section>
-                        <section>
-                          <span>Distance: </span>
-                          <span> {maid.distance} km. </span>
-                        </section>
-                        <section className="main-job-chips">
-                          {maid.jobs.map((job, index) => (
-                            <span key={index}>
-                              {jobchoices[job - 1].job_name}
+                    <section
+                      key={maid.user_id}
+                      onClick={() => handleClick(maid.email)}
+                    >
+                      {maid.user_pic ? (
+                        <img
+                          src={
+                            "../../../public/imageGalleries/" + maid.user_pic
+                          }
+                          style={{ width: "30vw" }}
+                        />
+                      ) : (
+                        <img
+                          src={
+                            "../../../public/imageGalleries/1716567567852no_account"
+                          }
+                          style={{ width: "30vw" }}
+                        />
+                      )}
+                      <div className="main-profilebox-content">
+                        <article>
+                          <header>
+                            {maid.firstname} {maid.lastname}
+                          </header>
+                          <section>
+                            <span>Rating: </span>
+                            <span> {maid.avg_rating} / 5.0 </span>
+                          </section>
+                          <section>
+                            <span>Distance: </span>
+                            <span>
+                              {maid.address_distance.toFixed(2)}
+                              km.
                             </span>
-                          ))}
-                        </section>
-                      </article>
-                    </div>
-                  </section>
+                          </section>
+                          <section className="main-job-chips">
+                            {maid.jobs.map((job, index) => (
+                              <span key={index}>
+                                {jobchoices[job - 1].job_name}
+                              </span>
+                            ))}
+                          </section>
+                        </article>
+                      </div>
+                    </section>
+                  </a>
                 </div>
               ))
             : ""}

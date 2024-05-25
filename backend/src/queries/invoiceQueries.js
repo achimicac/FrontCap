@@ -11,7 +11,8 @@ const addInvoice = `INSERT INTO Invoice (
                         Work_Time,
                         Submit_Time,
                         Amount,
-                    )VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`;
+                        Note,
+                    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`;
 const updateInvoice = `UPDATE Invoice SET 
                             Customer_ID = $1, 
                             Maid_ID = $2, 
@@ -25,6 +26,7 @@ const updateInvoice = `UPDATE Invoice SET
                             Amount = $10 
                         WHERE Invoice_ID = $11 RETURNING *`;
 const deleteInvoice = "DELETE FROM Invoice WHERE Invoice_ID = $1 RETURNING *";
+const addInvoiceJob = `INSERT INTO InvoiceJob (Invoice_ID, Job_ID) VALUES ($1, $2) RETURNING *`;
 
 module.exports = {
   getInvoices,
@@ -32,4 +34,5 @@ module.exports = {
   addInvoice,
   updateInvoice,
   deleteInvoice,
+  addInvoiceJob,
 };

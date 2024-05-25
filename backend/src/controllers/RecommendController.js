@@ -115,7 +115,14 @@ const giveRecommendation = async (req, res) => {
         }))
         .sort((a, b) => a.distance - b.distance);
 
-      res.status(200).json({ success: true, recommend_maid: sortedNearest });
+      res.status(200).json({
+        success: true,
+        recommend_maid: sortedNearest,
+        customer_address: {
+          latitude: sCustomerData.latitude,
+          longitude: sCustomerData.longitude,
+        },
+      });
     } else {
       return res.status(403).json({ success: false, error: "Forbidden User" });
     }

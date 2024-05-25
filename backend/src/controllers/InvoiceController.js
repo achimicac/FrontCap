@@ -39,32 +39,65 @@ const getInvoiceById = async (req, res) => {
 
 const addInvoice = async (req, res) => {
   const {
-    Customer_ID,
-    Maid_ID,
+    maid_email,
     Room_ID,
-    Review_ID,
     Status,
     Work_Date,
     Start_Time,
     Work_Time,
     Submit_Time,
     Amount,
+    Note,
+    jobs,
   } = req.body;
 
+  const { email, role } = req.user;
+
   try {
-    const result = await pool.query(queries.addInvoice, [
-      Customer_ID,
-      Maid_ID,
-      Room_ID,
-      Review_ID,
-      Status,
-      Work_Date,
-      Start_Time,
-      Work_Time,
-      Submit_Time,
-      Amount,
-    ]);
-    res.status(201).json(result.rows[0]);
+    if (role === "customer") {
+      const customer = await pool.query(
+        "SELECT user_id FROM Account WHERE email = $1",
+        [email]
+      );
+
+      const customer_id = customer.rows[0].user_id;
+
+      const maid = await pool.query(
+        "SELECT user_id FROM Account WHERE email = $1",
+        [maid_email]
+      );
+
+      const maid_id = maid.rows[0].user_id;
+
+      const addInvoice = `INSERT INTO Invoice (Customer_ID,Maid_ID,Room_ID,Review_ID,Status,Work_Date,Start_Time,Work_Time,Submit_Time,Amount,Note) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`;
+
+      const result = await pool.query(addInvoice, [
+        customer_id,
+        maid_id,
+        Room_ID,
+        null,
+        Status,
+        new Date(Work_Date),
+        Start_Time,
+        Work_Time,
+        Submit_Time,
+        Amount,
+        Note,
+      ]);
+
+      let results = [];
+      for (let i = 0; i < jobs.length; i++) {
+        const invoice_query = await pool.query(queries.addInvoiceJob, [
+          result.rows[0].invoice_id,
+          jobs[i],
+        ]);
+        results.push(invoice_query);
+      }
+
+      return res.status(201).json({ success: true });
+    } else {
+      return res.status(403).json({ success: false });
+    }
   } catch (error) {
     console.error("Error executing query:", error);
     res.status(500).json({ error: "Internal server error" });
