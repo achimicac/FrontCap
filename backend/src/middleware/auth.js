@@ -10,7 +10,7 @@ exports.auth = (req, res, next) => {
     }
     const decoded = jwt.verify(token, "jwtS3cr3t");
 
-    // console.log("middleware", decoded);
+    //console.log("middleware", decoded);
     req.user = decoded.user;
     next();
   } catch (err) {

@@ -1,5 +1,6 @@
 import "./css/ProfileBox.css";
-import dayjs from "dayjs";
+import moment from "moment";
+import "moment/locale/th";
 
 function ProfileBox({
   user,
@@ -8,29 +9,17 @@ function ProfileBox({
   buttonName = "ยืนยัน",
   canClick = true,
 }) {
-  const thai_month = [
-    "มรกราคม",
-    "กุมภาพันธ์",
-    "มีนาคม",
-    "เมษายน",
-    "พฤษภาคม",
-    "มิถุนายน",
-    "กรกฎาคม",
-    "สิงหาคม",
-    "กันยายน",
-    "ตุลาคม",
-    "พฤศจิกายน",
-    "ธันวาคม",
-  ];
-
-  const date_month_year = dayjs(user.work_date);
-  const date = date_month_year.date();
-  const month = thai_month[date_month_year.month()];
-  const year = date_month_year.year() + 543;
-
-  const startTime = user.start_time.slice(0,5) + " น."
-  const submitTime = user.submit_time.slice(0,5) + " น."
-
+  /*const date = moment(user.work_date, "YYYY-MM-DD");
+      const dateFormat = date.format("dddd D MMMM G YYYY", "th");*/
+  /*const someday = moment(user.work_date);
+      const formattedDate = someday.locale('th').format('D MMM YY');*/
+  const date = new Date(user.work_date);
+  const result = date.toLocaleDateString("th-TH", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+  console.log(result);
   return (
     <div className="profilebox-wrapper">
       <section className="profilebox-container">
@@ -46,23 +35,23 @@ function ProfileBox({
         <div className="profilebox-content">
           <article className="profilebox-information">
             <header>
-              {user.firstname} {user.lastname}
+              {" "}
+              {user.firstname} {user.lastname}{" "}
             </header>
             <section className="job-date">
-              วันที่ :
-              <span>{date} {month} {year}</span>
+              วันที่ :<span>{result}</span>
               เวลา :
               <span>
-                {startTime}-{submitTime}
+                {user.start_time.split(":", 1)}.00 น. -{" "}
+                {user.end_time.split(":", 1)}.00 น.
               </span>
             </section>
             <section className="job-chips">
-              {user.jobs.map((job, index) => (
-                <span key={index}> {job.job_name} </span>
+              {user.jobtype.map((job, jobindex) => (
+                <span key={jobindex}> {job.job_name} </span>
               ))}
             </section>
           </article>
-
           {canClick ? (
             <footer>
               {clickConfirm && (

@@ -3,6 +3,9 @@ import ProfileBox from "../../components/ProfileBox";
 import Popup from "../../components/Popup";
 import Axios  from "../../axios"
 import './styles/blurBackground.css'
+import api from "../../axios";
+import toast from "react-hot-toast";
+import Alert from "../../components/Alert";
 
 function MaidStatusWait() {
     const invoiceID = useRef(null);
@@ -14,10 +17,12 @@ function MaidStatusWait() {
     const [alertConfirm, setAlertConfirm] = useState(false);
     const [alertCancel, setAlertCancel] = useState(false);
 
-    /*useEffect(() => {
+    useEffect(() => {
       const fetchCustomer = async () => {
             try {
-                  const res = await Axios.get('/api/maid/status/wait')
+                  const res = await api.post("/api/v1/invoice/maid/status/wait", {
+                        token: window.localStorage.getItem("authtoken")
+                  });
                   setCustomers(res.data)
             } catch (err) {
                   console.log(err)
@@ -25,28 +30,38 @@ function MaidStatusWait() {
       }
 
       fetchCustomer();
-    }, [])*/
+    }, [])
 
     const handleClickConfirmOK = async () => {
       try {
-            const changestatus = await Axios.put("/api/maid/status/wait", invoiceID.current);
-            if (changestatus.data.status) {
-                  console.log(changestatus.data.text)
+            const changestatus = await api.put(`/api/v1/invoice/${invoiceID.current}/${'work'}`);
+            if (changestatus.status !== 200) {
+                  console.log(changestatus.data.error)
             } else {
-                  console.log(changestatus.data.text)
+                  toast.success('ยืนยันรับงานแล้วเรียบร้อย')
+                  setCustomers(prevInvoice => prevInvoice.filter(item => item.invoice_id !== invoiceID.current));
+                  console.log(changestatus.data)
             }
       } catch (err) {
             console.log(err)
       }
     }
 
-    const handleClickCancelOK = async () => {
+    const handleClickCancelOK = async (e) => {
+      setAlertCancel(false)
         try {
-            const deletetask = await Axios.delete("/api/maid/status/wait", invoiceID.current);
-            if (deletetask.data.status) {
-                  console.log(deletetask.data.text)
+            const deleteInvoiceJob = await api.delete(`/api/v1/invoiceJob/${invoiceID.current}`);
+            if (deleteInvoiceJob.status !== 200) {
+                  console.log(deletetask.data.error)
             } else {
-                  console.log(deletetask.data.text)
+                  const deletetask = await api.delete(`/api/v1/invoice/${invoiceID.current}`);
+                  if (deletetask.status !== 200) {
+                        console.log(deletetask.data.error)
+                  } else {
+                        toast.success('ยกเลิกงานแล้วเรียบร้อย')
+                        setCustomers(prevInvoice => prevInvoice.filter(item => item.invoice_id !== invoiceID.current));
+                        console.log(deletetask.data.message)
+                  }
             }
       } catch (err) {
             console.log(err)
@@ -60,12 +75,14 @@ function MaidStatusWait() {
 
     const handleClickCancel = (id) => {
         setAlertCancel(true);
+        console.log(id)
         invoiceID.current = id;
     }
     console.log()
 
     return (
         <>
+            <Alert />
             <Popup 
                   alert={alertConfirm} 
                   message={"ต้องการทำงานนี้ ใช่ หรือ ไม่"}
@@ -81,12 +98,12 @@ function MaidStatusWait() {
             <div  className={`page-container ${alertConfirm || alertCancel ? 'blurred' : ''}`}>
                   {customers.map((customer, customerid) => (
                   <section key={customerid} >
-                        {customer.id &&
+                        {customer.user_id &&
                               <ProfileBox
                               user={customer}
                               buttonName="รับงานนี้"
-                              clickConfirm={() => handleClickConfirm(customer.id)}
-                              clickCancel={() => handleClickCancel(customer.id)}
+                              clickConfirm={() => handleClickConfirm(customer.invoice_id)}
+                              clickCancel={() => handleClickCancel(customer.invoice_id)}
                               />
                         }
                   </section>

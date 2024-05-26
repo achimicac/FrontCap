@@ -31,12 +31,27 @@ const getReviewById = async (req, res) => {
 };
 
 const addReview = async (req, res) => {
-    const { Maid_ID, Customer_ID, Star, Comment } = req.body;
+    const { invoice_id, maid_id, customer_id, rating, comment } = req.body;
+    console.log("from body" + invoice_id + " " + maid_id + " " + customer_id + " " + rating + " " + comment)
 
     try {
-        const result = await pool.query(queries.addReview, [Maid_ID, Customer_ID, Star, Comment]);
-        res.status(201).json(result.rows[0]);
+        const addReview_updateInvoice = await pool.query(
+            `WITH new_review AS (
+                INSERT INTO review (maid_id, customer_id, star, comment)
+                VALUES ($1, $2, $3, $4)
+                RETURNING review_id
+            )
+            UPDATE invoice
+            SET review_id = (SELECT review_id FROM new_review)
+            WHERE invoice_id = $5
+            RETURNING *`,
+            [maid_id, customer_id, rating, comment, invoice_id]
+        )
+
+        console.log(addReview_updateInvoice.rows[0])
+        res.status(201).json({success: true, invoice_id: addReview_updateInvoice.rows[0].invoice_id});
     } catch (error) {
+        await pool.query('ROLLBACK');
         console.error('Error executing query:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
