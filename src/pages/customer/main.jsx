@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import RecommendBox from "../../components/RecommendBox";
-import Axios from "../../axios";
 import "./css/Main.css";
 
 function CustomerMain() {
@@ -12,15 +11,6 @@ function CustomerMain() {
   const [startQueue, setStartQueue] = useState(1);
   const [distance, setDistance] = useState(1);
   const [maids, setMaids] = useState({
-    maids_rmd: [
-      { user_id: 1, user_pic: "" },
-      { user_id: 2, user_pic: "" },
-      { user_id: 3, user_pic: "" },
-      { user_id: 4, user_pic: "" },
-      { user_id: 5, user_pic: "" },
-      { user_id: 5, user_pic: "" },
-      { user_id: 5, user_pic: "" },
-    ],
     maids_hired: [
       { user_id: 1, user_pic: "" },
       { user_id: 2, user_pic: "" },
@@ -29,68 +19,6 @@ function CustomerMain() {
       { user_id: 5, user_pic: "" },
     ],
   });
-  const [maidsnear, setMaidsnear] = useState([
-    {
-      user_id: 1,
-      user_pic: "",
-      firstname: "atchi",
-      lastname: "nate",
-      jobtype: [
-        { job_id: 1, job_name: "กวาดบ้าน" },
-        { job_id: 2, job_name: "ถูบ้าน" },
-      ],
-      avg_rate: 2.5,
-      distance: 2,
-    },
-    {
-      user_id: 2,
-      user_pic: "",
-      firstname: "atchi",
-      lastname: "nate",
-      jobtype: [
-        { job_id: 1, job_name: "กวาดบ้าน" },
-        { job_id: 2, job_name: "ถูบ้าน" },
-      ],
-      avg_rate: 2.5,
-      distance: 2,
-    },
-    {
-      user_id: 3,
-      user_pic: "",
-      firstname: "atchi",
-      lastname: "nate",
-      jobtype: [
-        { job_id: 1, job_name: "กวาดบ้าน" },
-        { job_id: 2, job_name: "ถูบ้าน" },
-      ],
-      avg_rate: 2.5,
-      distance: 2,
-    },
-    {
-      user_id: 4,
-      user_pic: "",
-      firstname: "atchi",
-      lastname: "nate",
-      jobtype: [
-        { job_id: 1, job_name: "กวาดบ้าน" },
-        { job_id: 2, job_name: "ถูบ้าน" },
-      ],
-      avg_rate: 2.5,
-      distance: 2,
-    },
-    {
-      user_id: 5,
-      user_pic: "",
-      firstname: "atchi",
-      lastname: "nate",
-      jobtype: [
-        { job_id: 1, job_name: "กวาดบ้าน" },
-        { job_id: 2, job_name: "ถูบ้าน" },
-      ],
-      avg_rate: 2.5,
-      distance: 2,
-    },
-  ]);
 
   // const onInputChange = (e) => {
   //   console.log(e.target.files[0]);
@@ -121,7 +49,7 @@ function CustomerMain() {
         const maid_ids = recommend_data.map((maid) => maid.user.user_id);
         fetchUsers(maid_ids).then((res) => {
           const maid_data = res.data.maid_data;
-          // console.log(mergeRecommendMaid(recommend_data, maid_data));
+          console.log(mergeRecommendMaid(recommend_data, maid_data));
           setRecommendMaid(mergeRecommendMaid(recommend_data, maid_data));
         });
       });
@@ -301,15 +229,13 @@ function CustomerMain() {
                   >
                     {maid.user_pic ? (
                       <img
-                        src={
-                          "../../../backend/src/imageGalleries/" + maid.user_pic
-                        }
+                        src={"../../../public/imageGalleries/" + maid.user_pic}
                         style={{ width: "30vw" }}
                       />
                     ) : (
                       <img
                         src={
-                          "../../../backend/src/imageGalleries/1716567567852no_account"
+                          "../../../public/imageGalleries/1716567567852no_account"
                         }
                         style={{ width: "30vw" }}
                       />
@@ -321,7 +247,7 @@ function CustomerMain() {
                         </header>
                         <section>
                           <span>Rating: </span>
-                          <span> {maid.avg_rate} / 5.0 </span>
+                          <span> {maid.avg_rating} / 5.0 </span>
                         </section>
                         <section>
                           <span>Distance: </span>

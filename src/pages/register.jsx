@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Popup from "../components/Popup";
 import ManageJob from "../components/ManageJob";
 import Map from "../components/Map";
-import './styles/register.css'
+import "./styles/register.css";
 import { LuCalendarDays } from "react-icons/lu";
 
 function Register() {
@@ -135,25 +135,25 @@ function Register() {
 
   return (
     <div className="register">
-        <Popup
-            alert={alert}
-            message={alertMessage}
-            clickCancel={() => {
-            setAlert(false);
-            }}
-        />
-        {showMap && (
-            <div className="map-container">
-                <Map handleLocation={handleLocation} show={showMap} />
-            </div>
-        )}
+      <Popup
+        alert={alert}
+        message={alertMessage}
+        clickCancel={() => {
+          setAlert(false);
+        }}
+      />
+      {showMap && (
+        <div className="map-container">
+          <Map handleLocation={handleLocation} show={showMap} />
+        </div>
+      )}
 
-        <main>
-            <h1> Register </h1>
-            <form className={showMap ? "blurred" : ""}>
-                {page === 0 && (
-                <section className="signup-form">
-                    {/*<figure onClick={handleClickImg}>
+      <main>
+        <h1> Register </h1>
+        <form className={showMap ? "blurred" : ""}>
+          {page === 0 && (
+            <section className="signup-form">
+              {/*<figure onClick={handleClickImg}>
                     <label>
                         {user.user_pic ? (
                         <img
