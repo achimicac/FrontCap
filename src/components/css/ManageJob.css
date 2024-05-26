@@ -6,11 +6,13 @@ section.manage-job{
       flex-direction: column;
       gap: 2vw;
 }
-.manage-job section:nth-child(2).joblist, .manage-job section:nth-child(3).job-choices {
+.manage-job section:nth-child(2).joblist, 
+.manage-job section:nth-child(3).job-choices {
       border: 0.25vw solid #80CBC4;
       border-radius: 20px;
       background-color: white;
       display: flex;
+      gap: 2vw;
       flex-wrap: wrap;
 }
 .manage-job section:nth-child(2).joblist > p{
@@ -98,3 +100,12 @@ section.manage-job{
   margin-right: calc(var(--size) * 0.45);
 }
   
+@media (min-width: 600px) {
+      .manage-job section:nth-child(2).joblist > p{
+            padding: 2vh;
+      }
+      .manage-job section:nth-child(2).joblist, 
+      .manage-job section:nth-child(3).job-choices{
+            gap: 2vh;
+      }
+}

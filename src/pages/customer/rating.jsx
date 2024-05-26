@@ -3,26 +3,26 @@ import Axios  from "../../axios"
 import RatingBox from "../../components/RatingBox";
 import Popup from "../../components/Popup";
 import './css/rating.css'
+import api from "../../axios";
+import Alert from "../../components/Alert";
+import toast from "react-hot-toast";
 
 function UserStatusRating() {
-    const [invoice, setInvoice] = useState([
-        { id: 1, firstname: "atchima", lastname: "nateepradap", submit_time: '2022-03-12', rating: 0, comment: "" },
-        { id: 2, firstname: "atchima", lastname: "nateepradap", submit_time: '2022-03-12', rating: 0, comment: "" },
-        { id: 3, firstname: "atchi", lastname: "natee", submit_time: '2022-03-12', rating: 0, comment: "" }
-    ]);
-    const [alert, setAlert] = useState(false);
+    const [invoice, setInvoice] = useState([]);
 
-    /*useEffect(() => {
+    useEffect(() => {
         const fetchInvoice = async () => {
             try {
-                const res = await Axios.get('api/customer/status/rating')
+                const res = await api.post("/api/v1/invoice/customer/status/end", {
+                    token: window.localStorage.getItem("authtoken")
+                });
                 setInvoice(res.data)
             } catch (error) {
                 console.log(error)
             }
         }
         fetchInvoice();
-    }, [])*/
+    }, [])
 
     const handleStarClick = (maidId, ratingValue) => {
         setInvoice(prevMaids => prevMaids.map(maid => {
@@ -42,29 +42,32 @@ function UserStatusRating() {
         }));
     }
 
-    const handleSubmit = (maidId) => (e) => {
-        e.preventDefault();
+    const handleSubmit = async (maidId) => {
+        console.log("Send Review")
         try {
             const newreview = invoice.find(maid => maid.id === maidId)
-            const {addreview} = Axios.post('api/customer/status/rating', newreview)
-            if (!addreview.data.status) {
-                setAlert(true);
+            const addreview = await api.post('/api/v1/review/reviews', newreview)
+            if (addreview.data.success === true) {
+                console.log('success')
+                console.log(addreview.data.invoice_id)
+                toast.success('เพิ่มรีวิวเรียบร้อยแล้ว')
+                setInvoice(prevInvoice => prevInvoice.filter(item => item.invoice_id !== addreview.data.invoice_id));
+                //invoice.splice(invoice.invoice_id, addreview.data.invoice_id)
                 return;
+            } else {
+                console.log('error')
+                toast.error('กรุณาส่งรีวิวใหม่อีกครั้ง')
             }
-            invoice.splice(invoice.id, maidId)
         } catch (error) {
-            
+            console.log(error)
         }
     };
+
     console.log(invoice)
 
     return (
         <>
-            <Popup 
-                alert={alert} 
-                message={"Review success"}
-                clickCancel={()=>{setAlert(false)}}
-            />
+            <Alert />
             <section className="rating-page">
                 {invoice.map((maid, index) => (
                     <RatingBox key={index} handleSubmit={handleSubmit} maid={maid} clickStar={handleStarClick} handleChange={handleComment}/>

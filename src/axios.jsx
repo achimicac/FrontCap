@@ -1,6 +1,8 @@
 import Axios from 'axios';
 
-export default Axios.create({
-    baseURL: 'http://localhost:5173',
+const api = Axios.create({
+    baseURL: 'http://localhost:4800',
     withCredentials: true
 });
+
+export default api;

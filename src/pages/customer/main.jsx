@@ -97,22 +97,22 @@ function CustomerMain() {
   //   setImage(e.target.files[0]);
   // };
   const fetchJobs = async () =>
-    await axios.get("http://localhost:5000/api/v1/job");
+    await axios.get("http://localhost:4800/api/v1/job");
 
   const fetchUsers = async (_ids) =>
-    await axios.post("http://localhost:5000/api/v1/account/getByIDs", {
+    await axios.post("http://localhost:4800/api/v1/account/getByIDs", {
       ids: _ids,
     });
 
   const updateJobs = async (_jobs) =>
-    await axios.post("http://localhost:5000/api/v1/userJob/updateUserJob", {
+    await axios.post("http://localhost:4800/api/v1/userJob/updateUserJob", {
       token: window.localStorage.getItem("authtoken"),
       jobs: _jobs,
     });
 
   const getRecommendMaid = async () =>
     await axios
-      .post("http://localhost:5000/api/v1/recommend/giveRecommendation", {
+      .post("http://localhost:4800/api/v1/recommend/giveRecommendation", {
         token: window.localStorage.getItem("authtoken"),
       })
       .then((res) => {

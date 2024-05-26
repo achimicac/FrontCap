@@ -11,7 +11,7 @@ function Register() {
   const navigate = useNavigate();
 
   const fetchJobs = async () =>
-    await axios.get("http://localhost:5000/api/v1/job");
+    await axios.get("http://localhost:4800/api/v1/job");
 
   const [page, setPage] = useState(0);
   const [jobchoices, setJobchoices] = useState({ job_id: "", job_name: "" });
@@ -68,7 +68,7 @@ function Register() {
     console.log(user);
     try {
       const result1 = await axios.post(
-        "http://localhost:5000/api/v1/account/register",
+        "http://localhost:4800/api/v1/account/register",
         {
           user_role: user.user_role,
           user_gender: user.user_gender,
@@ -82,7 +82,7 @@ function Register() {
       );
 
       const result2 = await axios.post(
-        "http://localhost:5000/api/v1/address/addAddress",
+        "http://localhost:4800/api/v1/address/addAddress",
         {
           email: user.email,
           latitude: user.latitude,
@@ -92,7 +92,7 @@ function Register() {
       );
       if (user.user_role === "maid") {
         const result3 = await axios.post(
-          "http://localhost:5000/api/v1/userJob/addUserjobs",
+          "http://localhost:4800/api/v1/userJob/addUserjobs",
           {
             email: user.email,
             jobs: user.jobs,
@@ -100,7 +100,7 @@ function Register() {
         );
 
         const result4 = await axios.post(
-          "http://localhost:5000/api/v1/rating/addRatings",
+          "http://localhost:4800/api/v1/rating/addRatings",
           {
             email: user.email,
           }
@@ -355,7 +355,7 @@ function Register() {
                         หน้าถัดไป{" "}
                     </button>
                     )}
-                    {((page === 0 && user.user_role === "user") || page === 1) && (
+                    {((page === 0 && user.user_role === "customer") || page === 1) && (
                     <button type="submit" onClick={handleSubmit}>
                         {" "}
                         ลงทะเบียน{" "}
@@ -380,12 +380,12 @@ function Register() {
                     Next{" "}
                 </button>
                 )*/}
-                {((page === 0 && user.user_role === "user") || page === 1) && (
+                {/*((page === 0 && user.user_role === "customer") || page === 1) && (
                 <button type="submit" onClick={handleSubmit}>
                     {" "}
                     ลงทะเบียน{" "}
                 </button>
-                )}
+                )*/}
             </form>
         </main>
     </div>
