@@ -362,30 +362,31 @@ function Register() {
                     </button>
                     )}
                 </section>
-                )}
+                  )}
+                  <footer className="footer-2">
+                      {page === 1 && (
+                      <section className="addjob-form">
+                          <ManageJob
+                          user={user}
+                          handleChange={handleChange}
+                          jobchoices={jobchoices}
+                          />
+                      </section>
+                      )}
 
-                {page === 1 && (
-                <section className="addjob-form">
-                    <ManageJob
-                    user={user}
-                    handleChange={handleChange}
-                    jobchoices={jobchoices}
-                    />
-                </section>
-                )}
-
-                {/*page === 0 && user.user_role === "maid" && (
-                <button type="button" onClick={nextPage}>
-                    {" "}
-                    Next{" "}
-                </button>
-                )*/}
-                {/*((page === 0 && user.user_role === "customer") || page === 1) && (
-                <button type="submit" onClick={handleSubmit}>
-                    {" "}
-                    ลงทะเบียน{" "}
-                </button>
-                )*/}
+                      {/*page === 0 && user.user_role === "maid" && (
+                      <button type="button" onClick={nextPage}>
+                          {" "}
+                          Next{" "}
+                      </button>
+                      )*/}
+                      {( page === 1) && (
+                      <button className='button-2' type="submit" onClick={handleSubmit}>
+                          {" "}
+                          ลงทะเบียน{" "}
+                      </button>
+                      )}
+                </footer>
             </form>
         </main>
     </div>

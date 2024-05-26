@@ -74,4 +74,8 @@
             font-size: 3vh;
             padding: 0.5vw 5vh;
       }
+      .maid-employ > form {
+            padding-left: 20vw;
+            padding-right: 20vw;
+      }
 }

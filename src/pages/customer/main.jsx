@@ -226,10 +226,7 @@ function CustomerMain() {
   return (
     <div className="customer-main">
       <header>
-        <section>
-          <p> แม่บ้านแนะนำ </p>
-          <RecommendBox maids={maids.maids_rmd} handleClick={handleClick} />
-        </section>
+        
         <section>
           <p> แม่บ้านที่เคยเรียกใช้ </p>
           <RecommendBox maids={maids.maids_hired} handleClick={handleClick} />
