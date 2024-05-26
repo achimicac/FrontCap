@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const AccountController = require("../controllers/AccountController");
 const { upload } = require("../middleware/uploadImage");
+const { auth } = require("../middleware/auth");
 
-router.get("/", AccountController.getAccount);
+router.post("/getAccount", auth, AccountController.getAccount);
 router.post("/getByIDs", AccountController.getAccountByIds);
 router.post("/", AccountController.addAccount);
 router.post("/login", AccountController.login);
