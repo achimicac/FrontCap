@@ -3,7 +3,7 @@ const router = express.Router();
 const invoiceController = require("../controllers/InvoiceController");
 const { auth } = require("../middleware/auth");
 
-router.get('/', invoiceController.getInvoices);
+router.post("/getInvoice", auth, invoiceController.getInvoice);
 router.get('/:Invoice_ID', invoiceController.getInvoiceById);
 router.post("/addInvoice", auth, invoiceController.addInvoice);
 router.put('/:Invoice_ID', invoiceController.updateInvoice);

@@ -23,15 +23,6 @@ function UserOtherProfile() {
     fetchJobs();
   }, []);
 
-  //   const CalculateRating = () => {
-  //     if (maid.reviews.length === 0) return 0; // Handle empty array case
-  //     var rate = 0;
-  //     maid.reviews.forEach((customer) => {
-  //       rate += customer.star;
-  //     });
-  //     return (rate / maid.reviews.length).toFixed(1); // Use length property directly
-  //   };
-
   const clickButton = () => {
     navigate("employ");
   };

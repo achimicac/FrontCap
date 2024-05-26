@@ -6,33 +6,13 @@ import api from "../../axios";
 import "./css/maidEmploy.css";
 
 function UserMaidEmploy() {
-  const { id } = useParams();
   const navigate = useNavigate();
-  const firstrender = useRef(true);
 
   const [maid, setMaid] = useState(() => {
     const maidData = JSON.parse(window.localStorage.getItem("selectedMaid"));
     return maidData;
   });
 
-  const [oldInvoice, setOldinvoice] = useState([
-    {
-      work_date: "2024-04-12",
-      start_time: "13:00:00",
-      submit_time: "14:00:00",
-    },
-    {
-      work_date: "2024-04-12",
-      start_time: "15:00:00",
-      submit_time: "16:00:00",
-    },
-    {
-      work_date: "2024-04-12",
-      start_time: "19:00:00",
-      submit_time: "21:00:00",
-    },
-  ]);
-  const [timeoptions, setTimeoptions] = useState([]);
   const [newInvoice, setNewInvoice] = useState({
     jobs: [],
     room_data: {},
@@ -71,8 +51,6 @@ function UserMaidEmploy() {
     fetchJobs();
     fetchRooms();
     CalculateAmount();
-    console.log(newInvoice);
-    console.log(amount);
   }, [newInvoice]);
 
   const handleChange = (event) => {
@@ -159,32 +137,14 @@ function UserMaidEmploy() {
         jobs: newInvoice.jobs,
       })
       .then((res) => {
-        if (res.data.success) navigate("/customer/main");
+        if (res.data.success) {
+          window.location.href = "http://localhost:5173/customer/status/wait";
+          window.localStorage.removeItem("selectedMaid");
+        }
       })
       .catch((err) => {
         console.log(err);
       });
-
-    // try {
-    //   const formData = new FormData();
-    //   for (const key in newInvoice) {
-    //     formData.append(key, newInvoice[key]);
-    //   }
-
-    //   const { addInvoice } = await axios.post(
-    //     "/api/v1/invoice/addInvoice",
-    //     formData
-    //   );
-
-    //   if (!addInvoice.data.success) {
-    //     setMessage(addInvoice.data.text);
-    //     setAlert(true);
-    //     return;
-    //   }
-    //   navigate(-1);
-    // } catch (error) {
-    //   console.error("Error:", error);
-    // }
   };
 
   const handleClickCancelOK = (e) => {
