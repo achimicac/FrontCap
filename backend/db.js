@@ -5,7 +5,7 @@ const pool = new Pool({
   host: "localhost",
   // depends on your db name
   database: "capstone_db",
-  password: "Saete373",
+  password: "atchima1234",
   port: 5432,
 });
 

@@ -39,10 +39,10 @@ const addInvoiceJob = async (req, res) => {
 };
 
 const deleteInvoiceJob = async (req, res) => {
-    const { invoice_id, job_id } = req.params;
+    const { invoice_id } = req.params;
 
     try {
-        const result = await pool.query(queries.deleteInvoiceJob, [invoice_id, job_id]);
+        const result = await pool.query(queries.deleteInvoiceJob, [invoice_id]);
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'InvoiceJob not found' });
         }

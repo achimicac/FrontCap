@@ -3,6 +3,9 @@ import ProfileBox from "../../components/ProfileBox";
 import Popup from "../../components/Popup";
 import Axios  from "../../axios"
 import './styles/blurBackground.css'
+import api from "../../axios";
+import toast from "react-hot-toast";
+import Alert from "../../components/Alert";
 
 function MaidStatusWork() {
     const invoiceID = useRef(null);
@@ -12,10 +15,13 @@ function MaidStatusWork() {
     ]);
     const [alertConfirm, setAlertConfirm] = useState(false);
 
-    /*useEffect(() => {
+    useEffect(() => {
+      console.log("use effect")
       const fetchCustomer = async () => {
             try {
-                  const res = await Axios.get('/api/maid/status/work')
+                  const res = await api.post("/api/v1/invoice/maid/status/work", {
+                        token: window.localStorage.getItem("authtoken")
+                  });
                   setCustomers(res.data)
             } catch (err) {
                   console.log(err)
@@ -23,15 +29,19 @@ function MaidStatusWork() {
       }
 
       fetchCustomer();
-    }, [])*/
+    }, [])
 
     const handleClickConfirmOK = async () => {
+      const currentTime = new Date().toTimeString().split(' ')[0];
+      console.log('click success')
       try {
-            const changestatus = await Axios.put("/api/maid/status/work", invoiceID.current);
-            if (changestatus.data.status) {
-                  console.log(changestatus.data.text)
+            const changestatus = await api.put(`/api/v1/invoice/${invoiceID.current}/${'end'}`, {current_time: currentTime});
+            if (changestatus.status !== 200) {
+                  console.log(changestatus.data.error)
             } else {
-                  console.log(changestatus.data.text)
+                  toast.success('เสร็จสิ้นงานแล้วเรียบร้อย')
+                  setCustomers(prevInvoice => prevInvoice.filter(item => item.invoice_id !== invoiceID.current));
+                  console.log(changestatus.data)
             }
       } catch (err) {
             console.log(err)
@@ -42,9 +52,10 @@ function MaidStatusWork() {
         setAlertConfirm(true);
         invoiceID.current = id;
     }
-
+    console.log(customers)
     return (
         <>
+            <Alert />
             <Popup 
                   alert={alertConfirm} 
                   message={"ต้องการยืนยันว่าทำงานเสร็จสิ้น"}
@@ -54,10 +65,10 @@ function MaidStatusWork() {
             <div  className={`page-container ${alertConfirm ? 'blurred' : ''}`}>
                   {customers.map((customer, customerid) => (
                         <section key={customerid}>
-                              {customer.id &&
+                              {customer.user_id &&
                               <ProfileBox
                                     user={customer}
-                                    clickConfirm={() => handleClickConfirm(customer.id)}
+                                    clickConfirm={() => handleClickConfirm(customer.invoice_id)}
                                     buttonName="สิ้นสุดงาน"
                               />
                               }

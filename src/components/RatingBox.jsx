@@ -19,7 +19,7 @@ function RatingBox({ maid, handleSubmit, clickStar, handleChange }) {
                     <span> เสร็จสิ้นงานเมื่อ:  { maid.submit_time } </span>
                 </section>
             </article>
-            <form onSubmit={() => handleSubmit(maid.id)}>
+            <form onSubmit={(e) => { e.preventDefault(); handleSubmit(maid.id);}}>
                 <section>
                     <span>ให้คะแนน:</span>
                     {[...Array(5)].map((star, starid) => {

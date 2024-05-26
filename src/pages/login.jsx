@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Popup from "../components/Popup";
 import "./styles/login.css";
 import useAuth from "../Auth/useAuth";
+import api from "../axios";
 
 function Login() {
   const { auth, setAuth } = useAuth();
@@ -17,7 +18,7 @@ function Login() {
   const [alertMessage, setMessage] = useState("");
 
   const login = async (value) =>
-    await axios.post("http://localhost:4800/api/v1/account/login", value);
+    await api.post("/api/v1/account/login", value);
 
   const handleChange = useCallback(
     (e) => {
