@@ -9,10 +9,12 @@ function RatingBox({ maid, handleSubmit, clickStar, handleChange }) {
             <article>
                 {/*<figure>*/}
                     {maid.user_pic ? (
-                        <img src={`data:image/jpeg;base64,${maid.user_pic}`}/>
+                        <img src={"../../public/imageGalleries/" + maid.user_pic} />
                         ) : (
-                         <img src={"/sudlore.png"}/>
-                        )}
+                        <img
+                                src={"../../public/imageGalleries/1716567567852no_account.png"}
+                        />
+                    )}
                     {/*</figure>*/}
                 <section>
                     <header>{maid.firstname} {maid.lastname} </header>

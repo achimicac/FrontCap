@@ -31,7 +31,7 @@ function UserStatusWait() {
     return (
         <>
             {customers.map((customer, customerin) => (
-                <section key={customerin}>
+                <section key={customerin} >
                     {customer.user_id &&
                         <ProfileBox
                             user={customer}

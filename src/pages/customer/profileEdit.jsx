@@ -11,7 +11,12 @@ function UserProfileEdit() {
       const [user, setUser] = useState({ 
             id: 1, 
             firstname: "atchima", 
-            lastname: "nateepradap" 
+            lastname: "nateepradap",
+            birthday: '12-09-2003',  
+            role: 'user' ,
+            tel: '0925097833',
+            email: 'atchi@gmail.com',
+            description: 'hello, I really need maid'
       });
       //const [user, setUser] = useState();
       const [alertConfirm, setAlertConfirm] = useState(false);

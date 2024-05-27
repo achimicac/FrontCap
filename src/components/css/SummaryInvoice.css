@@ -1,0 +1,105 @@
+.overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+  }
+  
+  .invoice-summary {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      border-radius: 20px;
+      padding: 20px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 90%;
+      overflow-y: auto;
+      z-index: 1000;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .invoice-summary header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+  }
+  
+  .invoice-summary img {
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      margin-bottom: 15px;
+  }
+  
+  .invoice-summary .user-profile {
+      width: 100%;
+  }
+  
+  .invoice-summary .user-profile header {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+  }
+  
+  .invoice-summary section {
+      margin-bottom: 15px;
+  }
+  
+  .invoice-summary section header {
+      font-size: 1.2em;
+      margin-bottom: 5px;
+      color: #00897B;
+  }
+  
+  .invoice-summary section b {
+      color: #035445;
+  }
+  
+  .invoice-summary section span {
+      display: block;
+      margin-top: 3px;
+  }
+  
+  .invoice-summary .dateroom-infor {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+  }
+  
+  .invoice-summary .dateroom-infor section {
+      flex: 1;
+      margin-right: 10px;
+      margin-bottom: 10px;
+  }
+  
+  .invoice-summary .job-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+  }
+  
+  .invoice-summary .job-chips span {
+      background-color: #ffbed798;
+      padding: 5px;
+      border-radius: 5px;
+      font-size: 0.9em;
+  }
+  
+  .invoice-summary .MdCancel {
+      cursor: pointer;
+  }
+  
+  @media (min-width: 600px) {
+      .invoice-summary {
+          width: 80%;
+          max-width: 800px;
+      }
+  }
+  

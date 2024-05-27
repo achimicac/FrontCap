@@ -131,6 +131,26 @@ main.editprofile-wrapper footer button:disabled {
       pointer-events: none;
 }
 
+main.editprofile-wrapper input[type='radio']{
+      position: absolute;
+      left: -9999px;
+}
+main.editprofile-wrapper input[type='radio']:checked + span {
+      border-radius: 30px;
+      background-color: #FFBED7;
+}
+main.editprofile-wrapper input[type='radio'] + span {
+      display: flex;
+      align-items: center;
+      padding: 0.375em 0.75em 0.375em 0.375em;
+      font-size: 1rem;
+}
+main.editprofile-wrapper input{
+      border: 0.2rem solid #00897B;
+      border-radius: 30px;
+}
+  
+
 @media (min-width: 600px) {
       main.editprofile-wrapper {
             padding: 0px;

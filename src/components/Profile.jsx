@@ -20,6 +20,8 @@ function Profile({user, isMaid=false, clickEdit}) {
     
         return age;
       };
+
+      console.log(user)
     
       return (
         <main className="profile-wrapper">
@@ -59,14 +61,17 @@ function Profile({user, isMaid=false, clickEdit}) {
               <section className='jobtype'>
                 <b>job type</b>
                 {user.jobtype.map((job, jobin) => (
-                  <span key={job.job_id}> {job.job_name} </span>
+                  <section>
+                    <span key={job.job_id}> {job.job_name} </span>
+                  </section>
+                  
                 ))}
               </section>
             )}
-            {/*<section className="descript">
+            {/* {<section className="descript">
               <b>description</b>
               <span> {user.description} </span>
-          </section>*/}
+          </section>} */}
             <footer className="profile-footer">
               <button onClick={clickEdit}> Edit </button>
             </footer>

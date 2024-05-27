@@ -19,4 +19,8 @@ router.post('/maid/status/wait', auth, invoiceController.getInvoiceForMaidWait)
 router.post('/maid/status/work', auth, invoiceController.getInvoiceForMaidWork)
 router.post('/maid/status/end', auth, invoiceController.getInvoiceForMaidEnd)
 
+router.post('/maid/main', auth, invoiceController.getInvoiceByDate)
+
+router.get('/maid/summary/:invoice_id', invoiceController.getSummaryInvoiceMaidside)
+
 module.exports = router;

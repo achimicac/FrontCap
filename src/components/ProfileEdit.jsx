@@ -34,7 +34,7 @@ function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubm
                     <b> Role </b>
                     <div>
                         <label className="radio-container">
-                            user
+                            
                                 <input
                                     name="role"
                                     type="radio"
@@ -43,11 +43,13 @@ function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubm
                                     value="user"
                                     checked={user.role === 'user'}
                                     disabled={true}
+                                    
                                 />
-                            <span className="checkmark"></span>
+                            <span className="checkmark">ผู้ใช้ทั่วไป</span>
+                            
                         </label>
                         <label className="radio-container">
-                            maid
+                            
                             <input
                             type="radio"
                             name="role"
@@ -57,7 +59,7 @@ function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubm
                             checked={user.role === "maid"}
                             disabled={true}
                             />
-                            <span className="checkmark"></span>
+                            <span className="checkmark">แม่บ้าน</span>
                         </label>
                     </div>
                 </section>
@@ -105,7 +107,7 @@ function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubm
                 type="text"
                 onChange={handleChange}
                 autoComplete="off"
-                value={user.telephone}
+                value={user.tel}
                 //placeholder="xxx-xxx-xxxx"
                 //pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 maxLength={10}
@@ -156,7 +158,7 @@ function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubm
                     type="text"
                     onChange={handleChange}
                     autoComplete="off"
-                    value={user.descript}
+                    value={user.description}
                 />
             </section>
                 {manageJob &&

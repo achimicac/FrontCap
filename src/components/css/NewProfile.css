@@ -13,13 +13,13 @@ main.profile-wrapper header {
 }
 
 main.profile-wrapper header span {
-      font-size: 5vw;
+      /*font-size: 5vw;*/
       font-weight: 600;
       padding-top: 2vw;
 }
 
 main.profile-wrapper header span:nth-child(3) {
-      font-size: 3vw;
+      /*font-size: 3vw;*/
       font-weight: 100;
       padding: 2vw 5vw 5vw 5vw;
 }
@@ -53,12 +53,12 @@ main.profile-wrapper main section {
 }
 main.profile-wrapper main section b {
       background-color: #80CBC4;
-      font-size: 4vw;
+      /* font-size: 4vw; */
       border-radius: 50px;
       padding: 0vw 2vw ;
 }
 main.profile-wrapper main section span {
-      font-size: 3vw;
+      /* font-size: 3vw; */
       align-self: center;
 }
 
@@ -67,9 +67,23 @@ main.profile-wrapper section.jobtype{
             'topic topic'
             'job job';
 }
-main.profile-wrapper section.jobtype span{
+main.profile-wrapper section.jobtype b{
+      grid-area: topic;
+}
+main.profile-wrapper section.jobtype section{
       grid-area: job;
       
+}
+main.profile-wrapper section.descript{
+      grid-template-areas: 
+            'topic descript descript'
+            '. descript descript';
+}
+main.profile-wrapper section.descript > b {
+      grid-area: topic;
+}
+main.profile-wrapper section.descript > span {
+      grid-area: descript;
 }
 main.profile-wrapper footer {
       padding: 5vw;
@@ -88,7 +102,7 @@ main.profile-wrapper footer button {
       cursor: pointer;
       display: inline-block;
       font-family: Inter,sans-serif;
-      font-size: 4vw;
+      /* font-size: 4vw; */
       font-weight: 600;
       line-height: 1.5;
       margin: 0;
@@ -137,19 +151,19 @@ main.profile-wrapper footer button:disabled {
             height: 100%;
       }
       main.profile-wrapper header span {
-            font-size: 2vw;
+            /* font-size: 2vw; */
       }
       main.profile-wrapper header span:nth-child(3) {
-            font-size: 1.5vw;
+            /* font-size: 1.5vw; */
       }
       main.profile-wrapper main section b {
-            font-size: 1.5vw;
+            /* font-size: 1.5vw; */
       }
       main.profile-wrapper main section span {
-            font-size: 1.5vw;
+            /* font-size: 1.5vw; */
       }
       main.profile-wrapper footer button {
-            font-size: 2vw;
+            /* font-size: 2vw; */
       }
       main.profile-wrapper main {
             row-gap: 1.5vw;

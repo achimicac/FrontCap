@@ -14,7 +14,7 @@ function Register() {
     await axios.get("http://localhost:4800/api/v1/job");
 
   const [page, setPage] = useState(0);
-  const [jobchoices, setJobchoices] = useState({ job_id: "", job_name: "" });
+  //const [jobchoices, setJobchoices] = useState({ job_id: "", job_name: "" });
   const [user, setUser] = useState({
     user_role: "",
     user_gender: "",
@@ -37,11 +37,20 @@ function Register() {
   const [showMap, setShowMap] = useState(false);
   const isMatch = user.pass === cfpw;
 
-  useEffect(() => {
-    fetchJobs().then((res) => {
-      setJobchoices(res.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   fetchJobs().then((res) => {
+  //     setJobchoices(res.data);
+  //   });
+  // }, []);
+
+  const [jobchoices, setJobchoices] = useState([
+    {job_id: 1, job_name: "กวาดบ้าน"}, 
+    {job_id: 2, job_name: "ถูบ้าน"}, 
+    {job_id: 3, job_name: "ล้างจาน"}, 
+    {job_id: 4, job_name: "ซักผ้า"},
+    {job_id: 5, job_name: 'จัดห้อง'},
+    {job_id: 6, job_name: 'รดน้ำต้นไม้'}
+])
 
   const handleChange = useCallback((e) => {
     const { name, value, files, checked } = e.target;

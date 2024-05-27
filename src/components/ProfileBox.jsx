@@ -18,11 +18,13 @@ function ProfileBox({user, clickConfirm, clickCancel, buttonName='ยืนย�
             <div className="profilebox-wrapper">
                   <section className="profilebox-container">
                         {/*<figure className="profilebox-avatar">*/}
-                                    {user.user_pic ? (
-                                          <img src={`http://localhost:4800/${user.user_pic}`}/>
-                                          ) : (
-                                          <img src={"/sudlore.png"}/>
-                                    )}
+                              {user.user_pic ? (
+                                    <img src={"../../public/imageGalleries/" + user.user_pic} />
+                                    ) : (
+                                    <img
+                                          src={"../../public/imageGalleries/1716567567852no_account.png"}
+                                    />
+                              )}
                         {/*</figure>*/}
                         <div className="profilebox-content">
                               <article className="profilebox-information">
