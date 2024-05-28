@@ -184,7 +184,7 @@ function Register() {
 
 
                     <section>
-                        สมัครเป็น
+                        <b>สมัครเป็น</b>
                         <section>
                             <label>
                                 <input
@@ -210,7 +210,7 @@ function Register() {
                     </section>
 
                     <section>
-                        เพศ
+                        <b>เพศ</b>
                         <section>
                             <label>
                                 <input
@@ -246,7 +246,7 @@ function Register() {
                     </section>
 
                     <label>
-                        ชื่อ
+                        <b>ชื่อ</b>
                         <input
                             name="firstname"
                             type="text"
@@ -258,7 +258,7 @@ function Register() {
                     </label>
 
                     <label>
-                        นามสกุล
+                        <b>นามสกุล</b>
                         <input
                             name="lastname"
                             type="text"
@@ -270,7 +270,7 @@ function Register() {
                     </label>
 
                     <label className="birthday-label">
-                        วันเกิด
+                        <b>วันเกิด</b>
                         <section>
                             <LuCalendarDays />
                             <input
@@ -286,7 +286,7 @@ function Register() {
                     </label>
 
                     <label>
-                        เบอร์โทรศัพท์
+                        <b>เบอร์โทรศัพท์</b>
                         <input
                             name="tel"
                             type="text"
@@ -299,7 +299,7 @@ function Register() {
                     </label>
 
                     <label>
-                        อีเมล
+                        <b>อีเมล</b>
                         <input
                             name="email"
                             type="email"
@@ -311,7 +311,7 @@ function Register() {
                     </label>
 
                     <label>
-                        ที่อยู่
+                        <b>ที่อยู่</b>
                         <label> ละติจูด : {user.latitude}</label>
                         <label> ลองจิจูด : {user.longitude}</label>
                         <button className="select-map" type="button" onClick={SelectLocation}>
@@ -320,7 +320,7 @@ function Register() {
                     </label>
 
                     <label>
-                            รายละเอียดที่อยู่เพิ่มเติม
+                            <b>รายละเอียดที่อยู่เพิ่มเติม</b>
                             <input
                             name="minfo"
                             type="text"
@@ -331,7 +331,7 @@ function Register() {
                     </label>
 
                     <label>
-                        รหัสผ่าน
+                        <b>รหัสผ่าน</b>
                         <input
                             name="pass"
                             type="password"
@@ -343,7 +343,7 @@ function Register() {
                     </label>
 
                     <label>
-                        ยืนยันรหัสผ่าน
+                        <b>ยืนยันรหัสผ่าน</b>
                         <input
                             name="cfpw"
                             type="password"

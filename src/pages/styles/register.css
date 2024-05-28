@@ -5,31 +5,39 @@
       display: flex;
       flex-direction: column;
       justify-content: end;
+      font-size: 2vw;
 }
 .register > main {
       background-color: white;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-bottom: 5vh;
+      padding-bottom: 20px;
       border-top-left-radius: 30px;
       border-top-right-radius: 30px;
       overflow-y: scroll;
 }
 .register h1{
       color: #00897B;
+      font-size: 2.5em;
 }
 .register section.signup-form{
       display: flex;
       flex-direction: column;
       gap: 5vw;
       width: 100%;
-      height: 70vh;
+      
 }
 .register section.signup-form > label {
       display: flex;
       flex-direction: column;
-      width: 60vw;
+      width: 100%;
+}
+.register section.signup-form > label > label {
+      font-size: 1.5em;
+}
+section.signup-form  b {
+      font-size: 1.5em;
 }
 section.signup-form > section > section{
       display: flex;
@@ -48,6 +56,7 @@ section.signup-form > section > section > label {
       overflow: hidden;
       margin-bottom: 0.375em;
 
+
 }
 section.signup-form > section > section > label input{
       position: absolute;
@@ -62,9 +71,10 @@ section.signup-form > section > section > label input:checked + span:before {
 section.signup-form > section > section > label span {
       display: flex;
       align-items: center;
-      padding: 0.375em 0.75em 0.375em 0.375em;
+      /* padding: 0.2em 0.5em 0.2em 0.2em; */
       border-radius: 99em;
       transition: 0.25s ease;
+      font-size: 1.5em;
 }
 section.signup-form > section > section > label span:hover {
       background-color: #FFBED7;
@@ -91,15 +101,15 @@ section.signup-form > section > section > label span:before {
       caret-color: #00897B;
       transition: border .3s ease;
       padding: 1.5vw;
-      font-size: 3vw;
+      font-size: 1.5em;
       &:focus {
             outline: none;
             box-shadow: #00897B 0px 1px 2px 0px, #00897B 0px 1px 4px 1px;
       }
 }
 .register button.select-map{
-      font-size: 4vw;
-      padding: 0.5vh 5vw;
+      font-size: 1em;
+      padding: 0.25vh 3vw;
       text-align: center;
       background-color: #FFBED7;
       border-radius: 30px;
@@ -110,14 +120,14 @@ section.signup-form label.birthday-label input{
       appearance: none;
       border: none;
       background-color: #E0F2F1;
-      font-size: 3vw;
+      font-size: 1.5em;
       color: black;
 }
 section.signup-form label.birthday-label > section{
       background-color: #E0F2F1;
       border-radius: 30px;
       padding: 1.5vw;
-      font-size: 3vw;
+      font-size: 1em;
       color: #E1829B;
       gap: 2vw;
 }
@@ -133,7 +143,7 @@ section.signup-form label.birthday-label > section{
       cursor: pointer;
       display: inline-block;
       font-family: Inter,sans-serif;
-      font-size: 4vw;
+      font-size: 1em;
       font-weight: 600;
       line-height: 1.5;
       margin: 0;
@@ -199,16 +209,17 @@ section.signup-form label.birthday-label > section{
 @media (min-width: 600px) {
       .register {
             justify-content: center;
-            align-items: center;
+            align-items: center
+      }
+      .register h1{
+            font-size: 40px;
       }
       .register > main {
             background-color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
             overflow-y: scroll;
-            width: 80vw;
-            height: 90vh;
+            border-radius: 30px;
+            margin: 2em;
+            padding: 2em;
       }
       .register .map-container {
             top: none;
@@ -216,7 +227,7 @@ section.signup-form label.birthday-label > section{
             transform: none;
       }
       .register > main section.signup-form{
-            width: 100%;
+            /* width: 100%; */
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: auto;
@@ -229,7 +240,7 @@ section.signup-form label.birthday-label > section{
                   "pw checkpw"
                   ". button"
             ;
-            gap: 2vh;
+            gap: 1em;
       }
       .register section.signup-form > section:nth-child(1){
             grid-area: role;
@@ -264,19 +275,18 @@ section.signup-form label.birthday-label > section{
       }
       .register section.signup-form > label:nth-child(11){
             grid-area: checkpw;
-            padding-bottom: 5vh;
+            padding-bottom: 1em;
       }
       .register button{
             justify-self: end;
             grid-area: button;
-            width: 40vh;
+            font-size: 20px;
       }
       .register h1{
-        font-size: 4vh;
-        justify-self: center;
-      }
-      .register section.signup-form > label {
-            width: 100%;
+        /* font-size: 4vh; */
+            justify-self: center;
+            margin-block-start: 0em;
+            margin-block-end: 0em; 
       }
       section.signup-form > section > section > label input{
             position: absolute;
@@ -291,9 +301,10 @@ section.signup-form label.birthday-label > section{
       section.signup-form > section > section > label span {
             display: flex;
             align-items: center;
-            padding: 0.375em 0.75em 0.375em 0.375em;
+            /* padding: 0.375em 0.75em 0.375em 0.375em; */
             border-radius: 99em;
             transition: 0.25s ease;
+            font-size: 18px;
       }
       section.signup-form > section > section > label span:hover {
             background-color: #FFBED7;
@@ -312,28 +323,31 @@ section.signup-form label.birthday-label > section{
       }
       .register input:not(.birthday){
             padding: 0.5vw;
-            font-size: 2vh;
+            font-size: 18px;
       }
       section.signup-form label.birthday-label input{
-            font-size: 1.5vw;
+            font-size: 20px;
             color: black;
       }
       section.signup-form label.birthday-label > section{
             padding: 0vw;
-            font-size: 1.5vw;
+            /* font-size: 1.5vw; */
             gap: 2vw;
       }
-      .register button.select-map{
-            font-size: 2vh;
-      }
       section.signup-form label.birthday-label input{
-            font-size: 2vh;
+            font-size: 18px;
       }
       section.signup-form label.birthday-label > section{
             padding: 0.5vw;
-            font-size: 1.5vw;
+            font-size: 18px;
       }
-      .register button {
-            font-size: 3vh;
+      .register section.signup-form > label > label {
+            font-size: 18px;
+      }
+      section.signup-form  b {
+            font-size: 18px;
+      }
+      .register button.select-map{
+            font-size: 16px;
       }
 }
