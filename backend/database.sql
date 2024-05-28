@@ -9,7 +9,7 @@ create table account (
     tel varchar(10),
     email varchar(100) unique,
     pass varchar(100) ,
-    description varchar(500)
+    description varchar
 );
 
 create table room (
@@ -30,7 +30,7 @@ create table address (
     user_id smallint,
     latitude smallint,
     longitude smallint,
-    address varchar(500),
+    address varchar,
     foreign key (user_id) references account(user_id)
 );
 
@@ -45,7 +45,7 @@ create table review (
     maid_id smallint,
     customer_id smallint,
     star smallint,
-    comment varchar(500),
+    comment varchar,
     foreign key (maid_id) references account(user_id),
     foreign key (customer_id) references account(user_id)
 );

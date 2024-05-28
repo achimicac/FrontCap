@@ -13,7 +13,7 @@ function UserOtherProfile() {
     return maidData;
   });
   const [jobchoices, setJobchoices] = useState([]);
-  
+
   const fetchJobs = async (_mode) =>
     await api.get("/api/v1/job").then((res) => {
       setJobchoices(res.data);

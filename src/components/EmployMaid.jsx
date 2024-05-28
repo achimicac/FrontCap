@@ -7,11 +7,11 @@ function EmployMaid({
   newInvoice,
   roomChoices,
   jobchoices,
+  endTime,
   amount,
   handleChange,
   handleWorkDate,
   handleStartTime,
-  handleSubmitTime,
 }) {
   const [startTime, setStartTime] = useState(dayjs());
   const [submitTime, setSubmitTime] = useState(dayjs());
@@ -54,7 +54,7 @@ function EmployMaid({
               name="start_time"
               value={startTime}
               onChange={(event) => {
-                handleStartTime(event);
+                handleStartTime(event.hour(), event.minute());
                 setStartTime(event);
               }}
               defaultValue={dayjs()}
@@ -64,18 +64,7 @@ function EmployMaid({
           </label>
           <label>
             <span>เวลาสิ้นสุดงาน:</span>
-            <TimePicker
-              className="antd-time-picker"
-              name="start_time"
-              value={submitTime}
-              onChange={(event) => {
-                handleSubmitTime(event);
-                setSubmitTime(event);
-              }}
-              defaultValue={dayjs()}
-              format={"HH:mm"}
-              required
-            />
+            <span>{endTime != "NaN:NaN:00" ? endTime : ""} น.</span>
           </label>
         </section>
       </article>
