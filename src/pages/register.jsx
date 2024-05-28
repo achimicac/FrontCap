@@ -284,6 +284,16 @@ function Register() {
                             />
                         </section>
                     </label>
+                    <label>
+                          <b>เกี่ยวกับฉัน</b>
+                          <textarea
+                              name="descript"
+                              type="text"
+                              onChange={handleChange}
+                              autoComplete="off"
+                              value={user.description}
+                          />
+                    </label>
 
                     <label>
                         <b>เบอร์โทรศัพท์</b>

@@ -65,7 +65,7 @@ function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubm
                 </section>
 
             <section>
-                <b>Firstname</b>
+                <b>ชื่อ</b>
                 <input
                 name="firstname"
                 type="text"
@@ -77,7 +77,7 @@ function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubm
             </section>
 
             <section>
-                <b>Lastname</b>
+                <b>นามสกุล</b>
                 <input
                 name="lastname"
                 type="text"
@@ -89,7 +89,7 @@ function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubm
             </section>
 
             <section>
-                <b>Birthday</b>
+                <b>วันเกิด</b>
                 <input
                 name="birthday"
                 type="date"
@@ -101,7 +101,7 @@ function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubm
             </section>
 
             <section>
-                <b>Telephone</b>
+                <b>เบอร์โทร</b>
                 <input
                 name="telephone"
                 type="text"
@@ -116,7 +116,7 @@ function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubm
             </section>
 
             <section>
-                <b>Email</b>
+                <b>อีเมล</b>
                 <input
                 name="email"
                 type="email"
@@ -152,7 +152,7 @@ function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubm
             </section>
             <p style={isMatch ? { display: "none" } : {}}>Password is not Match!</p>*/}
             <section>
-                <b>Description</b>
+                <b>เกี่ยวกับฉัน</b>
                 <textarea
                     name="descript"
                     type="text"

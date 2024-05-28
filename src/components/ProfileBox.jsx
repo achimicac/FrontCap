@@ -30,9 +30,9 @@ function ProfileBox({user, clickConfirm, clickCancel, buttonName='ยืนย�
                               <article className="profilebox-information">
                                     <header> {user.firstname} {user.lastname} </header>
                                     <section className="job-date">
-                                          วันที่ :
+                                          <b>วันที่ :</b>
                                           <span>{result}</span>
-                                          เวลา :
+                                          <b>เวลา :</b>
                                           <span>{user.start_time.split(':', 1)}.00 น.  - {user.end_time.split(':',1)}.00 น.</span>
                                     </section>
                                     <section className="job-chips">

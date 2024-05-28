@@ -2,12 +2,10 @@ import './css/ManageJob.css'
 function ManageJob({user, jobchoices, handleChange}) {
       return (
             <section className='manage-job'>
-                  <b>jobtype</b>
+                  <b>ชนิดงาน</b>
                   <section className='joblist'>
                         {user.jobtype.map((job, jobin) => (
-                          <p key={job.job_id} >
-                            <span> {job.job_name} </span>
-                          </p>
+                            <span key={jobin}> {job.job_name} </span>
                         ))}
                   </section>
 

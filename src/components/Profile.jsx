@@ -60,12 +60,11 @@ function Profile({user, isMaid=false, clickEdit}) {
             {isMaid && (
               <section className='jobtype'>
                 <b>job type</b>
-                {user.jobtype.map((job, jobin) => (
-                  <section>
-                    <span key={job.job_id}> {job.job_name} </span>
-                  </section>
-                  
-                ))}
+                <section>
+                  {user.jobtype.map((job, jobin) => (
+                      <span key={job.job_id}> {job.job_name} </span>
+                  ))}
+                </section>
               </section>
             )}
             {/* {<section className="descript">
@@ -73,7 +72,7 @@ function Profile({user, isMaid=false, clickEdit}) {
               <span> {user.description} </span>
           </section>} */}
             <footer className="profile-footer">
-              <button onClick={clickEdit}> Edit </button>
+              <button onClick={clickEdit}> แก้ไข </button>
             </footer>
           </main>
         </main>

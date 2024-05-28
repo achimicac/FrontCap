@@ -91,7 +91,7 @@ section.signup-form > section > section > label span:before {
       transition: 0.25s ease;
       box-shadow: inset 0 0 0 0.125em #E1829B;
 }
-.register input:not(.birthday){
+.register input:not(.birthday), .register textarea{
       appearance: none; 
       border: none;
       /*outline: none;*/
@@ -106,6 +106,7 @@ section.signup-form > section > section > label span:before {
             outline: none;
             box-shadow: #00897B 0px 1px 2px 0px, #00897B 0px 1px 4px 1px;
       }
+      resize: none;
 }
 .register button.select-map{
       font-size: 1em;
@@ -234,7 +235,7 @@ section.signup-form label.birthday-label > section{
             grid-template-areas: 
                   "role gender"
                   "fname lname"
-                  "bd ."
+                  "bd aboutme"
                   "tel mail"
                   "address moreinfo"
                   "pw checkpw"
@@ -258,32 +259,34 @@ section.signup-form label.birthday-label > section{
             grid-area: bd;
       }
       .register section.signup-form > label:nth-child(6){
-            grid-area: tel;
+            grid-area: aboutme;
       }
       .register section.signup-form > label:nth-child(7){
-            grid-area: mail;
+            grid-area: tel;
       }
       .register section.signup-form > label:nth-child(8){
-            grid-area: address;
+            grid-area: mail;
       }
       .register section.signup-form > label:nth-child(9){
+            grid-area: address;
+      }
+      .register section.signup-form > label:nth-child(10){
             align-self: end;
             grid-area: moreinfo;
       }
-      .register section.signup-form > label:nth-child(10){
+      .register section.signup-form > label:nth-child(11){
             grid-area: pw;
       }
-      .register section.signup-form > label:nth-child(11){
+      .register section.signup-form > label:nth-child(12){
             grid-area: checkpw;
             padding-bottom: 1em;
       }
       .register button{
             justify-self: end;
             grid-area: button;
-            font-size: 20px;
+            font-size: 18px;
       }
       .register h1{
-        /* font-size: 4vh; */
             justify-self: center;
             margin-block-start: 0em;
             margin-block-end: 0em; 
@@ -304,7 +307,7 @@ section.signup-form label.birthday-label > section{
             /* padding: 0.375em 0.75em 0.375em 0.375em; */
             border-radius: 99em;
             transition: 0.25s ease;
-            font-size: 18px;
+            font-size: 16px;
       }
       section.signup-form > section > section > label span:hover {
             background-color: #FFBED7;
@@ -317,35 +320,35 @@ section.signup-form label.birthday-label > section{
             width: 1.5em;
             height: 1.5em;
             border-radius: 50%;
-            margin-right: 0.375em;
+            /* margin-right: 0.375em; */
             transition: 0.25s ease;
             box-shadow: inset 0 0 0 0.125em #E1829B;
       }
-      .register input:not(.birthday){
+      .register input:not(.birthday), .register textarea{
             padding: 0.5vw;
-            font-size: 18px;
+            font-size: 16px;
       }
       section.signup-form label.birthday-label input{
-            font-size: 20px;
+            font-size: 18px;
             color: black;
       }
       section.signup-form label.birthday-label > section{
             padding: 0vw;
             /* font-size: 1.5vw; */
-            gap: 2vw;
+            gap: 1.5vw;
       }
       section.signup-form label.birthday-label input{
-            font-size: 18px;
+            font-size: 16px;
       }
       section.signup-form label.birthday-label > section{
             padding: 0.5vw;
-            font-size: 18px;
+            font-size: 16px;
       }
       .register section.signup-form > label > label {
-            font-size: 18px;
+            font-size: 16px;
       }
       section.signup-form  b {
-            font-size: 18px;
+            font-size: 16px;
       }
       .register button.select-map{
             font-size: 16px;
