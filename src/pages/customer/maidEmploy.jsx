@@ -19,15 +19,13 @@ function UserMaidEmploy() {
     work_date: "",
     start_time: "",
     work_time: 0,
-    submit_time: "",
+    end_time: "",
     note: "",
   });
 
   const [roomchoices, setRoomchoices] = useState([]);
   const [jobchoices, setJobchoices] = useState([]);
   const [amount, setAmount] = useState(0);
-  const base_price = 200;
-  const limitJobs = 2;
 
   const [alertSelectTime, setAlertSelectTime] = useState(false);
   const [alertSelectJob, setAlertSelectJob] = useState(false);
@@ -50,6 +48,7 @@ function UserMaidEmploy() {
   useEffect(() => {
     fetchJobs();
     fetchRooms();
+    // console.log(newInvoice.jobs);
     CalculateAmount();
   }, [newInvoice]);
 
@@ -60,18 +59,22 @@ function UserMaidEmploy() {
       if (newInvoice.work_date === "" || newInvoice.start_time === "") {
         return setAlertSelectJob(true);
       }
-      let updatedJobIds = [...newInvoice.jobs];
-      const jobIdInt = parseInt(value);
+      // console.log(value);
+      let updatedJobs = [...newInvoice.jobs];
+
+      const selected_job = JSON.parse(value);
 
       if (checked) {
-        updatedJobIds.push(jobIdInt);
+        updatedJobs.push(selected_job);
       } else {
-        updatedJobIds = updatedJobIds.filter((jobId) => jobId !== jobIdInt);
+        updatedJobs = updatedJobs.filter(
+          (job) => job.job_id !== selected_job.job_id
+        );
       }
 
       setNewInvoice((prevState) => ({
         ...prevState,
-        jobs: updatedJobIds,
+        jobs: updatedJobs,
       }));
     } else if (name == "room") {
       const room_conv = JSON.parse(value);
@@ -85,15 +88,15 @@ function UserMaidEmploy() {
   };
 
   const CalculateAmount = () => {
-    const over_jobs =
-      newInvoice.jobs.length > limitJobs
-        ? newInvoice.jobs.length - limitJobs
-        : 0;
-    const add_rate = Math.pow(1.03, over_jobs);
-    const add_discount = over_jobs * 50 * add_rate;
-    const discount =
-      base_price * newInvoice.room_data.room_ratio + add_discount;
-    setAmount(discount);
+    if (newInvoice.jobs.length > 0) {
+      const room_ratio = newInvoice.room_data.room_ratio;
+      const job_weight_sum = newInvoice.jobs.reduce(
+        (acc, job) => acc + job.job_weight,
+        0
+      );
+      const base_price = 50 * room_ratio * job_weight_sum;
+      setAmount(base_price);
+    }
   };
 
   const handleWorkDate = (event) => {
@@ -115,7 +118,7 @@ function UserMaidEmploy() {
     const convert_time = event.format("HH:mm:ss");
     setNewInvoice((prevState) => ({
       ...prevState,
-      submit_time: convert_time,
+      end_time: convert_time,
     }));
   };
 
@@ -126,14 +129,14 @@ function UserMaidEmploy() {
       .post("/api/v1/invoice/addInvoice", {
         token: window.localStorage.getItem("authtoken"),
         maid_email: maid.email,
-        Room_ID: newInvoice.room_data.room_id,
-        Status: "wait",
-        Work_Date: newInvoice.work_date,
-        Start_Time: newInvoice.start_time,
-        Work_Time: newInvoice.work_time,
-        Submit_Time: newInvoice.submit_time,
-        Amount: amount,
-        Note: newInvoice.note,
+        room_id: newInvoice.room_data.room_id,
+        status: "wait",
+        work_date: newInvoice.work_date,
+        start_time: newInvoice.start_time,
+        work_time: newInvoice.work_time,
+        end_Time: newInvoice.end_time,
+        amount: amount,
+        note: newInvoice.note,
         jobs: newInvoice.jobs,
       })
       .then((res) => {
@@ -143,7 +146,7 @@ function UserMaidEmploy() {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err.response.data.error);
       });
   };
 

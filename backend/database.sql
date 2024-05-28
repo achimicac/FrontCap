@@ -1,120 +1,129 @@
-CREATE TABLE Account (
-    User_ID SERIAL PRIMARY KEY,
-    User_Role VARCHAR(8),
-    User_Gender VARCHAR(6),
-    User_Pic VARCHAR,
-    Firstname VARCHAR(50),
-    Lastname VARCHAR(50),
-    Birthday DATE,
-    Tel VARCHAR(10),
-    Email VARCHAR(100) UNIQUE,
-    Pass VARCHAR(100) ,
-    Description VARCHAR(500)
+create table account (
+    user_id serial primary key,
+    user_role varchar(8),
+    user_gender varchar(6),
+    user_pic varchar,
+    firstname varchar(50),
+    lastname varchar(50),
+    birthday date,
+    tel varchar(10),
+    email varchar(100) unique,
+    pass varchar(100) ,
+    description varchar(500)
 );
 
-CREATE TABLE Room (
-    Room_ID SERIAL PRIMARY KEY ,
-    Room_Type VARCHAR(20),
-    Room_Size VARCHAR(3),
-    Room_Ratio FLOAT
+create table room (
+    room_id serial primary key ,
+    room_type varchar(30),
+    room_size varchar(3),
+    room_ratio float
 );
 
-CREATE TABLE Job (
-    Job_ID SERIAL PRIMARY KEY ,
-    Job_Name VARCHAR(20)
+create table job (
+    job_id serial primary key ,
+    job_name varchar(20),
+    job_weight float
 );
 
-CREATE TABLE Address (
-    Add_ID SERIAL PRIMARY KEY ,
-    User_ID SMALLINT,
-    Latitude SMALLINT,
-    Longitude SMALLINT,
-    Address VARCHAR(500),
-    FOREIGN KEY (User_ID) REFERENCES Account(User_ID)
+create table address (
+    add_id serial primary key ,
+    user_id smallint,
+    latitude smallint,
+    longitude smallint,
+    address varchar(500),
+    foreign key (user_id) references account(user_id)
 );
 
-CREATE TABLE Rating (
-    User_ID SMALLINT PRIMARY KEY,
-    Avg_Rate FLOAT,
-    FOREIGN KEY (User_ID) REFERENCES Account(User_ID)
+create table rating (
+    user_id smallint primary key,
+    avg_rate float,
+    foreign key (user_id) references account(user_id)
 );
 
-CREATE TABLE Review (
-    Review_ID SERIAL PRIMARY KEY ,
-    Maid_ID SMALLINT,
-    Customer_ID SMALLINT,
-    Star SMALLINT,
-    Comment VARCHAR(500),
-    FOREIGN KEY (Maid_ID) REFERENCES Account(User_ID),
-    FOREIGN KEY (Customer_ID) REFERENCES Account(User_ID)
+create table review (
+    review_id serial primary key ,
+    maid_id smallint,
+    customer_id smallint,
+    star smallint,
+    comment varchar(500),
+    foreign key (maid_id) references account(user_id),
+    foreign key (customer_id) references account(user_id)
 );
 
-CREATE TABLE Invoice (
-    Invoice_ID SERIAL PRIMARY KEY ,
-    Customer_ID SMALLINT,
-    Maid_ID SMALLINT,
-    Room_ID SMALLINT,
-    Review_ID SMALLINT,
-    Status VARCHAR(8),
-    Work_Date DATE,
-    Start_Time TIME,
-    Work_Time SMALLINT,
-    Submit_Time TIME DEFAULT CURRENT_TIME,
-    Amount FLOAT,
-    Note VARCHAR(120),
-    FOREIGN KEY (Customer_ID) REFERENCES Account(User_ID),
-    FOREIGN KEY (Maid_ID) REFERENCES Account(User_ID),
-    FOREIGN KEY (Room_ID) REFERENCES Room(Room_ID),
-    FOREIGN KEY (Review_ID) REFERENCES Review(Review_ID)
+create table invoice (
+    invoice_id serial primary key ,
+    customer_id smallint,
+    maid_id smallint,
+    room_id smallint,
+    review_id smallint,
+    status varchar(8),
+    work_date date,
+    start_time time,
+    work_time smallint,
+    end_time time default current_time,
+    amount float,
+    note varchar(120),
+    foreign key (customer_id) references account(user_id),
+    foreign key (maid_id) references account(user_id),
+    foreign key (room_id) references room(room_id),
+    foreign key (review_id) references review(review_id)
 );
 
-CREATE TABLE UserJob (
-    User_ID SMALLINT,
-    Job_ID SMALLINT,
-    PRIMARY KEY (User_ID, Job_ID),
-    FOREIGN KEY (User_ID) REFERENCES Account(User_ID),
-    FOREIGN KEY (Job_ID) REFERENCES Job(Job_ID)
+create table userjob (
+    user_id smallint,
+    job_id smallint,
+    primary key (user_id, job_id),
+    foreign key (user_id) references account(user_id),
+    foreign key (job_id) references job(job_id)
 );
 
-
-CREATE TABLE InvoiceJob (
-    Invoice_ID SMALLINT ,
-    Job_ID SMALLINT ,
-    PRIMARY KEY (Invoice_ID, Job_ID),
-    FOREIGN KEY (Invoice_ID) REFERENCES Invoice(Invoice_ID),
-    FOREIGN KEY (Job_ID) REFERENCES Job(Job_ID)
+create table invoicejob (
+    invoice_id smallint ,
+    job_id smallint ,
+    primary key (invoice_id, job_id),
+    foreign key (invoice_id) references invoice(invoice_id),
+    foreign key (job_id) references job(job_id)
 );
 
-SELECT setval('account_user_id_seq', COALESCE((SELECT MAX(user_id) + 1 FROM account), 1), false);
-SELECT setval('address_add_id_seq', COALESCE((SELECT MAX(add_id) + 1 FROM address), 1), false);
-SELECT setval('job_job_id_seq', COALESCE((SELECT MAX(job_id) + 1 FROM job), 1), false);
-SELECT setval('room_room_id_seq', COALESCE((SELECT MAX(room_id) + 1 FROM room), 1), false);
-SELECT setval('review_review_id_seq', COALESCE((SELECT MAX(review_id) + 1 FROM review), 1), false);
-SELECT setval('invoice_invoice_id_seq', COALESCE((SELECT MAX(invoice_id) + 1 FROM invoice), 1), false);
+create table timeweight (
+    room_id smallint ,
+    job_id smallint ,
+    time_weight smallint ,
+    primary key (room_id, job_id),
+    foreign key (room_id) references room(room_id),
+    foreign key (job_id) references job(job_id)
+);
 
-CREATE VIEW recommend_maid AS
-SELECT
-    m.user_id AS user_id,
-    m.user_role AS user_role,
-    MAX(a.latitude) AS latitude,
-    MAX(a.longitude) AS longitude,
-    MAX(CASE WHEN mj.Job_ID = 1 THEN 1 ELSE 0 END) AS job1,
-    MAX(CASE WHEN mj.Job_ID = 2 THEN 1 ELSE 0 END) AS job2,
-    MAX(CASE WHEN mj.Job_ID = 3 THEN 1 ELSE 0 END) AS job3,
-    MAX(CASE WHEN mj.Job_ID = 4 THEN 1 ELSE 0 END) AS job4,
-    MAX(CASE WHEN mj.Job_ID = 5 THEN 1 ELSE 0 END) AS job5,
-    MAX(CASE WHEN mj.Job_ID = 6 THEN 1 ELSE 0 END) AS job6,
-    MAX(CASE WHEN mj.Job_ID = 7 THEN 1 ELSE 0 END) AS job7,
-    MAX(CASE WHEN mj.Job_ID = 8 THEN 1 ELSE 0 END) AS job8,
-    MAX(CASE WHEN mj.Job_ID = 9 THEN 1 ELSE 0 END) AS job9,
-    MAX(CASE WHEN mj.Job_ID = 10 THEN 1 ELSE 0 END) AS job10,
+create view recommend_maid as
+select
+    m.user_id as user_id,
+    m.user_role as user_role,
+    max(a.latitude) as latitude,
+    max(a.longitude) as longitude,
+    max(case when mj.job_id = 1 then 1 else 0 end) as job1,
+    max(case when mj.job_id = 2 then 1 else 0 end) as job2,
+    max(case when mj.job_id = 3 then 1 else 0 end) as job3,
+    max(case when mj.job_id = 4 then 1 else 0 end) as job4,
+    max(case when mj.job_id = 5 then 1 else 0 end) as job5,
+    max(case when mj.job_id = 6 then 1 else 0 end) as job6,
+    max(case when mj.job_id = 7 then 1 else 0 end) as job7,
+    max(case when mj.job_id = 8 then 1 else 0 end) as job8,
+    max(case when mj.job_id = 9 then 1 else 0 end) as job9,
+    max(case when mj.job_id = 10 then 1 else 0 end) as job10,
     (
-        SELECT AVG(r.Avg_Rate)
-        FROM Rating r
-        WHERE r.User_ID = m.User_ID
-    ) AS avg_rating
-FROM Account m
-LEFT JOIN UserJob mj ON m.User_ID = mj.User_ID
-INNER JOIN Address a ON m.User_ID = a.User_ID
-GROUP BY m.user_id, a.latitude, a.longitude
-ORDER BY m.user_id;
+        select avg(r.avg_rate)
+        from rating r
+        where r.user_id = m.user_id
+    ) as avg_rating
+from account m
+left join userjob mj on m.user_id = mj.user_id
+inner join address a on m.user_id = a.user_id
+group by m.user_id, a.latitude, a.longitude
+order by m.user_id;
+
+select setval('account_user_id_seq', coalesce((select max(user_id) + 1 from account), 1), false);
+select setval('address_add_id_seq', coalesce((select max(add_id) + 1 from address), 1), false);
+select setval('job_job_id_seq', coalesce((select max(job_id) + 1 from job), 1), false);
+select setval('room_room_id_seq', coalesce((select max(room_id) + 1 from room), 1), false);
+select setval('review_review_id_seq', coalesce((select max(review_id) + 1 from review), 1), false);
+select setval('invoice_invoice_id_seq', coalesce((select max(invoice_id) + 1 from invoice), 1), false);

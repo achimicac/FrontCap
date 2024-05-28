@@ -11,7 +11,7 @@ function UserStatusWork() {
         const res = await api.post("/api/v1/invoice/customer/status/work", {
           token: window.localStorage.getItem("authtoken"),
         });
-        setCustomers(res.data);
+        setMaids(res.data);
       } catch (err) {
         console.log(err);
       }
@@ -21,11 +21,11 @@ function UserStatusWork() {
 
   return (
     <>
-      {customers.map((customer, customerid) => (
-        <section key={customerid}>
-          {customer.user_id && (
+      {maids.map((maid, index) => (
+        <section key={index}>
+          {maid.user_id && (
             <ProfileBox
-              user={customer}
+              user={maid}
               canClick={false}
               buttonName="กำลังทำงาน..."
             />

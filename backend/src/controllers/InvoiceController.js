@@ -88,14 +88,14 @@ const getInvoiceById = async (req, res) => {
 const addInvoice = async (req, res) => {
   const {
     maid_email,
-    Room_ID,
-    Status,
-    Work_Date,
-    Start_Time,
-    Work_Time,
-    Submit_Time,
-    Amount,
-    Note,
+    room_id,
+    status,
+    work_date,
+    start_time,
+    work_time,
+    end_time,
+    amount,
+    note,
     jobs,
   } = req.body;
 
@@ -117,32 +117,49 @@ const addInvoice = async (req, res) => {
 
       const maid_id = maid.rows[0].user_id;
 
+      const exist_query =
+        "select * from invoice where customer_id = $1 and maid_id = $2";
+      const invoice_check = await pool.query(exist_query, [
+        customer_id,
+        maid_id,
+      ]);
+
+      const check_status = invoice_check.rows.filter(
+        (invoice) => invoice.status === "wait"
+      );
+      if (check_status.length > 0)
+        return res
+          .status(400)
+          .json({ success: false, error: "ทำการจ้างไปแล้ว" });
+
       const result = await pool.query(queries.addInvoice, [
         customer_id,
         maid_id,
-        Room_ID,
+        room_id,
         null,
-        Status,
-        new Date(Work_Date),
-        Start_Time,
-        Work_Time,
-        Submit_Time,
-        Amount,
-        Note,
+        status,
+        new Date(work_date),
+        start_time,
+        work_time,
+        end_time,
+        amount,
+        note,
       ]);
 
       let results = [];
       for (let i = 0; i < jobs.length; i++) {
         const invoice_query = await pool.query(queries.addInvoiceJob, [
           result.rows[0].invoice_id,
-          jobs[i],
+          jobs[i].job_id,
         ]);
         results.push(invoice_query);
       }
 
       return res.status(201).json({ success: true });
     } else {
-      return res.status(403).json({ success: false });
+      return res
+        .status(403)
+        .json({ success: false, error: "บัญชีผู้ใช้ไม่ถูกต้อง" });
     }
   } catch (error) {
     console.error("Error executing query:", error);
@@ -238,8 +255,8 @@ const getInvoiceForCustomerWait = async (req, res) => {
         ON acc.user_id = inv.maid_id`,
         [user_id]
       );
-      console.log(search_customer_wait.rows)
-      res.status(200).json(search_customer_wait.rows)
+      console.log(search_customer_wait.rows);
+      res.status(200).json(search_customer_wait.rows);
     } else {
       return res.status(403).json({ success: false, error: "Forbidden User" });
     }
@@ -247,10 +264,10 @@ const getInvoiceForCustomerWait = async (req, res) => {
     console.error("Error executing query:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-}
+};
 
 const getInvoiceForCustomerWork = async (req, res) => {
-  console.log('hello')
+  console.log("hello");
   const { email, role } = req.user;
   try {
     if (role === "customer") {
@@ -277,8 +294,8 @@ const getInvoiceForCustomerWork = async (req, res) => {
             LEFT JOIN Account acc ON acc.user_id = inv.maid_id`,
         [user_id]
       );
-      console.log(search_customer_work.rows)
-      res.status(200).json(search_customer_work.rows)
+      console.log(search_customer_work.rows);
+      res.status(200).json(search_customer_work.rows);
     } else {
       return res.status(403).json({ success: false, error: "Forbidden User" });
     }
@@ -286,9 +303,9 @@ const getInvoiceForCustomerWork = async (req, res) => {
     console.error("Error executing query:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-}
+};
 const getInvoiceForCustomerEnd = async (req, res) => {
-  console.log('hello')
+  console.log("hello");
   const { email, role } = req.user;
   try {
     if (role === "customer") {
@@ -314,8 +331,8 @@ const getInvoiceForCustomerEnd = async (req, res) => {
         LEFT JOIN Account acc ON acc.user_id = inv.maid_id`,
         [user_id]
       );
-      console.log(search_customer_end.rows)
-      res.status(200).json(search_customer_end.rows)
+      console.log(search_customer_end.rows);
+      res.status(200).json(search_customer_end.rows);
     } else {
       return res.status(403).json({ success: false, error: "Forbidden User" });
     }
@@ -323,10 +340,10 @@ const getInvoiceForCustomerEnd = async (req, res) => {
     console.error("Error executing query:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-}
+};
 
 const getInvoiceForMaidWork = async (req, res) => {
-  console.log('hello')
+  console.log("hello");
   const { email, role } = req.user;
   try {
     if (role === "maid") {
@@ -352,8 +369,8 @@ const getInvoiceForMaidWork = async (req, res) => {
             LEFT JOIN Account acc ON acc.user_id = inv.customer_id`,
         [user_id]
       );
-      console.log(search_customer_work.rows)
-      res.status(200).json(search_customer_work.rows)
+      console.log(search_customer_work.rows);
+      res.status(200).json(search_customer_work.rows);
     } else {
       return res.status(403).json({ success: false, error: "Forbidden User" });
     }
@@ -361,7 +378,7 @@ const getInvoiceForMaidWork = async (req, res) => {
     console.error("Error executing query:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-}
+};
 const getInvoiceForMaidWait = async (req, res) => {
   const { email, role } = req.user;
   try {
@@ -391,8 +408,8 @@ const getInvoiceForMaidWait = async (req, res) => {
             ON acc.user_id = inv.customer_id`,
         [user_id]
       );
-      console.log(search_customer_wait.rows)
-      res.status(200).json(search_customer_wait.rows)
+      console.log(search_customer_wait.rows);
+      res.status(200).json(search_customer_wait.rows);
     } else {
       return res.status(403).json({ success: false, error: "Forbidden User" });
     }
@@ -400,7 +417,7 @@ const getInvoiceForMaidWait = async (req, res) => {
     console.error("Error executing query:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-}
+};
 
 const getInvoiceForMaidEnd = async (req, res) => {
   const { email, role } = req.user;
@@ -430,8 +447,8 @@ const getInvoiceForMaidEnd = async (req, res) => {
             ON acc.user_id = inv.customer_id`,
         [user_id]
       );
-      console.log(search_customer_end.rows)
-      res.status(200).json(search_customer_end.rows)
+      console.log(search_customer_end.rows);
+      res.status(200).json(search_customer_end.rows);
     } else {
       return res.status(403).json({ success: false, error: "Forbidden User" });
     }
@@ -439,46 +456,47 @@ const getInvoiceForMaidEnd = async (req, res) => {
     console.error("Error executing query:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-}
+};
 
 const updateInvoiceStatus = async (req, res) => {
-    const id = parseInt(req.params.Invoice_ID);
-    const status = req.params.status;
-    const { current_time } = req.body;
-    console.log(current_time)
-  
-    if (isNaN(id)) {
-      return res.status(400).json({ error: "Invalid ID" });
-    }
-  
-    try {
+  const id = parseInt(req.params.Invoice_ID);
+  const status = req.params.status;
+  const { current_time } = req.body;
+  console.log(current_time);
 
-        if (current_time) {
-            const result = await pool.query(
-                `UPDATE Invoice 
+  if (isNaN(id)) {
+    return res.status(400).json({ error: "Invalid ID" });
+  }
+
+  try {
+    if (current_time) {
+      const result = await pool.query(
+        `UPDATE Invoice 
                 SET status = $1, submit_time = $2
-                WHERE Invoice_ID = $3 RETURNING *`, 
-                [status , current_time, id]);
-              if (result.rowCount === 0) {
-                return res.status(404).json({ error: "Invoice not found" });
-              }
-              res.status(200).json(result.rows[0]);
-        } else {
-            const result = await pool.query(
-                `UPDATE Invoice 
+                WHERE Invoice_ID = $3 RETURNING *`,
+        [status, current_time, id]
+      );
+      if (result.rowCount === 0) {
+        return res.status(404).json({ error: "Invoice not found" });
+      }
+      res.status(200).json(result.rows[0]);
+    } else {
+      const result = await pool.query(
+        `UPDATE Invoice 
                 SET status = $1
-                WHERE Invoice_ID = $2 RETURNING *`, 
-                [status, id]);
-              if (result.rowCount === 0) {
-                return res.status(404).json({ error: "Invoice not found" });
-              }
-              res.status(200).json(result.rows[0]);
-        }
-    } catch (error) {
-      console.error("Error executing query:", error);
-      res.status(500).json({ error: "Internal server error" });
+                WHERE Invoice_ID = $2 RETURNING *`,
+        [status, id]
+      );
+      if (result.rowCount === 0) {
+        return res.status(404).json({ error: "Invoice not found" });
+      }
+      res.status(200).json(result.rows[0]);
     }
-  };
+  } catch (error) {
+    console.error("Error executing query:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 
   const getInvoiceByDate = async (req, res) => {
     const { email, role } = req.user;

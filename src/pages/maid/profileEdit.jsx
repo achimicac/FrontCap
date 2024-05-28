@@ -1,139 +1,214 @@
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import ProfileEdit from "../../components/ProfileEdit";
 import Popup from "../../components/Popup";
 import { useNavigate } from "react-router-dom";
 import ManageJob from "../../components/ManageJob";
-import Axios  from "../../axios"
-import './styles/blurBackground.css'
+import api from "../../axios";
+import "./styles/blurBackground.css";
 
 function MaidProfileEdit() {
-      const navigate = useNavigate();
+  const navigate = useNavigate();
 
-      const [maid, setMaid] = useState({ 
-            id: 1, 
-            firstname: "atchima", 
-            lastname: "nateepradap", 
-            jobtype: [
-                  {job_id: 1, job_name: "กวาดบ้าน"}, 
-                  {job_id: 2, job_name: "ถูบ้าน"}, 
-                  {job_id: 3, job_name: "ล้างจาน"}
-            ], 
-            role: 'maid' 
+  const [user, setUser] = useState({});
+  const [jobs, setJobs] = useState([]);
+  const [maid, setMaid] = useState({});
+
+  const [inputOldPass, setInputOldPass] = useState("");
+  const [isOldPass, setOldPass] = useState(false);
+
+  const [alertConfirm, setAlertConfirm] = useState(false);
+  const [alertCancel, setAlertCancel] = useState(false);
+
+  const fetchUser = async () =>
+    await api
+      .post("/api/v1/account/getAccount", {
+        token: window.localStorage.getItem("authtoken"),
+      })
+      .then((res) => {
+        if (res.data.success) setUser(res.data.user);
+        fetchUserJob();
       });
-      const [jobchoices, setJobchoices] = useState([
-            {job_id: 1, job_name: "กวาดบ้าน"}, 
-            {job_id: 2, job_name: "ถูบ้าน"}, 
-            {job_id: 3, job_name: "ล้างจาน"}, 
-            {job_id: 4, job_name: "ซักผ้า"},
-            {job_id: 5, job_name: 'จัดห้อง'},
-            {job_id: 6, job_name: 'รดน้ำต้นไม้'}
-      ])
-      //const [maid, setMaid] = useState();
-      //const [jobchoices, setJobchoices] = useState([])
-      const [alertConfirm, setAlertConfirm] = useState(false);
-      const [alertCancel, setAlertCancel] = useState(false);
 
-      /*useEffect(() => {
-            const fetchProfile = async () => {
-                  try {
-                        const res = await Axios.get('/api/maid/profile/edit')
-                        setMaid(res.data.profile);
-                        setJobchoices(res.data.jobchoices)
-                  } catch (err) {
-                        console.log(err)
-                  }
-            }
+  const fetchUserJob = async () =>
+    await api
+      .post("/api/v1/userJob/Userjobs", {
+        token: window.localStorage.getItem("authtoken"),
+      })
+      .then((res) => {
+        if (res.data.success) setJobs(res.data.jobs);
+      });
 
-            fetchProfile();
-      }, [])*/
+  const uploadImage = async (_fileImage) => {
+    const formData = new FormData();
+    formData.append("image", _fileImage);
+    formData.append("token", window.localStorage.getItem("authtoken"));
+    await api
+      .post("/api/v1/account/uploadImage", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Important for file uploads
+        },
+      })
+      .then((res) => {
+        if (res.data.success)
+          setMaid({ ...maid, ["user_pic"]: res.data.imageName });
+      });
+  };
 
-      const handleChange = useCallback((e) => {
-            if (e.target.name === 'user_pic') {
-                const file = e.target.files[0];
-                setMaid({ ...maid, [e.target.name]: file });
-            } else if (e.target.name === "jobtype") {
-                const [valueId, valueName] = e.target.value.split('-');
-                const jobTypeId = parseInt(valueId, 10);
-                if (e.target.checked) {
-                    setMaid(prevMaid => ({ ...prevMaid, jobtype: [...prevMaid.jobtype, { job_id: jobTypeId, job_name: valueName }] }));
-                } else {
-                    setMaid(prevMaid => ({ ...prevMaid, jobtype: prevMaid.jobtype.filter(job => job.job_id !== jobTypeId) }));
-                }
-            } else {
-                setMaid({ ...maid, [e.target.name]: e.target.value });
-            }
-      }, [maid]);
-        
-        
-      console.log(maid.jobtype)
-        
+  useEffect(() => {
+    checkOldPass(inputOldPass);
+  }, [inputOldPass]);
 
-      const handleClickConfirmOK = async (e) => {
-            e.preventDefault();
-            try {
-                const formData = new FormData();
-                for (const key in maid) {
-                    formData.append(key, maid[key]);
-                }
-    
-                const {editprofile} = await Axios.put('/api/maid/profile/edit', formData)
-    
-                if ( !editprofile.data.success ) {
-                    setMessage(editprofile.data.text)
-                    setAlert(true);
-                    return;
-                }
-                navigate(-1);
-            } catch (error) {
-                console.error("Error:", error);
-            }
+  useEffect(() => {
+    if (isOldPass) {
+      setMaid({ ...maid, ["checkPass"]: isOldPass });
+      setOldPass(false);
+    }
+  }, [isOldPass]);
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    const maid_data = {
+      user_role: user.user_role,
+      user_gender: user.user_gender,
+      user_pic: user.user_pic,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      birthday: user.birthday,
+      tel: user.tel,
+      email: user.email,
+      pass: null,
+      oldpass: "",
+      description: user.description,
+      jobs: jobs,
+    };
+    setMaid(maid_data);
+    //     console.log(maid_data);
+  }, [user]);
+
+  const checkOldPass = async (_oldPass) => {
+    // console.log(_oldPass);checkOldPass(oldPass);
+    const check_old_pass = {
+      token: window.localStorage.getItem("authtoken"),
+      oldPass: _oldPass,
+    };
+
+    await api
+      .post("/api/v1/account/checkOldPass", check_old_pass)
+      .then((res) => {
+        if (res.data.success && res.data.check_pass) {
+          setOldPass(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleChange = useCallback(
+    (e) => {
+      if (e.target.name === "oldpass") {
+        const oldPass = e.target.value;
+        setMaid({ ...maid, ["oldpass"]: oldPass });
+        setInputOldPass(oldPass);
+      } else {
+        setMaid({ ...maid, [e.target.name]: e.target.value });
       }
-      
-      const handleClickCancelOK = () => {
-            navigate(-1)
-      }
-      
-      const handleSubmit = () => {
-            setAlertConfirm(true);
-      }
-      
-      const handleClickCancel = () => {
-            setAlertCancel(true);
-      }
+    },
+    [maid]
+  );
 
-      console.log(maid)
+  const handleJobChange = (_selectedJobs) => {
+    setMaid({ ...maid, ["jobs"]: _selectedJobs });
+  };
 
-      return (
-            <>
-                  <Popup 
-                        alert={alertConfirm} 
-                        message={"ต้องการทยืนยันการแก้ไข ใช่ หรือ ไม่"}
-                        clickCancel={() => { setAlertConfirm(false) }} 
-                        clickOK={handleClickConfirmOK}
-                  />
-                  <Popup 
-                        alert={alertCancel} 
-                        message={"ต้องการยกเลิกการแก้ไข ใช่ หรือ ไม่"}
-                        clickCancel={() => { setAlertCancel(false) }} 
-                        clickOK={handleClickCancelOK} 
-                  />
-                  
-                  <div  className={`page-container ${alertConfirm || alertCancel ? 'blurred' : ''}`}>
-                        <form>
-                              <ProfileEdit 
-                                    user={maid} 
-                                    handleChange={handleChange} 
-                                    handleSubmit={handleSubmit} 
-                                    handleCancle={handleClickCancel}
-                                    manageJob={handleChange}
-                                    jobchoices={jobchoices}
-                                    clickSubmit={handleSubmit}
-                                    clickCancle={handleClickCancel}
-                              />
-                        </form>
-                  </div>
-            </>
-      )
+  const handleClickConfirmOK = async (e) => {
+    e.preventDefault();
+    console.log(maid);
+
+    const job_ids = maid.jobs.map((job) => job.job_id);
+    try {
+      const updateData = {
+        user_pic: maid.user_pic,
+        user_role: maid.user_role,
+        user_gender: maid.user_gender,
+        firstname: maid.firstname,
+        lastname: maid.lastname,
+        birthday: maid.birthday,
+        email: maid.email,
+        pass: maid.pass,
+        tel: maid.tel,
+        description: maid.description,
+        jobs: job_ids,
+      };
+      await api.post("/api/v1/account/editMaidProfile", updateData);
+
+      navigate(-1);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    uploadImage(file);
+  };
+
+  const handleClickCancelOK = () => {
+    navigate(-1);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setAlertConfirm(true);
+  };
+
+  const handleClickCancel = (e) => {
+    e.preventDefault();
+    setAlertCancel(true);
+  };
+
+  return (
+    <>
+      <Popup
+        alert={alertConfirm}
+        message={"ต้องการยืนยันการแก้ไข ใช่ หรือ ไม่"}
+        clickCancel={() => {
+          setAlertConfirm(false);
+        }}
+        clickOK={handleClickConfirmOK}
+      />
+      <Popup
+        alert={alertCancel}
+        message={"ต้องการยกเลิกการแก้ไข ใช่ หรือ ไม่"}
+        clickCancel={() => {
+          setAlertCancel(false);
+        }}
+        clickOK={handleClickCancelOK}
+      />
+
+      <div
+        className={`page-container ${
+          alertConfirm || alertCancel ? "blurred" : ""
+        }`}
+      >
+        <form>
+          <ProfileEdit
+            user={maid}
+            handleChange={handleChange}
+            handleImageChange={handleImageChange}
+            handleJobChange={handleJobChange}
+            handleCancle={handleClickCancel}
+            manageJob={handleChange}
+            clickSubmit={handleSubmit}
+            clickCancle={handleClickCancel}
+          />
+        </form>
+      </div>
+    </>
+  );
 }
 
 export default MaidProfileEdit;

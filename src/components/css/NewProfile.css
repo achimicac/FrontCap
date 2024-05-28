@@ -1,4 +1,5 @@
 main.profile-wrapper {
+
       overflow: auto;
       background-color: #80cbc4;
       display: flex;
@@ -7,13 +8,14 @@ main.profile-wrapper {
 }
 
 main.profile-wrapper header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 /*  */
 main.profile-wrapper header span {
+
       font-size: 2.5em;
       font-weight: 600;
       padding-top: 2vw;
@@ -26,14 +28,15 @@ main.profile-wrapper header span:nth-child(3) {
       padding: 2vw 5vw 5vw 5vw;
 }
 
-main.profile-wrapper header img{
-      aspect-ratio: 1 / 1;
-      border-radius: 50%;
-      max-width: 30%;
-      height: auto;
+main.profile-wrapper header img {
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  max-width: 30%;
+  height: auto;
 }
 
 main.profile-wrapper main {
+
       padding: 1.5em;
       row-gap: 1em;
       background-color: white;
@@ -64,11 +67,12 @@ main.profile-wrapper main section span {
       align-self: center;
 }
 
-main.profile-wrapper section.jobtype{
-      grid-template-areas: 
-            'topic topic'
-            'job job';
+main.profile-wrapper section.jobtype {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
+
 main.profile-wrapper section.jobtype b{
       grid-area: topic;
 }
@@ -125,33 +129,36 @@ main.profile-wrapper footer button {
 }
 main.profile-wrapper footer button:focus:not(:focus-visible),
 main.profile-wrapper footer button:focus {
-      outline: 0;
+  outline: 0;
 }
 main.profile-wrapper footer button:hover {
-      background-color: #00897B;
-      border-color: #00897B;
+  background-color: #00897b;
+  border-color: #00897b;
 }
 main.profile-wrapper footer button:focus {
-      background-color: #80CBCE;
-      border-color: #93c9ca;
-      box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0 inset, rgba(46, 54, 80, 0.075) 0 1px 1px, rgba(104, 101, 235, 0.5) 0 0 0 .2rem;
+  background-color: #80cbce;
+  border-color: #93c9ca;
+  box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0 inset,
+    rgba(46, 54, 80, 0.075) 0 1px 1px, rgba(104, 101, 235, 0.5) 0 0 0 0.2rem;
 }
 main.profile-wrapper footer button:active {
-      background-color: #519ea1;
-      background-image: none;
-      border-color: #5bc6cc;
-      box-shadow: rgba(46, 54, 80, 0.125) 0 3px 5px inset;
+  background-color: #519ea1;
+  background-image: none;
+  border-color: #5bc6cc;
+  box-shadow: rgba(46, 54, 80, 0.125) 0 3px 5px inset;
 }
 main.profile-wrapper footer button:focus {
-      box-shadow: rgba(3, 84, 69, 0.125) 0 3px 5px inset, rgba(104, 101, 235, 0.5) 0 0 0 .2rem;
+  box-shadow: rgba(3, 84, 69, 0.125) 0 3px 5px inset,
+    rgba(104, 101, 235, 0.5) 0 0 0 0.2rem;
 }
 main.profile-wrapper footer button:disabled {
-      background-image: none;
-      box-shadow: none;
-      opacity: 0.65;
-      pointer-events: none;
+  background-image: none;
+  box-shadow: none;
+  opacity: 0.65;
+  pointer-events: none;
 }
 @media (min-width: 600px) {
+
       main.profile-wrapper {
             padding: 0px;
             display: grid;
@@ -181,5 +188,5 @@ main.profile-wrapper footer button:disabled {
       main.profile-wrapper main section {
             padding: 1vw;
       }
-}
 
+}

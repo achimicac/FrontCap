@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Profile from "../../components/Profile";
 import { useNavigate } from "react-router-dom";
-import Axios  from "../../axios"
+import api from "../../axios";
 
 function UserProfile() {
-      const navigate = useNavigate();
+  const navigate = useNavigate();
 
       const [user, setUser] = useState({ 
             id: 1, 
@@ -15,30 +15,29 @@ function UserProfile() {
             tel: '0925097833',
             email: 'atchi@gmail.com'
       });
-      //const [user, setUser] = useState();
+  
+  const fetchUser = async () =>
+    await api
+      .post("/api/v1/account/getAccount", {
+        token: window.localStorage.getItem("authtoken"),
+      })
+      .then((res) => {
+        if (res.data.success) setUser(res.data.user);
+      });
 
-      /*useEffect(() => {
-            const fetchUser = async () => {
-                  try {
-                        const res = await Axios.get('/api/customer/profile')
-                        setUser(res.data)
-                  } catch (err) {
-                        console.log(err)
-                  }
-            }
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
-            fetchUser();
-      }, [])*/
+  const handleClick = () => {
+    navigate("edit");
+  };
 
-      const handleClick = () => {
-            navigate('edit')
-      }
-
-      return (
-            <>
-                  <Profile user={user} isMaid={false} clickEdit={handleClick}/>
-            </>
-      )
+  return (
+    <>
+      <Profile user={user} isMaid={false} clickEdit={handleClick} />
+    </>
+  );
 }
 
 export default UserProfile;

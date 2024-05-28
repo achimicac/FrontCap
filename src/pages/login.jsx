@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import Popup from "../components/Popup";
 import "./styles/login.css";
 import useAuth from "../Auth/useAuth";
-import api from "../axios";
 
 function Login() {
   const { auth, setAuth } = useAuth();

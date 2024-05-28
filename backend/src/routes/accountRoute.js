@@ -10,11 +10,14 @@ router.post("/", AccountController.addAccount);
 router.post("/login", AccountController.login);
 router.post("/register", AccountController.register);
 router.put("/:user_id", AccountController.updateAccount);
-// router.post(
-//   "/uploadImage",
-//   upload.single("image"),
-//   AccountController.uploadImage
-// );
+router.post(
+  "/uploadImage",
+  upload.single("image"),
+  AccountController.uploadImage
+);
+router.post("/editCustomerProfile", AccountController.editCustomerProfile);
+router.post("/editMaidProfile", AccountController.editMaidProfile);
+router.post("/checkOldPass", auth, AccountController.checkOldPass);
 router.delete("/:user_id", AccountController.deleteAccount);
 
 module.exports = router;

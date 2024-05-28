@@ -105,7 +105,10 @@ function EmployMaid({
           {newInvoice.jobs.map((job, jobin) => (
             <p key={jobin}>
               <span>
-                {jobchoices.find((jobname) => jobname.job_id === job).job_name}
+                {
+                  jobchoices.find((jobname) => jobname.job_id === job.job_id)
+                    .job_name
+                }
               </span>
             </p>
           ))}
@@ -116,9 +119,9 @@ function EmployMaid({
               <input
                 name="jobs"
                 type="checkbox"
-                value={job.job_id}
+                value={JSON.stringify(job)}
                 checked={newInvoice.jobs.some(
-                  (maidJob) => maidJob === job.job_id
+                  (maidJob) => maidJob.job_id === job.job_id
                 )}
                 onChange={handleChange}
               />
