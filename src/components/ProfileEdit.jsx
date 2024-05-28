@@ -34,7 +34,7 @@ function ProfileEdit({
               type="file"
               ref={userImg}
               style={{ display: "none" }}
-              onChange={(e) => handleImageChange(e, 0)}
+              onChange={(e) => handleImageChange(e)}
             ></input>
           </label>
         </figure>
@@ -44,7 +44,7 @@ function ProfileEdit({
           <b> บทบาท </b>
           <div>
             <label className="radio-container">
-              ลูกค้า
+              
               <input
                 name="role"
                 type="radio"
@@ -54,7 +54,7 @@ function ProfileEdit({
                 checked={user.user_role === "customer"}
                 disabled={true}
               />
-              <span className="checkmark"></span>
+              <span className="checkmark">ผู้ใช้ทั่วไป</span>
             </label>
             <label className="radio-container">
               แม่บ้าน
@@ -71,6 +71,19 @@ function ProfileEdit({
             </label>
           </div>
         </section>
+
+        <section>
+          <b>วันเกิด</b>
+          <input
+            name="birthday"
+            type="date"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.birthday}
+            required
+          />
+        </section>
+
         <section>
           <b>ชื่อ</b>
           <input
@@ -96,18 +109,6 @@ function ProfileEdit({
         </section>
 
         <section>
-          <b>วันเกิด</b>
-          <input
-            name="birthday"
-            type="date"
-            onChange={handleChange}
-            autoComplete="off"
-            value={user.birthday}
-            required
-          />
-        </section>
-
-        <section>
           <b>โทรศัพท์</b>
           <input
             name="tel"
@@ -126,7 +127,7 @@ function ProfileEdit({
           <span>{user.email}</span>
         </section>
         <section>
-          <b>คำอธิบาย</b>
+          <b>เกี่ยวกับฉัน</b>
           <textarea
             name="description"
             type="text"
@@ -138,9 +139,7 @@ function ProfileEdit({
         {manageJob && (
           <ManageJob
             user={user}
-            jobchoices={jobchoices}
             handleChange={handleChange}
-            handleJobChange={handleJobChange}
           />
         )}
         <section>
@@ -195,6 +194,7 @@ function ProfileEdit({
       </main>
     </main>
   );
+
 }
 
 export default ProfileEdit;

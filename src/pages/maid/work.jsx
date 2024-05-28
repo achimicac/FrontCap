@@ -64,7 +64,7 @@ function MaidStatusWork() {
             />
             <div  className={`page-container ${alertConfirm ? 'blurred' : ''}`}>
                   {customers.map((customer, customerid) => (
-                        <section key={customerid}>
+                        <section key={customerid} >
                               {customer.user_id &&
                               <ProfileBox
                                     user={customer}

@@ -6,14 +6,16 @@ import api from "../../axios";
 function UserProfile() {
   const navigate = useNavigate();
 
-  const [user, setUser] = useState({
-    id: 1,
-    firstname: "atchima",
-    lastname: "nateepradap",
-    birthday: "12-09-2003",
-    role: "user",
-  });
-
+      const [user, setUser] = useState({ 
+            id: 1, 
+            firstname: "atchima", 
+            lastname: "nateepradap",
+            birthday: '12-09-2003',  
+            role: 'user' ,
+            tel: '0925097833',
+            email: 'atchi@gmail.com'
+      });
+  
   const fetchUser = async () =>
     await api
       .post("/api/v1/account/getAccount", {

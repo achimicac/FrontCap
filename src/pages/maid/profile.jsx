@@ -54,6 +54,7 @@ function MaidProfile() {
       })
       .then((res) => {
         if (res.data.success) setJobs(res.data.jobs);
+
       });
 
   useEffect(() => {

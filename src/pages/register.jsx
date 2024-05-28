@@ -13,7 +13,7 @@ function Register() {
   const fetchJobs = async () => await api.get("/api/v1/job");
 
   const [page, setPage] = useState(0);
-  const [jobchoices, setJobchoices] = useState({ job_id: "", job_name: "" });
+  //const [jobchoices, setJobchoices] = useState({ job_id: "", job_name: "" });
   const [user, setUser] = useState({
     user_role: "",
     user_gender: "",
@@ -36,11 +36,20 @@ function Register() {
   const [showMap, setShowMap] = useState(false);
   const isMatch = user.pass === cfpw;
 
-  useEffect(() => {
-    fetchJobs().then((res) => {
-      setJobchoices(res.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   fetchJobs().then((res) => {
+  //     setJobchoices(res.data);
+  //   });
+  // }, []);
+
+  const [jobchoices, setJobchoices] = useState([
+    {job_id: 1, job_name: "กวาดบ้าน"}, 
+    {job_id: 2, job_name: "ถูบ้าน"}, 
+    {job_id: 3, job_name: "ล้างจาน"}, 
+    {job_id: 4, job_name: "ซักผ้า"},
+    {job_id: 5, job_name: 'จัดห้อง'},
+    {job_id: 6, job_name: 'รดน้ำต้นไม้'}
+])
 
   const handleChange = useCallback((e) => {
     const { name, value, files, checked } = e.target;
@@ -162,7 +171,7 @@ function Register() {
 
 
                     <section>
-                        สมัครเป็น
+                        <b>สมัครเป็น</b>
                         <section>
                             <label>
                                 <input
@@ -188,7 +197,7 @@ function Register() {
                     </section>
 
                     <section>
-                        เพศ
+                        <b>เพศ</b>
                         <section>
                             <label>
                                 <input
@@ -224,7 +233,7 @@ function Register() {
                     </section>
 
                     <label>
-                        ชื่อ
+                        <b>ชื่อ</b>
                         <input
                             name="firstname"
                             type="text"
@@ -236,7 +245,7 @@ function Register() {
                     </label>
 
                     <label>
-                        นามสกุล
+                        <b>นามสกุล</b>
                         <input
                             name="lastname"
                             type="text"
@@ -248,7 +257,7 @@ function Register() {
                     </label>
 
                     <label className="birthday-label">
-                        วันเกิด
+                        <b>วันเกิด</b>
                         <section>
                             <LuCalendarDays />
                             <input
@@ -262,9 +271,19 @@ function Register() {
                             />
                         </section>
                     </label>
+                    <label>
+                          <b>เกี่ยวกับฉัน</b>
+                          <textarea
+                              name="descript"
+                              type="text"
+                              onChange={handleChange}
+                              autoComplete="off"
+                              value={user.description}
+                          />
+                    </label>
 
                     <label>
-                        เบอร์โทรศัพท์
+                        <b>เบอร์โทรศัพท์</b>
                         <input
                             name="tel"
                             type="text"
@@ -277,7 +296,7 @@ function Register() {
                     </label>
 
                     <label>
-                        อีเมล
+                        <b>อีเมล</b>
                         <input
                             name="email"
                             type="email"
@@ -289,7 +308,7 @@ function Register() {
                     </label>
 
                     <label>
-                        ที่อยู่
+                        <b>ที่อยู่</b>
                         <label> ละติจูด : {user.latitude}</label>
                         <label> ลองจิจูด : {user.longitude}</label>
                         <button className="select-map" type="button" onClick={SelectLocation}>
@@ -298,7 +317,7 @@ function Register() {
                     </label>
 
                     <label>
-                            รายละเอียดที่อยู่เพิ่มเติม
+                            <b>รายละเอียดที่อยู่เพิ่มเติม</b>
                             <input
                             name="minfo"
                             type="text"
@@ -309,7 +328,7 @@ function Register() {
                     </label>
 
                     <label>
-                        รหัสผ่าน
+                        <b>รหัสผ่าน</b>
                         <input
                             name="pass"
                             type="password"
@@ -321,7 +340,7 @@ function Register() {
                     </label>
 
                     <label>
-                        ยืนยันรหัสผ่าน
+                        <b>ยืนยันรหัสผ่าน</b>
                         <input
                             name="cfpw"
                             type="password"
