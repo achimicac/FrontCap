@@ -5,52 +5,46 @@ import "./css/ProfileEdit.css";
 function ProfileEdit({
   user,
   handleChange,
+  handleImageChange,
   manageJob = null,
   jobchoices,
   clickSubmit,
   clickCancle,
+  handleJobChange,
 }) {
-  const userImg = useRef(null);
-  const [hidepw, setHidepw] = useState(true);
+  const userImg = useRef("");
   const [cfpw, setCfpw] = useState("");
 
-  const seePassword = () => {
-    console.log("kuay");
-  };
-  const handleClickImg = () => {
-    userImg.current.click();
-  };
-  //   const isMatch = user.password === cfpw;
+  const isMatch = user.pass === cfpw;
 
   return (
     <main className="editprofile-wrapper">
       <header>
-        <figure onClick={handleClickImg}>
+        <figure>
           <label>
-            {/* {user.user_pic ? (
-              <img
-                src={`data:image/jpeg;base64,${maid.user_pic}`}
-                style={{ width: "30vw" }}
-              />
+            {user.user_pic ? (
+              <img src={"../../public/imageGalleries/" + user.user_pic} />
             ) : (
-              <img src={"/sudlore.png"} style={{ width: "30vw" }} />
-            )} */}
+              <img
+                src={"../../public/imageGalleries/1716567567852no_account.png"}
+              />
+            )}
             <input
               name="user_pic"
               type="file"
               ref={userImg}
               style={{ display: "none" }}
-              onChange={handleChange}
+              onChange={(e) => handleImageChange(e, 0)}
             ></input>
           </label>
         </figure>
       </header>
       <main>
         <section className="radio-wrapper">
-          <b> Role </b>
+          <b> บทบาท </b>
           <div>
             <label className="radio-container">
-              customer
+              ลูกค้า
               <input
                 name="role"
                 type="radio"
@@ -63,7 +57,7 @@ function ProfileEdit({
               <span className="checkmark"></span>
             </label>
             <label className="radio-container">
-              maid
+              แม่บ้าน
               <input
                 type="radio"
                 name="role"
@@ -77,9 +71,8 @@ function ProfileEdit({
             </label>
           </div>
         </section>
-
         <section>
-          <b>Firstname</b>
+          <b>ชื่อ</b>
           <input
             name="firstname"
             type="text"
@@ -91,7 +84,7 @@ function ProfileEdit({
         </section>
 
         <section>
-          <b>Lastname</b>
+          <b>นามสกุล</b>
           <input
             name="lastname"
             type="text"
@@ -103,7 +96,7 @@ function ProfileEdit({
         </section>
 
         <section>
-          <b>Birthday</b>
+          <b>วันเกิด</b>
           <input
             name="birthday"
             type="date"
@@ -115,64 +108,31 @@ function ProfileEdit({
         </section>
 
         <section>
-          <b>Telephone</b>
+          <b>โทรศัพท์</b>
           <input
-            name="telephone"
+            name="tel"
             type="text"
             onChange={handleChange}
             autoComplete="off"
-            value={user.telephone}
+            value={user.tel}
             //placeholder="xxx-xxx-xxxx"
-            //pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             maxLength={10}
             required
           />
         </section>
 
         <section>
-          <b>Email</b>
-          <input
-            name="email"
-            type="email"
-            onChange={handleChange}
-            autoComplete="off"
-            value={user.email}
-            required
-          />
+          <b>อีเมล</b>
+          <span>{user.email}</span>
         </section>
-
-        {/*<section>
-                <b>Password</b>
-                <input
-                name="password"
-                type="password"
-                onChange={handleChange}
-                autoComplete="off"
-                value={user.password}
-                required
-                />
-            </section>
-
-            <section>
-                <b> Confirm Password</b>
-                <input
-                name="cfpw"
-                type="password"
-                onChange={(e) => setCfpw(e.target.value)}
-                autoComplete="off"
-                value={cfpw}
-                required
-                />
-            </section>
-            <p style={isMatch ? { display: "none" } : {}}>Password is not Match!</p>*/}
         <section>
-          <b>Description</b>
+          <b>คำอธิบาย</b>
           <textarea
-            name="descript"
+            name="description"
             type="text"
             onChange={handleChange}
             autoComplete="off"
-            value={user.descript}
+            value={user.description}
           />
         </section>
         {manageJob && (
@@ -180,8 +140,51 @@ function ProfileEdit({
             user={user}
             jobchoices={jobchoices}
             handleChange={handleChange}
+            handleJobChange={handleJobChange}
           />
         )}
+        <section>
+          <b>รหัสผ่านเก่า</b>
+          <input
+            name="oldpass"
+            type="password"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.oldpass ? user.oldpass : ""}
+            required
+          />
+        </section>
+        <section>
+          <b>รหัสผ่าน</b>
+          <input
+            name="pass"
+            type="password"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.pass ? user.pass : ""}
+            required
+          />
+        </section>
+
+        <section>
+          <b> ยืนยันรหัสผ่าน </b>
+          <input
+            name="cfpw"
+            type="password"
+            onChange={(e) => setCfpw(e.target.value)}
+            autoComplete="off"
+            value={cfpw}
+            required
+          />
+        </section>
+        <div>
+          {user.checkPass ? (
+            <p style={isMatch ? { display: "none" } : {}}>รหัสผ่านไม่ตรงกัน</p>
+          ) : (
+            <p>รหัสผ่านเก่าผิด</p>
+          )}
+        </div>
+
         <footer className="profile-footer">
           <button onClick={clickSubmit}> ตกลง </button>
           <button onClick={clickCancle} className="cancle">

@@ -23,7 +23,6 @@ function ProfileBox({
   return (
     <div className="profilebox-wrapper">
       <section className="profilebox-container">
-        {/*<figure className="profilebox-avatar">*/}
         {user.user_pic ? (
           <img src={"../../public/imageGalleries/" + user.user_pic} />
         ) : (
@@ -31,7 +30,7 @@ function ProfileBox({
             src={"../../public/imageGalleries/1716567567852no_account.png"}
           />
         )}
-        {/*</figure>*/}
+
         <div className="profilebox-content">
           <article className="profilebox-information">
             <header>
@@ -42,8 +41,8 @@ function ProfileBox({
               วันที่ :<span>{result}</span>
               เวลา :
               <span>
-                {user.start_time.split(":", 1)}.00 น. -{" "}
-                {user.end_time.split(":", 1)}.00 น.
+                {/* {user.start_time.split(":", 1)}.00 น. -{" "}
+                {user.end_time.split(":", 1)}.00 น. */}
               </span>
             </section>
             <section className="job-chips">

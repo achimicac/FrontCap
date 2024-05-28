@@ -258,20 +258,169 @@ const login = async (req, res) => {
   }
 };
 
-// const uploadImage = async (req, res) => {
-//   // console.log("yay");
-//   const imageName = req.file.filename;
+const uploadImage = async (req, res) => {
+  const imageName = req.file.filename;
+  const token = req.body.token;
 
-//   try {
-//     const upload_query = `UPDATE Account SET
-//                         User_Pic = $1
-//                     WHERE User_Pic IS NULL RETURNING *`;
-//     const { rows } = await pool.query(upload_query, [imageName]);
-//     res.json({ success: true });
-//   } catch (err) {
-//     res.json({ success: false, error: err });
-//   }
-// };
+  if (!token) {
+    return res.status(401).send("ไม่พบ token, ยกเลิกการยืนยันตัวตน");
+  }
+  const decoded = jwt.verify(token, "jwtS3cr3t");
+  const { email, role } = decoded.user;
+
+  if (!email || !role) {
+    return res
+      .status(400)
+      .json({ success: false, error: "Invalid request data" });
+  }
+
+  try {
+    const user = await pool.query("SELECT * FROM Account WHERE email = $1", [
+      email,
+    ]);
+    const user_id = user.rows[0].user_id;
+
+    const upload_query = `UPDATE Account SET
+                        User_Pic = $1
+                    WHERE user_id = $2 RETURNING *`;
+    const { rows } = await pool.query(upload_query, [imageName, user_id]);
+
+    return res.json({ success: true, imageName: imageName });
+  } catch (err) {
+    return res.json({ success: false, error: err });
+  }
+};
+
+const editCustomerProfile = async (req, res) => {
+  const {
+    user_pic,
+    user_role,
+    firstname,
+    lastname,
+    user_gender,
+    birthday,
+    email,
+    pass,
+    tel,
+    description,
+  } = req.body;
+
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const passwordEncoded = await bcrypt.hash(pass, salt);
+    const user = await pool.query("SELECT * FROM Account WHERE email = $1", [
+      email,
+    ]);
+    const user_id = user.rows[0].user_id;
+
+    const { rows } = await pool.query(queries.updateAccount, [
+      user_role,
+      user_gender,
+      user_pic,
+      firstname,
+      lastname,
+      new Date(birthday),
+      tel,
+      email,
+      passwordEncoded,
+      description,
+      user_id,
+    ]);
+    if (rows.length > 0) return res.status(200).json({ success: true });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err });
+  }
+};
+
+const editMaidProfile = async (req, res) => {
+  const {
+    user_pic,
+    user_role,
+    firstname,
+    lastname,
+    user_gender,
+    birthday,
+    email,
+    pass,
+    tel,
+    description,
+    jobs,
+  } = req.body;
+
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const passwordEncoded = await bcrypt.hash(pass, salt);
+    const user = await pool.query("SELECT * FROM Account WHERE email = $1", [
+      email,
+    ]);
+    const user_id = user.rows[0].user_id;
+
+    const account = await pool.query(queries.updateAccount, [
+      user_role,
+      user_gender,
+      user_pic,
+      firstname,
+      lastname,
+      new Date(birthday),
+      tel,
+      email,
+      passwordEncoded,
+      description,
+      user_id,
+    ]);
+
+    const deleteUserJob = "DELETE FROM UserJob WHERE User_ID = $1 RETURNING *";
+    const delete_query = await pool.query(deleteUserJob, [user_id]);
+
+    const addUserJob =
+      "INSERT INTO UserJob (User_ID, Job_ID) VALUES ($1, $2) RETURNING *";
+
+    let result = [];
+    for (let i = 0; i < jobs.length; i++) {
+      const add_query = await pool.query(addUserJob, [user_id, jobs[i]]);
+      result.push(add_query);
+    }
+
+    if (delete_query.rows.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, error: "No UserJob was created" });
+    }
+    if (result.length === 0) {
+      return res
+        .status(500)
+        .json({ success: false, error: "Can't Insert UserJob" });
+    }
+
+    if (account.rows.length > 0) return res.status(200).json({ success: true });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err });
+  }
+};
+
+const checkOldPass = async (req, res) => {
+  const { oldPass } = req.body;
+  const { email, role } = req.user;
+
+  if (!email || !role) {
+    return res
+      .status(400)
+      .json({ success: false, error: "Invalid request data" });
+  }
+  try {
+    const user = await pool.query("SELECT * FROM Account WHERE email = $1", [
+      email,
+    ]);
+    const comparePass = user.rows[0].pass;
+
+    const isMatch = await bcrypt.compare(oldPass, comparePass);
+
+    if (isMatch) {
+      return res.status(200).json({ success: true, check_pass: true });
+    }
+    return res.status(200).json({ success: true, check_pass: false });
+  } catch (err) {}
+};
 
 module.exports = {
   addAccount,
@@ -281,5 +430,8 @@ module.exports = {
   deleteAccount,
   register,
   login,
-  // uploadImage,
+  uploadImage,
+  editCustomerProfile,
+  editMaidProfile,
+  checkOldPass,
 };

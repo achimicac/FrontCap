@@ -1,14 +1,14 @@
 const jwt = require("jsonwebtoken");
 const pool = require("../../db");
 
-exports.auth = (req, res, next) => {
+exports.auth = async (req, res, next) => {
   try {
     const token = req.body.token;
 
     if (!token) {
       return res.status(401).send("ไม่พบ token, ยกเลิกการยืนยันตัวตน");
     }
-    const decoded = jwt.verify(token, "jwtS3cr3t");
+    const decoded = await jwt.verify(token, "jwtS3cr3t");
 
     //console.log("middleware", decoded);
     req.user = decoded.user;

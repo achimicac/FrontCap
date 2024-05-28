@@ -1,15 +1,42 @@
 const pool = require("../../db");
 const queries = require("../queries/UserJobQueries");
 
-// const getUserJobs = async (req, res) => {
-//   try {
-//     const result = await pool.query(queries.getUserJobs);
-//     res.status(200).json(result.rows);
-//   } catch (error) {
-//     console.error("Error executing query:", error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// };
+const getUserJobs = async (req, res) => {
+  const { email, role } = req.user;
+  try {
+    if (role === "maid") {
+      const user = await pool.query(
+        "SELECT user_id FROM Account WHERE email = $1",
+        [email]
+      );
+
+      const user_id = user.rows[0].user_id;
+
+      const search_maid_job = await pool.query(
+        "SELECT * FROM UserJob WHERE user_id = $1",
+        [user_id]
+      );
+      const maid_job = search_maid_job.rows;
+
+      if (maid_job.length > 0) {
+        const jobs = maid_job.map((maid) => maid.job_id);
+        let result = [];
+        const job_query = "SELECT * FROM Job WHERE Job_ID = $1";
+        for (let i = 0; i < jobs.length; i++) {
+          const job_data = await pool.query(job_query, [jobs[i]]);
+          result.push(job_data.rows[0]);
+        }
+
+        return res.status(200).json({ success: true, jobs: result });
+      } else {
+        return res.status(404).json({ success: false });
+      }
+    }
+  } catch (error) {
+    console.error("Error executing query:", error);
+    res.status(500).json({ success: false, error: error });
+  }
+};
 
 // const getUserJobById = async (req, res) => {
 //   const { User_ID, Job_ID } = req.params;
@@ -123,7 +150,7 @@ const deleteUserJob = async (req, res) => {
 };
 
 module.exports = {
-  // getUserJobs,
+  getUserJobs,
   // getUserJobById,
   addUserJob,
   updateUserJob,
