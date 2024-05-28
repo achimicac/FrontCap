@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import axios from "axios";
+import api from "../axios";
 import { useNavigate } from "react-router-dom";
 import Popup from "../components/Popup";
 import ManageJob from "../components/ManageJob";
@@ -10,8 +10,7 @@ import { LuCalendarDays } from "react-icons/lu";
 function Register() {
   const navigate = useNavigate();
 
-  const fetchJobs = async () =>
-    await axios.get("http://localhost:4800/api/v1/job");
+  const fetchJobs = async () => await api.get("/api/v1/job");
 
   const [page, setPage] = useState(0);
   //const [jobchoices, setJobchoices] = useState({ job_id: "", job_name: "" });
@@ -76,44 +75,32 @@ function Register() {
     e.preventDefault();
     console.log(user);
     try {
-      const result1 = await axios.post(
-        "http://localhost:4800/api/v1/account/register",
-        {
-          user_role: user.user_role,
-          user_gender: user.user_gender,
-          firstname: user.firstname,
-          lastname: user.lastname,
-          birthday: user.birthday,
-          tel: user.tel,
-          email: user.email,
-          pass: user.pass,
-        }
-      );
+      const result1 = await api.post("/api/v1/account/register", {
+        user_role: user.user_role,
+        user_gender: user.user_gender,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        birthday: user.birthday,
+        tel: user.tel,
+        email: user.email,
+        pass: user.pass,
+      });
 
-      const result2 = await axios.post(
-        "http://localhost:4800/api/v1/address/addAddress",
-        {
-          email: user.email,
-          latitude: user.latitude,
-          longitude: user.longitude,
-          minfo: user.minfo,
-        }
-      );
+      const result2 = await api.post("/api/v1/address/addAddress", {
+        email: user.email,
+        latitude: user.latitude,
+        longitude: user.longitude,
+        minfo: user.minfo,
+      });
       if (user.user_role === "maid") {
-        const result3 = await axios.post(
-          "http://localhost:4800/api/v1/userJob/addUserjobs",
-          {
-            email: user.email,
-            jobs: user.jobs,
-          }
-        );
+        const result3 = await api.post("/api/v1/userJob/addUserjobs", {
+          email: user.email,
+          jobs: user.jobs,
+        });
 
-        const result4 = await axios.post(
-          "http://localhost:4800/api/v1/rating/addRatings",
-          {
-            email: user.email,
-          }
-        );
+        const result4 = await api.post("/api/v1/rating/addRatings", {
+          email: user.email,
+        });
       }
 
       navigate("/login");

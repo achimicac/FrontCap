@@ -5,14 +5,23 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 
 const getAccount = async (req, res) => {
-  pool.query("SELECT * FROM Account", (error, results) => {
-    if (error) {
-      console.error("Error executing query:", error);
-      res.status(500).json({ error: "Internal server error" });
-      return;
-    }
-    res.status(200).json(results.rows);
-  });
+  const { email, role } = req.user;
+
+  if (!email || !role) {
+    return res
+      .status(400)
+      .json({ success: false, error: "Invalid request data" });
+  }
+
+  try {
+    const { rows } = await pool.query(queries.getAccount, [email]);
+    const user_cut = rows[0];
+
+    res.status(200).json({ success: true, user: user_cut });
+  } catch (error) {
+    console.error("Error executing query:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
 };
 
 const getAccountByIds = async (req, res) => {

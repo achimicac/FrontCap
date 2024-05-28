@@ -1,7 +1,9 @@
 .profilebox-wrapper{
+
       padding: 1vw 5vw 1vw 5vw;
       font-size: 4vw;
       font-size: 2vw;
+
 }
 
 .profilebox-wrapper header{
@@ -56,15 +58,18 @@
 }
 
 .profilebox-information .job-date{
+
       font-size: 1em;
       border-bottom: 1px solid black;
 }
 
 .profilebox-information .job-date span{
       font-weight: 400px;
+
       padding-right: 1em;
       margin-left: 0.25em;
       font-size: 1em;
+
 }
 
 .profilebox-content footer {

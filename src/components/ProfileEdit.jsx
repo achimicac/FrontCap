@@ -1,8 +1,15 @@
 import { useRef, useState } from "react";
 import ManageJob from "./ManageJob";
-import './css/ProfileEdit.css'
+import "./css/ProfileEdit.css";
 
-function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubmit, clickCancle }) {
+function ProfileEdit({
+  user,
+  handleChange,
+  manageJob = null,
+  jobchoices,
+  clickSubmit,
+  clickCancle,
+}) {
   const userImg = useRef(null);
   const [hidepw, setHidepw] = useState(true);
   const [cfpw, setCfpw] = useState("");
@@ -13,7 +20,8 @@ function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubm
   const handleClickImg = () => {
     userImg.current.click();
   };
-  const isMatch = user.password === cfpw;
+  //   const isMatch = user.password === cfpw;
+
 
     return (
         <main className="editprofile-wrapper">
@@ -21,17 +29,19 @@ function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubm
                 <figure onClick={handleClickImg}>
                         <label>
                             {user.user_pic ? (
-                                    <img src={`data:image/jpeg;base64,${maid.user_pic}`} style={{width: '30vw'}} />
+                                    <img src={"../../public/imageGalleries/" + user.user_pic} />
                                     ) : (
-                                    <img src={"/sudlore.png"} style={{width: '30vw'}} />
-                            )}
+                                    <img
+                                          src={"../../public/imageGalleries/1716567567852no_account.png"}
+                                    />
+                              )}
                         <input name='user_pic' type="file" ref={userImg} style={{display: 'none'}} onChange={handleChange}></input>
                         </label>
                 </figure>
             </header>
             <main>
                 <section className="radio-wrapper">
-                    <b> Role </b>
+                    <b> บทบาท </b>
                     <div>
                         <label className="radio-container">
                             
@@ -40,8 +50,8 @@ function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubm
                                     type="radio"
                                     onChange={handleChange}
                                     autoComplete="off"
-                                    value="user"
-                                    checked={user.role === 'user'}
+                                    value="customer"
+                                    checked={user.role === 'customer'}
                                     disabled={true}
                                     
                                 />
@@ -81,12 +91,17 @@ function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubm
                 <input
                 name="lastname"
                 type="text"
+
                 onChange={handleChange}
                 autoComplete="off"
-                value={user.lastname}
-                required
-                />
-            </section>
+                value="maid"
+                checked={user.user_role === "maid"}
+                disabled={true}
+              />
+              <span className="checkmark"></span>
+            </label>
+          </div>
+        </section>
 
             <section>
                 <b>วันเกิด</b>
@@ -127,7 +142,19 @@ function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubm
                 />
             </section>
 
-            {/*<section>
+        <section>
+          <b>Email</b>
+          <input
+            name="email"
+            type="email"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.email}
+            required
+          />
+        </section>
+
+        {/*<section>
                 <b>Password</b>
                 <input
                 name="password"
@@ -151,10 +178,11 @@ function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubm
                 />
             </section>
             <p style={isMatch ? { display: "none" } : {}}>Password is not Match!</p>*/}
+
             <section>
                 <b>เกี่ยวกับฉัน</b>
                 <textarea
-                    name="descript"
+                    name="description"
                     type="text"
                     onChange={handleChange}
                     autoComplete="off"

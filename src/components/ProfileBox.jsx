@@ -1,12 +1,19 @@
 import "./css/ProfileBox.css";
-import moment from 'moment';
-import 'moment/locale/th';
+import moment from "moment";
+import "moment/locale/th";
 
-function ProfileBox({user, clickConfirm, clickCancel, buttonName='ยืนยัน', canClick=true}) {
-      /*const date = moment(user.work_date, "YYYY-MM-DD");
+function ProfileBox({
+  user,
+  clickConfirm,
+  clickCancel,
+  buttonName = "ยืนยัน",
+  canClick = true,
+}) {
+  /*const date = moment(user.work_date, "YYYY-MM-DD");
       const dateFormat = date.format("dddd D MMMM G YYYY", "th");*/
-      /*const someday = moment(user.work_date);
+  /*const someday = moment(user.work_date);
       const formattedDate = someday.locale('th').format('D MMM YY');*/
+
       const date = new Date(user.work_date)
       const result = date.toLocaleDateString('th-TH', {
             year: 'numeric',
@@ -42,28 +49,28 @@ function ProfileBox({user, clickConfirm, clickCancel, buttonName='ยืนย�
                                     </section>
                               </article>
 
-                              {canClick ? 
-                                    <footer>
-                                          {clickConfirm &&
-                                                <button onClick={clickConfirm}> {buttonName} </button>
-                                          }
-                                          {clickCancel &&
-                                                <button onClick={clickCancel} className="btn-outline"> ปฏิเสธ </button>
-                                          }
-                                    </footer> 
-                                    : 
-                                    <footer className="footer-nobutton"> 
-                                          <p style={{ margin: "12px 0 0 0" }}> {buttonName} </p>
-                                          {user.submit_time &&
-                                                <span>เมื่อเวลา {user.submit_time} </span>
-                                          } 
-                                    </footer>
-                              }
-                        </div>
-                  </section>
-          </div>
-        );
-      }
-      
-      export default ProfileBox;
-      
+          {canClick ? (
+            <footer>
+              {clickConfirm && (
+                <button onClick={clickConfirm}> {buttonName} </button>
+              )}
+              {clickCancel && (
+                <button onClick={clickCancel} className="btn-outline">
+                  {" "}
+                  ปฏิเสธ{" "}
+                </button>
+              )}
+            </footer>
+          ) : (
+            <footer className="footer-nobutton">
+              <p style={{ margin: "12px 0 0 0" }}> {buttonName} </p>
+            </footer>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+
+export default ProfileBox;

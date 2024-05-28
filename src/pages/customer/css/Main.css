@@ -69,7 +69,7 @@ div.customer-main {
 .customer-main main .main-profilebox-wrapper {
   row-gap: 5vw;
 }
-.main-profilebox-wrapper > section {
+.main-profilebox-wrapper a > section {
   padding: 5vw;
   background-color: #e0f2f1;
   display: grid;

@@ -61,6 +61,7 @@ CREATE TABLE Invoice (
     Work_Time SMALLINT,
     Submit_Time TIME DEFAULT CURRENT_TIME,
     Amount FLOAT,
+    Note VARCHAR(120),
     FOREIGN KEY (Customer_ID) REFERENCES Account(User_ID),
     FOREIGN KEY (Maid_ID) REFERENCES Account(User_ID),
     FOREIGN KEY (Room_ID) REFERENCES Room(Room_ID),
@@ -77,8 +78,9 @@ CREATE TABLE UserJob (
 
 
 CREATE TABLE InvoiceJob (
-    Invoice_ID SERIAL ,
-    Job_ID SERIAL ,
+    Invoice_ID SMALLINT ,
+    Job_ID SMALLINT ,
+    PRIMARY KEY (Invoice_ID, Job_ID),
     FOREIGN KEY (Invoice_ID) REFERENCES Invoice(Invoice_ID),
     FOREIGN KEY (Job_ID) REFERENCES Job(Job_ID)
 );

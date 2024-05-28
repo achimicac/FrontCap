@@ -1,109 +1,109 @@
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import ProfileEdit from "../../components/ProfileEdit";
 import Popup from "../../components/Popup";
 import { useNavigate } from "react-router-dom";
-import Axios  from "../../axios"
+import api from "../../axios";
 import { HiAnnotation } from "react-icons/hi";
 
 function UserProfileEdit() {
-      const navigate = useNavigate();
+  const navigate = useNavigate();
 
-      const [user, setUser] = useState({ 
-            id: 1, 
-            firstname: "atchima", 
-            lastname: "nateepradap",
-            birthday: '12-09-2003',  
-            role: 'user' ,
-            tel: '0925097833',
-            email: 'atchi@gmail.com',
-            description: 'hello, I really need maid'
+  const [user, setUser] = useState();
+  //const [user, setUser] = useState();
+  const [alertConfirm, setAlertConfirm] = useState(false);
+  const [alertCancel, setAlertCancel] = useState(false);
+
+  const fetchUser = async () =>
+    await api
+      .post("/api/v1/account/getAccount", {
+        token: window.localStorage.getItem("authtoken"),
+      })
+      .then((res) => {
+        if (res.data.success) setUser(res.data.user);
+
       });
-      //const [user, setUser] = useState();
-      const [alertConfirm, setAlertConfirm] = useState(false);
-      const [alertCancel, setAlertCancel] = useState(false);
 
-      /*useEffect(() => {
-            const fetchProfile = async () => {
-                  try {
-                        const res = await Axios.get('/api/customer/profile/edit')
-                        setUser(res.data.profile);
-                  } catch (err) {
-                        console.log(err)
-                  }
-            }
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
-            fetchProfile();
-      }, [])*/
-
-      const handleChange = useCallback((e) => {
-            if (e.target.name === 'user_pic') {
-                const file = e.target.files[0];
-                setUser({ ...user, [e.target.name]: file });
-            } else {
-                setUser({ ...user, [e.target.name]: e.target.value });
-            }
-      }, [user]);
-
-      const handleClickConfirmOK = async (e) => {
-            e.preventDefault();
-            try {
-                const formData = new FormData();
-                for (const key in user) {
-                    formData.append(key, user[key]);
-                }
-    
-                const {editprofile} = await Axios.put('/api/customer/profile/edit', formData)
-    
-                if ( !editprofile.data.success ) {
-                    setMessage(editprofile.data.text)
-                    setAlert(true);
-                    return;
-                }
-                navigate(-1);
-            } catch (error) {
-                console.error("Error:", error);
-            }
+  const handleChange = useCallback(
+    (e) => {
+      if (e.target.name === "user_pic") {
+        const file = e.target.files[0];
+        setUser({ ...user, [e.target.name]: file });
+      } else {
+        setUser({ ...user, [e.target.name]: e.target.value });
       }
-      
-      const handleClickCancelOK = () => {
-            navigate(-1)
-      }
-      
-      const handleSubmit = () => {
-            setAlertConfirm(true);
-      }
-      
-      const handleClickCancel = () => {
-            setAlertCancel(true);
-      }
+    },
+    [user]
+  );
 
-      console.log(user)
+  const handleClickConfirmOK = async (e) => {
+    e.preventDefault();
+    try {
+      // const formData = new FormData();
+      // for (const key in user) {
+      //   formData.append(key, user[key]);
+      // }
+      // const { editprofile } = await Axios.put(
+      //   "/api/customer/profile/edit",
+      //   formData
+      // );
+      // if (!editprofile.data.success) {
+      //   setMessage(editprofile.data.text);
+      //   setAlert(true);
+      //   return;
+      // }
+      // navigate(-1);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
-      return (
-            <>
-                  <Popup 
-                        alert={alertConfirm} 
-                        message={"ต้องการทยืนยันการแก้ไข ใช่ หรือ ไม่"}
-                        clickCancel={() => { setAlertConfirm(false) }} 
-                        clickOK={handleClickConfirmOK}
-                  />
-                  <Popup 
-                        alert={alertCancel} 
-                        message={"ต้องการยกเลิกการแก้ไข ใช่ หรือ ไม่"}
-                        clickCancel={() => { setAlertCancel(false) }} 
-                        clickOK={handleClickCancelOK} 
-                  />
+  const handleClickCancelOK = () => {
+    navigate(-1);
+  };
 
-                  <form>
-                        <ProfileEdit 
-                              user={user} 
-                              handleChange={handleChange} 
-                              clickSubmit={handleSubmit}
-                              clickCancel={handleClickCancel}
-                        />
-                  </form>
-            </>
-      )
+  const handleSubmit = () => {
+    setAlertConfirm(true);
+  };
+
+  const handleClickCancel = () => {
+    setAlertCancel(true);
+  };
+
+  return (
+    <>
+      <Popup
+        alert={alertConfirm}
+        message={"ต้องการทยืนยันการแก้ไข ใช่ หรือ ไม่"}
+        clickCancel={() => {
+          setAlertConfirm(false);
+        }}
+        clickOK={handleClickConfirmOK}
+      />
+      <Popup
+        alert={alertCancel}
+        message={"ต้องการยกเลิกการแก้ไข ใช่ หรือ ไม่"}
+        clickCancel={() => {
+          setAlertCancel(false);
+        }}
+        clickOK={handleClickCancelOK}
+      />
+
+      <form>
+        {user && (
+          <ProfileEdit
+            user={user}
+            handleChange={handleChange}
+            clickSubmit={handleSubmit}
+            clickCancel={handleClickCancel}
+          />
+        )}
+      </form>
+    </>
+  );
 }
 
 export default UserProfileEdit;
