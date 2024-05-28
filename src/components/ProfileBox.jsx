@@ -38,9 +38,14 @@ function ProfileBox({
               {user.firstname} {user.lastname}{" "}
             </header>
             <section className="job-date">
-              <b>วันที่ :</b><span>{result}</span>
+              <b>วันที่ :</b>
+              <span>{result}</span>
               <b>เวลา :</b>
-               <span>{user.start_time.split(':', 1)}.{user.start_time.split(':', 2)} น.  - {user.end_time.split(':',1)}.{user.end_time.split(':',2)} น.</span>
+              <span>
+                {user.start_time?.split(":")[0]}.
+                {user.start_time?.split(":")[1]} น. -{" "}
+                {user.end_time?.split(":")[0]}.{user.end_time?.split(":")[1]} น.
+              </span>
             </section>
             <section className="job-chips">
               {user.jobtype.map((job, jobindex) => (
@@ -70,6 +75,5 @@ function ProfileBox({
     </div>
   );
 }
-
 
 export default ProfileBox;

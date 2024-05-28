@@ -10,6 +10,7 @@ const RatingRoutes = require("./src/routes/RatingRoute");
 const ReviewRoutes = require("./src/routes/ReviewRoute");
 const userJobRoutes = require("./src/routes/UserJobRoute");
 const RecommendRoutes = require("./src/routes/RecommendRoute");
+const TimeWeightRoute = require("./src/routes/timeWeightRoute");
 
 // Middleware
 app.use(express.json());
@@ -37,6 +38,7 @@ app.use("/api/v1/userJob", userJobRoutes);
 app.use("/api/v1/rating", RatingRoutes);
 app.use("/api/v1/review", ReviewRoutes);
 app.use("/api/v1/recommend", RecommendRoutes);
+app.use("/api/v1/timeWeight", TimeWeightRoute);
 
 app.get("/", (req, res) => {
   res.send("hello world");
