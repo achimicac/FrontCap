@@ -5,33 +5,39 @@ section.manage-job{
       display: flex;
       flex-direction: column;
       gap: 2vw;
+      font-size: 2vw;
 }
 .manage-job section:nth-child(2).joblist, 
 .manage-job section:nth-child(3).job-choices {
       border: 0.25vw solid #80CBC4;
       border-radius: 20px;
       background-color: white;
+      height: 100px;
       display: flex;
-      gap: 2vw;
+      gap: 0.5em;
       flex-wrap: wrap;
+      overflow-y: scroll;
 }
-.manage-job section:nth-child(2).joblist > p{
+.manage-job section:nth-child(2).joblist > span{
       background-color: pink;
-      padding: 2vw;
+      padding: 0.5em;
       border-radius: 30px;
+      font-size: 1.5em;
+      height: fit-content;
+      width: fit-content;
 }
 .manage-job section:nth-child(3).job-choices {
-      height: 20vh;
+      height: 150px;
       flex-direction: column;
       flex-wrap: nowrap;
-      overflow-y: scroll
+      overflow-y: scroll;
 }
 
 .manage-job section:nth-child(3).job-choices{
-      --size: 1rem;
+      --size: 1.5em;
       --background: #fff;
-      font-size: var(--size);
-      padding: 2vw;
+      font-size: 1.5em;
+      padding: 0.5em;
 }
 .manage-job section:nth-child(3).job-choices *,
 .manage-job section:nth-child(3).job-choices *::after,
@@ -88,6 +94,7 @@ section.manage-job{
       position: relative;
       display: flex;
       cursor: pointer;
+      font-size: 1em;
       /* Mobile Safari: */
       -webkit-tap-highlight-color: #035445;   
 }
@@ -101,11 +108,15 @@ section.manage-job{
 }
   
 @media (min-width: 600px) {
-      .manage-job section:nth-child(2).joblist > p{
-            padding: 2vh;
+      .manage-job section:nth-child(3).job-choices,
+      .manage-job section:nth-child(2).joblist > span
+      {
+            font-size: 18px;
       }
-      .manage-job section:nth-child(2).joblist, 
       .manage-job section:nth-child(3).job-choices{
-            gap: 2vh;
+            --size: 18px;
+      }
+      .manage-job section:nth-child(3).job-choices label {
+            font-size: 18px;
       }
 }

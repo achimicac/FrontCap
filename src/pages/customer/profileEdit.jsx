@@ -20,6 +20,7 @@ function UserProfileEdit() {
       })
       .then((res) => {
         if (res.data.success) setUser(res.data.user);
+
       });
 
   useEffect(() => {

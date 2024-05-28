@@ -22,51 +22,76 @@ function ProfileEdit({
   };
   //   const isMatch = user.password === cfpw;
 
-  return (
-    <main className="editprofile-wrapper">
-      <header>
-        <figure onClick={handleClickImg}>
-          <label>
-            {/* {user.user_pic ? (
-              <img
-                src={`data:image/jpeg;base64,${maid.user_pic}`}
-                style={{ width: "30vw" }}
-              />
-            ) : (
-              <img src={"/sudlore.png"} style={{ width: "30vw" }} />
-            )} */}
-            <input
-              name="user_pic"
-              type="file"
-              ref={userImg}
-              style={{ display: "none" }}
-              onChange={handleChange}
-            ></input>
-          </label>
-        </figure>
-      </header>
-      <main>
-        <section className="radio-wrapper">
-          <b> Role </b>
-          <div>
-            <label className="radio-container">
-              customer
-              <input
-                name="role"
-                type="radio"
+
+    return (
+        <main className="editprofile-wrapper">
+            <header>
+                <figure onClick={handleClickImg}>
+                        <label>
+                            {user.user_pic ? (
+                                    <img src={"../../public/imageGalleries/" + user.user_pic} />
+                                    ) : (
+                                    <img
+                                          src={"../../public/imageGalleries/1716567567852no_account.png"}
+                                    />
+                              )}
+                        <input name='user_pic' type="file" ref={userImg} style={{display: 'none'}} onChange={handleChange}></input>
+                        </label>
+                </figure>
+            </header>
+            <main>
+                <section className="radio-wrapper">
+                    <b> บทบาท </b>
+                    <div>
+                        <label className="radio-container">
+                            
+                                <input
+                                    name="role"
+                                    type="radio"
+                                    onChange={handleChange}
+                                    autoComplete="off"
+                                    value="customer"
+                                    checked={user.role === 'customer'}
+                                    disabled={true}
+                                    
+                                />
+                            <span className="checkmark">ผู้ใช้ทั่วไป</span>
+                            
+                        </label>
+                        <label className="radio-container">
+                            
+                            <input
+                            type="radio"
+                            name="role"
+                            onChange={handleChange}
+                            autoComplete="off"
+                            value="maid"
+                            checked={user.role === "maid"}
+                            disabled={true}
+                            />
+                            <span className="checkmark">แม่บ้าน</span>
+                        </label>
+                    </div>
+                </section>
+
+            <section>
+                <b>ชื่อ</b>
+                <input
+                name="firstname"
+                type="text"
                 onChange={handleChange}
                 autoComplete="off"
-                value="customer"
-                checked={user.user_role === "customer"}
-                disabled={true}
-              />
-              <span className="checkmark"></span>
-            </label>
-            <label className="radio-container">
-              maid
-              <input
-                type="radio"
-                name="role"
+                value={user.firstname}
+                required
+                />
+            </section>
+
+            <section>
+                <b>นามสกุล</b>
+                <input
+                name="lastname"
+                type="text"
+
                 onChange={handleChange}
                 autoComplete="off"
                 value="maid"
@@ -78,56 +103,44 @@ function ProfileEdit({
           </div>
         </section>
 
-        <section>
-          <b>Firstname</b>
-          <input
-            name="firstname"
-            type="text"
-            onChange={handleChange}
-            autoComplete="off"
-            value={user.firstname}
-            required
-          />
-        </section>
+            <section>
+                <b>วันเกิด</b>
+                <input
+                name="birthday"
+                type="date"
+                onChange={handleChange}
+                autoComplete="off"
+                value={user.birthday}
+                required
+                />
+            </section>
 
-        <section>
-          <b>Lastname</b>
-          <input
-            name="lastname"
-            type="text"
-            onChange={handleChange}
-            autoComplete="off"
-            value={user.lastname}
-            required
-          />
-        </section>
+            <section>
+                <b>เบอร์โทร</b>
+                <input
+                name="telephone"
+                type="text"
+                onChange={handleChange}
+                autoComplete="off"
+                value={user.tel}
+                //placeholder="xxx-xxx-xxxx"
+                //pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                maxLength={10}
+                required
+                />
+            </section>
 
-        <section>
-          <b>Birthday</b>
-          <input
-            name="birthday"
-            type="date"
-            onChange={handleChange}
-            autoComplete="off"
-            value={user.birthday}
-            required
-          />
-        </section>
-
-        <section>
-          <b>Telephone</b>
-          <input
-            name="telephone"
-            type="text"
-            onChange={handleChange}
-            autoComplete="off"
-            value={user.telephone}
-            //placeholder="xxx-xxx-xxxx"
-            //pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-            maxLength={10}
-            required
-          />
-        </section>
+            <section>
+                <b>อีเมล</b>
+                <input
+                name="email"
+                type="email"
+                onChange={handleChange}
+                autoComplete="off"
+                value={user.email}
+                required
+                />
+            </section>
 
         <section>
           <b>Email</b>
@@ -165,33 +178,27 @@ function ProfileEdit({
                 />
             </section>
             <p style={isMatch ? { display: "none" } : {}}>Password is not Match!</p>*/}
-        <section>
-          <b>Description</b>
-          <textarea
-            name="descript"
-            type="text"
-            onChange={handleChange}
-            autoComplete="off"
-            value={user.descript}
-          />
-        </section>
-        {manageJob && (
-          <ManageJob
-            user={user}
-            jobchoices={jobchoices}
-            handleChange={handleChange}
-          />
-        )}
-        <footer className="profile-footer">
-          <button onClick={clickSubmit}> ตกลง </button>
-          <button onClick={clickCancle} className="cancle">
-            {" "}
-            ยกเลิก{" "}
-          </button>
-        </footer>
-      </main>
-    </main>
-  );
+
+            <section>
+                <b>เกี่ยวกับฉัน</b>
+                <textarea
+                    name="description"
+                    type="text"
+                    onChange={handleChange}
+                    autoComplete="off"
+                    value={user.description}
+                />
+            </section>
+                {manageJob &&
+                    <ManageJob user={user} jobchoices={jobchoices} handleChange={handleChange} />
+                }   
+                <footer className="profile-footer">
+                    <button onClick={clickSubmit}> ตกลง </button>
+                    <button onClick={clickCancle} className="cancle"> ยกเลิก </button>
+                </footer>
+            </main>
+        </main>
+    );
 }
 
 export default ProfileEdit;

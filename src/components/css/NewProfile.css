@@ -3,6 +3,7 @@ main.profile-wrapper {
       background-color: #80cbc4;
       display: flex;
       flex-direction: column;
+      font-size: 2vw;
 }
 
 main.profile-wrapper header {
@@ -11,15 +12,16 @@ main.profile-wrapper header {
       align-items: center;
       justify-content: center;
 }
-
+/*  */
 main.profile-wrapper header span {
-      font-size: 5vw;
+      font-size: 2.5em;
       font-weight: 600;
       padding-top: 2vw;
+      align-self: center;
 }
 
 main.profile-wrapper header span:nth-child(3) {
-      font-size: 3vw;
+      font-size: 1.5em;
       font-weight: 100;
       padding: 2vw 5vw 5vw 5vw;
 }
@@ -32,8 +34,8 @@ main.profile-wrapper header img{
 }
 
 main.profile-wrapper main {
-      padding: 5vw;
-      row-gap: 3vw;
+      padding: 1.5em;
+      row-gap: 1em;
       background-color: white;
       border-top-left-radius: 30px;
       border-top-right-radius: 30px;
@@ -44,21 +46,21 @@ main.profile-wrapper main {
 main.profile-wrapper main section {
       background-color: #EAFCFF;
       object-fit: contain;
-      padding: 2vw;
+      padding: 0.5em;
       border-radius: 50px;
-      gap: 2vw;
+      gap: 1em;
       display: grid;
       grid-template-columns: 1.5fr 3fr;
       grid-template-rows: auto;
 }
 main.profile-wrapper main section b {
       background-color: #80CBC4;
-      font-size: 4vw;
+      font-size: 1.5em;
       border-radius: 50px;
-      padding: 0vw 2vw ;
+      padding: 0vw 1em ;
 }
 main.profile-wrapper main section span {
-      font-size: 3vw;
+      font-size: 1.5em;
       align-self: center;
 }
 
@@ -67,12 +69,32 @@ main.profile-wrapper section.jobtype{
             'topic topic'
             'job job';
 }
-main.profile-wrapper section.jobtype span{
+main.profile-wrapper section.jobtype b{
+      grid-area: topic;
+}
+main.profile-wrapper section.jobtype section{
       grid-area: job;
-      
+      display: flex;
+      flex-wrap: wrap;
+}
+main.profile-wrapper section.jobtype section span{
+      background-color: pink;
+      padding: 0.25em;
+      border-radius: 10px;
+}
+main.profile-wrapper section.descript{
+      grid-template-areas: 
+            'topic descript descript'
+            '. descript descript';
+}
+main.profile-wrapper section.descript > b {
+      grid-area: topic;
+}
+main.profile-wrapper section.descript > span {
+      grid-area: descript;
 }
 main.profile-wrapper footer {
-      padding: 5vw;
+      padding: 1em;
       display: flex;
       align-self: center;
 }
@@ -88,11 +110,11 @@ main.profile-wrapper footer button {
       cursor: pointer;
       display: inline-block;
       font-family: Inter,sans-serif;
-      font-size: 4vw;
+      font-size: 1.5em;
       font-weight: 600;
       line-height: 1.5;
       margin: 0;
-      padding: 0.5vh 5vw;
+      padding: 0.25em 1em;
       text-align: center;
       text-transform: none;
       transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
@@ -134,25 +156,25 @@ main.profile-wrapper footer button:disabled {
             padding: 0px;
             display: grid;
             grid-template-columns: 1.5fr 2fr;
-            height: 100%;
+            height: 100vh;
       }
       main.profile-wrapper header span {
-            font-size: 2vw;
+            font-size: min(2.5em, 30px);
       }
       main.profile-wrapper header span:nth-child(3) {
-            font-size: 1.5vw;
+            font-size: 18px;
       }
       main.profile-wrapper main section b {
-            font-size: 1.5vw;
+            font-size: 18px;
       }
       main.profile-wrapper main section span {
-            font-size: 1.5vw;
+            font-size: 18px;
       }
       main.profile-wrapper footer button {
-            font-size: 2vw;
+            font-size: 20px;
       }
       main.profile-wrapper main {
-            row-gap: 1.5vw;
+            row-gap: 0.5em;
             border-top-right-radius: 0px;
             border-bottom-left-radius: 30px;
       }

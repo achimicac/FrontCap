@@ -10,6 +10,7 @@ function MaidProfile() {
             firstname: "atchima", 
             lastname: "nateepradap",
             birthday: '12-09-2003', 
+            tel: '0925097833',
             jobtype: [
                   {job_id: 1, job_name: "กวาดบ้าน"}, 
                   {job_id: 2, job_name: "ถูบ้าน"}, 

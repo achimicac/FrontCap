@@ -55,7 +55,7 @@ function Login() {
         <h1> LogIn </h1>
         <form onSubmit={handleSubmit} className="login-container">
           <label>
-            <span>Email or Telephone Number</span>
+            <span>อีเมล</span>
             <input
               name="account"
               type="text"
@@ -70,7 +70,7 @@ function Login() {
           </label>
 
           <label>
-            <span>Password</span>
+            <span>รหัสผ่าน</span>
             <input
               name="password"
               type="password"

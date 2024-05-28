@@ -11,7 +11,9 @@ function UserProfile() {
             firstname: "atchima", 
             lastname: "nateepradap",
             birthday: '12-09-2003',  
-            role: 'user' 
+            role: 'user' ,
+            tel: '0925097833',
+            email: 'atchi@gmail.com'
       });
       //const [user, setUser] = useState();
 

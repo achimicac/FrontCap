@@ -56,22 +56,23 @@ function UserStatusWait() {
     fetchCustomer();
   }, []);
 
-  console.log(customers);
-  return (
-    <>
-      {customers.map((customer, customerin) => (
-        <section key={customerin}>
-          {customer.user_id && (
-            <ProfileBox
-              user={customer}
-              canClick={false}
-              buttonName="รอแม่บ้านยืนยัน"
-            />
-          )}
-        </section>
-      ))}
-    </>
-  );
+    console.log(customers)
+    return (
+        <>
+            {customers.map((customer, customerin) => (
+                <section key={customerin} >
+                    {customer.user_id &&
+                        <ProfileBox
+                            user={customer}
+                            canClick={false}
+                            buttonName="รอแม่บ้านยืนยัน"
+                        />
+                    }
+                </section>
+            ))}
+        </>
+    )
+
 }
 
 export default UserStatusWait;
