@@ -11,6 +11,7 @@ function MaidStatusEnd() {
       { id: 1, firstname: "atchima", lastname: "nateepradap", jobtype: ["กวาดบ้าน", "ถูบ้าน", "ล้างจาน", "สักผ้า", "ถูบ้าน", "ล้างจาน", "สักผ้า"], start_time: '13:00:00', end_time: '14:00:00', work_date: '12 ก.ย. 66'}
     ]);*/
     const [customers, setCustomers] = useState([])
+    const [invoice_id, setInvoiceId] = useState(null);
     useEffect(() => {
       const fetchCustomer = async () => {
             try {
@@ -26,12 +27,21 @@ function MaidStatusEnd() {
 
       fetchCustomer();
     }, [])
+    const handleClickSummary = (invId) => () => {
+      setInvoiceId(invId);
+      };    
 
     return (
         <>
-            <maidappHelmet title={'จ้างงานเมด'} description={'จ้าง'}/>
+            {invoice_id &&
+                  <SummaryInvoice
+                        role={"maid"}
+                        invoice_id={invoice_id}
+                        clickCancel={() => setInvoiceId(null)}
+                  />
+            }
             {customers.map((customer, customerid) => (
-                  <section key={customerid}>
+                  <section key={customerid} onClick={handleClickSummary(customer.invoice_id)}>
                         {customer.user_id &&
                         <ProfileBox
                               user={customer}

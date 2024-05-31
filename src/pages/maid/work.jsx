@@ -9,6 +9,7 @@ import Alert from "../../components/Alert";
 
 function MaidStatusWork() {
     const invoiceID = useRef(null);
+    const [invoice_id, setInvoiceId] = useState(null);
     const [customers, setCustomers] = useState([
       { id: 1, firstname: "atchima", lastname: "nateepradap", jobtype: ["กวาดบ้าน", "ถูบ้าน", "ล้างจาน", "สักผ้า", "ถูบ้าน", "ล้างจาน", "สักผ้า"], start_time: '13:00:00', end_time: '14:00:00', work_date: '12 ก.ย. 66' },
       { id: 2, firstname: "atchima", lastname: "nateepradap", jobtype: ["กวาดบ้าน", "ถูบ้าน", "ล้างจาน", "สักผ้า"], start_time: '13:00:00', end_time: '14:00:00', work_date: '12 ก.ย. 66' },
@@ -52,6 +53,9 @@ function MaidStatusWork() {
         setAlertConfirm(true);
         invoiceID.current = id;
     }
+      const handleClickSummary = (invId) => () => {
+            setInvoiceId(invId);
+      };
     console.log(customers)
     return (
         <>
@@ -62,9 +66,16 @@ function MaidStatusWork() {
                   clickCancel={() => { setAlertConfirm(false) }} 
                   clickOK={handleClickConfirmOK}
             />
+            {invoice_id &&
+                  <SummaryInvoice
+                        role={"maid"}
+                        invoice_id={invoice_id}
+                        clickCancel={() => setInvoiceId(null)}
+                  />
+            }
             <div  className={`page-container ${alertConfirm ? 'blurred' : ''}`}>
                   {customers.map((customer, customerid) => (
-                        <section key={customerid} >
+                        <section key={customerid} onClick={handleClickSummary(custom.invoice_id)}>
                               {customer.user_id &&
                               <ProfileBox
                                     user={customer}
