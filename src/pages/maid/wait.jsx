@@ -6,9 +6,11 @@ import './styles/blurBackground.css'
 import api from "../../axios";
 import toast from "react-hot-toast";
 import Alert from "../../components/Alert";
+import SummaryInvoice from "../../components/SummaryInvoice";
 
 function MaidStatusWait() {
     const invoiceID = useRef(null);
+    const [invoice_id, setInvoiceId] = useState(null);
     const [customers, setCustomers] = useState([
         { id: 1, firstname: "atchima", lastname: "nateepradap", jobtype: ["กวาดบ้าน", "ถูบ้าน", "ล้างจาน", "สักผ้า", "ถูบ้าน", "ล้างจาน", "สักผ้า"], start_time: '13:00:00', end_time: '14:00:00', work_date: '12 ก.ย. 66' },
         { id: 2, firstname: "atchima", lastname: "nateepradap", jobtype: ["กวาดบ้าน", "ถูบ้าน", "ล้างจาน", "สักผ้า"], start_time: '13:00:00', end_time: '14:00:00', work_date: '12 ก.ย. 66' },
@@ -78,7 +80,10 @@ function MaidStatusWait() {
         console.log(id)
         invoiceID.current = id;
     }
-    console.log()
+    
+      const handleClickSummary = (invId) => () => {
+            setInvoiceId(invId);
+      };
 
     return (
         <>
@@ -95,9 +100,16 @@ function MaidStatusWait() {
                   clickCancel={() => { setAlertCancel(false) }} 
                   clickOK={handleClickCancelOK} 
             />
+            {invoice_id &&
+                  <SummaryInvoice
+                        role={"maid"}
+                        invoice_id={invoice_id}
+                        clickCancel={() => setInvoiceId(null)}
+                  />
+            }
             <div  className={`page-container ${alertConfirm || alertCancel ? 'blurred' : ''}`}>
                   {customers.map((customer, customerid) => (
-                  <section key={customerid} >
+                  <section key={customerid} onClick={handleClickSummary(customer.invoice_id)}>
                         {customer.user_id &&
                               <ProfileBox
                               user={customer}
