@@ -62,7 +62,7 @@ function Profile({ user, isMaid = false, clickEdit }) {
           <span> ************ </span>
         </section>
         {isMaid && (
-          <section className="jobtype">
+          <section className="jobs">
             <b>ประเภทงาน</b>
             {user.jobs && (user.jobs.map((job, index) => (
               <span key={index}> {job.job_name} </span>

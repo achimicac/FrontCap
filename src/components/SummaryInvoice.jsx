@@ -127,7 +127,7 @@ function SummaryInvoice({ invoice_id, role, clickCancel }) {
             <article className="job-chips">
                 <b>งานที่ต้องทำ</b>
                 <section>
-                    {invoice.jobtype?.map((job, jobindex) => (
+                    {invoice.jobs?.map((job, jobindex) => (
                     <span key={jobindex}>{job.job_name}</span>
                     ))}
                 </section>

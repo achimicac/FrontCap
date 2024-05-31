@@ -10,8 +10,6 @@ import { LuCalendarDays } from "react-icons/lu";
 function Register() {
   const navigate = useNavigate();
 
-  const fetchJobs = async () => await api.get("/api/v1/job");
-
   const [page, setPage] = useState(0);
   //const [jobchoices, setJobchoices] = useState({ job_id: "", job_name: "" });
   const [user, setUser] = useState({
@@ -24,6 +22,7 @@ function Register() {
     tel: "",
     email: "",
     pass: "",
+    description: "",
     jobs: [],
     latitude: "",
     longitude: "",
@@ -36,28 +35,13 @@ function Register() {
   const [showMap, setShowMap] = useState(false);
   const isMatch = user.pass === cfpw;
 
-  // useEffect(() => {
-  //   fetchJobs().then((res) => {
-  //     setJobchoices(res.data);
-  //   });
-  // }, []);
-
-  const [jobchoices, setJobchoices] = useState([
-    {job_id: 1, job_name: "กวาดบ้าน"}, 
-    {job_id: 2, job_name: "ถูบ้าน"}, 
-    {job_id: 3, job_name: "ล้างจาน"}, 
-    {job_id: 4, job_name: "ซักผ้า"},
-    {job_id: 5, job_name: 'จัดห้อง'},
-    {job_id: 6, job_name: 'รดน้ำต้นไม้'}
-])
-
   const handleChange = useCallback((e) => {
     const { name, value, files, checked } = e.target;
 
     if (name === "user_pic") {
       const file = files[0];
       setUser((prevUser) => ({ ...prevUser, user_pic: file }));
-    } else if (name === "jobs") {
+    } else if (name === "jobtype") {
       const [valueId, valueName] = value.split("-");
       const jobsId = parseInt(valueId, 10);
       setUser((prevUser) => ({
@@ -73,7 +57,6 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user);
     try {
       const result1 = await api.post("/api/v1/account/register", {
         user_role: user.user_role,
@@ -82,6 +65,7 @@ function Register() {
         lastname: user.lastname,
         birthday: user.birthday,
         tel: user.tel,
+        description: user.description,
         email: user.email,
         pass: user.pass,
       });
@@ -107,10 +91,6 @@ function Register() {
     } catch (error) {
       console.error("Error:", error);
     }
-  };
-
-  const handleClickImg = () => {
-    userImg.current.click();
   };
 
   const nextPage = () => {
@@ -149,252 +129,232 @@ function Register() {
         <form className={showMap ? "blurred" : ""}>
           {page === 0 && (
             <section className="signup-form">
-              {/*<figure onClick={handleClickImg}>
-                    <label>
-                        {user.user_pic ? (
-                        <img
-                            src={URL.createObjectURL(userImg.current.files[0])}
-                            style={{ width: "50vw" }}
-                        />
-                        ) : (
-                        <img src={"/sudlore.png"} style={{ width: "30vw" }} />
-                        )}
-                        <input
-                        name="user_pic"
-                        type="file"
-                        ref={userImg}
-                        style={{ display: "none" }}
-                        onChange={handleChange}
-                        ></input>
-                    </label>
-                    </figure>*/}
-
-
-                    <section>
-                        <b>สมัครเป็น</b>
-                        <section>
-                            <label>
-                                <input
-                                name="user_role"
-                                type="radio"
-                                onChange={handleChange}
-                                autoComplete="off"
-                                value="customer"
-                                />
-                                <span>ผู้ใช้ทั่วไป</span>
-                            </label>
-                            <label>
-                                <input
-                                name="user_role"
-                                type="radio"
-                                onChange={handleChange}
-                                autoComplete="off"
-                                value="maid"
-                                />
-                                <span>แม่บ้าน</span>
-                            </label>
-                        </section>
-                    </section>
-
-                    <section>
-                        <b>เพศ</b>
-                        <section>
-                            <label>
-                                <input
-                                name="user_gender"
-                                type="radio"
-                                onChange={handleChange}
-                                autoComplete="off"
-                                value="male"
-                                />
-                                <span>เพศชาย</span>
-                            </label>
-                            <label>
-                                <input
-                                name="user_gender"
-                                type="radio"
-                                onChange={handleChange}
-                                autoComplete="off"
-                                value="female"
-                                />
-                                <span>เพศหญิง</span>
-                            </label>
-                            <label>
-                                <input
-                                name="user_gender"
-                                type="radio"
-                                onChange={handleChange}
-                                autoComplete="off"
-                                value="lgbtq"
-                                />
-                                <span>LGBTQ+</span>
-                            </label>
-                        </section>
-                    </section>
-
-                    <label>
-                        <b>ชื่อ</b>
-                        <input
-                            name="firstname"
-                            type="text"
-                            onChange={handleChange}
-                            autoComplete="off"
-                            value={user.firstname}
-                            required
-                        />
-                    </label>
-
-                    <label>
-                        <b>นามสกุล</b>
-                        <input
-                            name="lastname"
-                            type="text"
-                            onChange={handleChange}
-                            autoComplete="off"
-                            value={user.lastname}
-                            required
-                        />
-                    </label>
-
-                    <label className="birthday-label">
-                        <b>วันเกิด</b>
-                        <section>
-                            <LuCalendarDays />
-                            <input
-                                className="birthday"
-                                name="birthday"
-                                type="date"
-                                onChange={handleChange}
-                                autoComplete="off"
-                                value={user.birthday}
-                                required
-                            />
-                        </section>
-                    </label>
-                    <label>
-                          <b>เกี่ยวกับฉัน</b>
-                          <textarea
-                              name="descript"
-                              type="text"
-                              onChange={handleChange}
-                              autoComplete="off"
-                              value={user.description}
-                          />
-                    </label>
-
-                    <label>
-                        <b>เบอร์โทรศัพท์</b>
-                        <input
-                            name="tel"
-                            type="text"
-                            onChange={handleChange}
-                            autoComplete="off"
-                            value={user.tel}
-                            maxLength={10}
-                            required
-                        />
-                    </label>
-
-                    <label>
-                        <b>อีเมล</b>
-                        <input
-                            name="email"
-                            type="email"
-                            onChange={handleChange}
-                            autoComplete="off"
-                            value={user.email}
-                            //required
-                        />
-                    </label>
-
-                    <label>
-                        <b>ที่อยู่</b>
-                        <label> ละติจูด : {user.latitude}</label>
-                        <label> ลองจิจูด : {user.longitude}</label>
-                        <button className="select-map" type="button" onClick={SelectLocation}>
-                            กดที่นี่
-                        </button>
-                    </label>
-
-                    <label>
-                            <b>รายละเอียดที่อยู่เพิ่มเติม</b>
-                            <input
-                            name="minfo"
-                            type="text"
-                            onChange={handleChange}
-                            autoComplete="off"
-                            value={user.minfo}
-                            />
-                    </label>
-
-                    <label>
-                        <b>รหัสผ่าน</b>
-                        <input
-                            name="pass"
-                            type="password"
-                            onChange={handleChange}
-                            autoComplete="off"
-                            value={user.pass}
-                            //required
-                        />
-                    </label>
-
-                    <label>
-                        <b>ยืนยันรหัสผ่าน</b>
-                        <input
-                            name="cfpw"
-                            type="password"
-                            onChange={(e) => setCfpw(e.target.value)}
-                            autoComplete="off"
-                            value={cfpw}
-                            //required
-                        />
-                        <p style={isMatch ? { display: "none" } : {}}>
-                            {" "}
-                            Pass is not Match!
-                        </p>
-                    </label>
-
-                    {page === 0 && user.user_role === "maid" && (
-                    <button type="button" onClick={nextPage}>
-                        {" "}
-                        หน้าถัดไป{" "}
-                    </button>
-                    )}
-                    {((page === 0 && user.user_role === "customer") || page === 1) && (
-                    <button type="submit" onClick={handleSubmit}>
-                        {" "}
-                        ลงทะเบียน{" "}
-                    </button>
-                    )}
+              <section>
+                <b>สมัครเป็น</b>
+                <section>
+                  <label>
+                    <input
+                      name="user_role"
+                      type="radio"
+                      onChange={handleChange}
+                      autoComplete="off"
+                      value="customer"
+                    />
+                    <span>ผู้ใช้ทั่วไป</span>
+                  </label>
+                  <label>
+                    <input
+                      name="user_role"
+                      type="radio"
+                      onChange={handleChange}
+                      autoComplete="off"
+                      value="maid"
+                    />
+                    <span>แม่บ้าน</span>
+                  </label>
                 </section>
-                  )}
-                  <footer className="footer-2">
-                      {page === 1 && (
-                      <section className="addjob-form">
-                          <ManageJob
-                          user={user}
-                          handleChange={handleChange}
-                          jobchoices={jobchoices}
-                          />
-                      </section>
-                      )}
+              </section>
 
-                      {/*page === 0 && user.user_role === "maid" && (
+              <section>
+                <b>เพศ</b>
+                <section>
+                  <label>
+                    <input
+                      name="user_gender"
+                      type="radio"
+                      onChange={handleChange}
+                      autoComplete="off"
+                      value="male"
+                    />
+                    <span>เพศชาย</span>
+                  </label>
+                  <label>
+                    <input
+                      name="user_gender"
+                      type="radio"
+                      onChange={handleChange}
+                      autoComplete="off"
+                      value="female"
+                    />
+                    <span>เพศหญิง</span>
+                  </label>
+                  <label>
+                    <input
+                      name="user_gender"
+                      type="radio"
+                      onChange={handleChange}
+                      autoComplete="off"
+                      value="lgbtq"
+                    />
+                    <span>LGBTQ+</span>
+                  </label>
+                </section>
+              </section>
+
+              <label>
+                <b>ชื่อ</b>
+                <input
+                  name="firstname"
+                  type="text"
+                  onChange={handleChange}
+                  autoComplete="off"
+                  value={user.firstname}
+                  // required
+                />
+              </label>
+
+              <label>
+                <b>นามสกุล</b>
+                <input
+                  name="lastname"
+                  type="text"
+                  onChange={handleChange}
+                  autoComplete="off"
+                  value={user.lastname}
+                  // required
+                />
+              </label>
+
+              <label className="birthday-label">
+                <b>วันเกิด</b>
+                <section>
+                  <LuCalendarDays />
+                  <input
+                    className="birthday"
+                    name="birthday"
+                    type="date"
+                    onChange={handleChange}
+                    autoComplete="off"
+                    value={user.birthday}
+                    // required
+                  />
+                </section>
+              </label>
+              <label>
+                <b>เกี่ยวกับฉัน</b>
+                <textarea
+                  name="descript"
+                  type="text"
+                  onChange={handleChange}
+                  autoComplete="off"
+                  value={user.description}
+                />
+              </label>
+
+              <label>
+                <b>เบอร์โทรศัพท์</b>
+                <input
+                  name="tel"
+                  type="text"
+                  onChange={handleChange}
+                  autoComplete="off"
+                  value={user.tel}
+                  maxLength={10}
+                  // required
+                />
+              </label>
+
+              <label>
+                <b>อีเมล</b>
+                <input
+                  name="email"
+                  type="email"
+                  onChange={handleChange}
+                  autoComplete="off"
+                  value={user.email}
+                  //required
+                />
+              </label>
+
+              <label>
+                <b>ที่อยู่</b>
+                <label> ละติจูด : {user.latitude}</label>
+                <label> ลองจิจูด : {user.longitude}</label>
+                <button
+                  className="select-map"
+                  type="button"
+                  onClick={SelectLocation}
+                >
+                  กดที่นี่
+                </button>
+              </label>
+
+              <label>
+                <b>รายละเอียดที่อยู่เพิ่มเติม</b>
+                <input
+                  name="minfo"
+                  type="text"
+                  onChange={handleChange}
+                  autoComplete="off"
+                  value={user.minfo}
+                />
+              </label>
+
+              <label>
+                <b>รหัสผ่าน</b>
+                <input
+                  name="pass"
+                  type="password"
+                  onChange={handleChange}
+                  autoComplete="off"
+                  value={user.pass}
+                  //required
+                />
+              </label>
+
+              <label>
+                <b>ยืนยันรหัสผ่าน</b>
+                <input
+                  name="cfpw"
+                  type="password"
+                  onChange={(e) => setCfpw(e.target.value)}
+                  autoComplete="off"
+                  value={cfpw}
+                  //required
+                />
+                <p style={isMatch ? { display: "none" } : {}}>
+                  {" "}
+                  Pass is not Match!
+                </p>
+              </label>
+
+              {page === 0 && user.user_role === "maid" && (
+                <button type="button" onClick={nextPage}>
+                  {" "}
+                  หน้าถัดไป{" "}
+                </button>
+              )}
+              {((page === 0 && user.user_role === "customer") ||
+                page === 1) && (
+                <button type="submit" onClick={handleSubmit}>
+                  {" "}
+                  ลงทะเบียน{" "}
+                </button>
+              )}
+            </section>
+          )}
+          <footer className="footer-2">
+            {page === 1 && (
+              <section className="addjob-form">
+                <ManageJob user={user} handleChange={handleChange} />
+              </section>
+            )}
+
+            {/*page === 0 && user.user_role === "maid" && (
                       <button type="button" onClick={nextPage}>
                           {" "}
                           Next{" "}
                       </button>
                       )*/}
-                      {( page === 1) && (
-                      <button className='button-2' type="submit" onClick={handleSubmit}>
-                          {" "}
-                          ลงทะเบียน{" "}
-                      </button>
-                      )}
-                </footer>
-            </form>
-        </main>
+            {page === 1 && (
+              <button className="button-2" type="submit" onClick={handleSubmit}>
+                {" "}
+                ลงทะเบียน{" "}
+              </button>
+            )}
+          </footer>
+        </form>
+      </main>
     </div>
   );
 }

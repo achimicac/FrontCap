@@ -1,5 +1,4 @@
 import "./css/ProfileBox.css";
-import moment from "moment";
 import "moment/locale/th";
 
 function ProfileBox({
@@ -8,31 +7,41 @@ function ProfileBox({
   clickCancel,
   buttonName = "ยืนยัน",
   canClick = true,
+  handleClickSummary,
 }) {
-  /*const date = moment(user.work_date, "YYYY-MM-DD");
-      const dateFormat = date.format("dddd D MMMM G YYYY", "th");*/
-  /*const someday = moment(user.work_date);
-      const formattedDate = someday.locale('th').format('D MMM YY');*/
   const date = new Date(user.work_date);
   const result = date.toLocaleDateString("th-TH", {
     year: "numeric",
     month: "short",
     day: "numeric",
   });
-  console.log(result);
+
   return (
     <div className="profilebox-wrapper">
       <section className="profilebox-container">
         {user.user_pic ? (
-          <img src={"../../public/imageGalleries/" + user.user_pic} />
+          <img
+            src={"../../public/imageGalleries/" + user.user_pic}
+            onClick={() => {
+              handleClickSummary(user.invoice_id);
+            }}
+          />
         ) : (
           <img
             src={"../../public/imageGalleries/1716567567852no_account.png"}
+            onClick={() => {
+              handleClickSummary(user.invoice_id);
+            }}
           />
         )}
 
         <div className="profilebox-content">
-          <article className="profilebox-information">
+          <article
+            className="profilebox-information"
+            onClick={() => {
+              handleClickSummary(user.invoice_id);
+            }}
+          >
             <header>
               {" "}
               {user.firstname} {user.lastname}{" "}
@@ -48,7 +57,7 @@ function ProfileBox({
               </span>
             </section>
             <section className="job-chips">
-              {user.jobtype.map((job, jobindex) => (
+              {user.jobs?.map((job, jobindex) => (
                 <span key={jobindex}> {job.job_name} </span>
               ))}
             </section>

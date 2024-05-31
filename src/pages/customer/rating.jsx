@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-import Axios from "../../axios";
 import RatingBox from "../../components/RatingBox";
-import Popup from "../../components/Popup";
 import "./css/rating.css";
 import api from "../../axios";
 import Alert from "../../components/Alert";
@@ -70,8 +68,6 @@ function UserStatusRating() {
       console.log(error);
     }
   };
-
-  console.log(invoice);
 
   return (
     <>

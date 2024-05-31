@@ -47,7 +47,7 @@ main.editprofile-wrapper section.radio-wrapper label {
       padding: 0vw 0.5em ;
 }
 
-main.editprofile-wrapper main section:nth-child(-n + 7) {
+main.editprofile-wrapper main section:nth-child(-n + 10) {
       background-color: #E0F2F1;
       object-fit: contain;
       padding: 0.25em;
@@ -64,7 +64,7 @@ main.editprofile-wrapper main section b {
       padding: 0vw 1em ;
       align-self: center;
 }
-main.editprofile-wrapper main section:nth-child(-n + 7) input {
+main.editprofile-wrapper main section:nth-child(-n + 10) input {
       font-size: 1.5em;
       align-self: center;
       border: 0.1em solid #00897B;
@@ -191,7 +191,7 @@ main.editprofile-wrapper textarea{
       main.editprofile-wrapper main section {
             padding: 1vw;
       }
-      main.editprofile-wrapper main section:nth-child(-n + 7) input,
+      main.editprofile-wrapper main section:nth-child(-n + 10) input,
       main.editprofile-wrapper radio-wrapper label,
       main.editprofile-wrapper input[type='radio'] + span
       {
