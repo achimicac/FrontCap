@@ -56,11 +56,22 @@ function UserStatusWait() {
     fetchCustomer();
   }, []);
 
+    const handleClickSummary = (invId) => () => {
+        setInvoiceId(invId);
+  };
+
     console.log(customers)
     return (
         <>
+            {invoice_id &&
+                <SummaryInvoice
+                        role={"customer"}
+                        invoice_id={invoice_id}
+                        clickCancel={() => setInvoiceId(null)}
+                />
+            }
             {customers.map((customer, customerin) => (
-                <section key={customerin} >
+                <section key={customerin} onClick={handleClickSummary(custom.invoice_id)}>
                     {customer.user_id &&
                         <ProfileBox
                             user={customer}

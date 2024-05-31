@@ -1,14 +1,21 @@
 section.recommend-box{
       display: flex;
-      width: 95vw;
       flex-direction: row;
       overflow-x: scroll;
 }
 .recommend-box figure {
-      margin: 0 2vw;
+      margin: 0 1.5em;
 }
 .recommend-box figure img{
-      width: 15vw;
+      width: min(7em, 100px);
       aspect-ratio: 1/1;
       border-radius: 50%;
+}
+
+@media (min-width: 600px) {
+      section.recommend-box{
+            display: flex;
+            flex-direction: column;
+            overflow-y: scroll;
+      }
 }

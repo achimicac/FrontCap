@@ -22,5 +22,6 @@ router.post('/maid/status/end', auth, invoiceController.getInvoiceForMaidEnd)
 router.post('/maid/main', auth, invoiceController.getInvoiceByDate)
 
 router.get('/maid/summary/:invoice_id', invoiceController.getSummaryInvoiceMaidside)
+router.get('/customer/summary/:invoice_id', invoiceController.getSummaryInvoiceCustomerside)
 
 module.exports = router;

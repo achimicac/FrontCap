@@ -3,74 +3,86 @@ div.customer-main {
   background-color: #80cbc4;
   display: flex;
   flex-direction: column;
+  font-size: 2vw;
 }
 .customer-main > header {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   padding-bottom: 5vw;
+  padding-left: 2em;
+  padding-right: 2em;
 }
-.customer-main > header section > p {
-  font-size: 4vw;
+.customer-main > header > p {
+  font-size: min(2em, 25px);
   font-weight: 600;
 }
 
 .customer-main main {
-  padding: 3vw;
-  gap: 5vw;
+  padding: min(1.5em, 20px);
   background-color: white;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
   display: flex;
   flex-direction: column;
+  gap: 1em;
+  overflow-y: scroll;
 }
 
-.customer-main > main header {
-  padding-left: 3vw;
+.customer-main > main > header {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
 }
 
 .customer-main > main header label {
-  margin-right: 5vw;
+  display: flex;
+  gap: 0.25em;
 }
-.customer-main > main header label > span {
-  font-size: 3vw;
+.customer-main > main > header > label span, .category_list span {
+  font-size: min(1.5em, 18px);
 }
 .customer-main > main header label > select {
-  font-size: 3vw;
+  font-size: min(1.5em, 18px);
+  border-radius: 10px;
+  border: 0.2em solid palevioletred;
+  padding: min(0.25em, 20px);
+  width: auto;
+  height: min(100%, 50px);
 }
 
-.customer-main > main header label > .category_list {
+.customer-main .category_list {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 0.25rem;
   list-style-type: none;
-  font-size: 3vw;
+  font-size: min(0.5em, 16px);
+  overflow-y: scroll;
+  height: min(10em, 50px);
+  width: auto;
+  border: min(0.5em, 3px) solid palevioletred;
+  border-radius: 10px;
+  margin-top: 0%;
+  margin-bottom: 0%;
 }
 
 .customer-main > main header label > .category_list li {
   background-color: #ffbed798;
-  padding: 1vw;
+  padding: 0.25em;
   border-radius: 10px;
   cursor: pointer;
+  font-size: min(2.5em, 16px);
 }
 
 .customer-main > .main-profilebox-wrapper {
-  padding: 5vw;
-  font-size: 4vw;
+  padding: 1em;
 }
 
 .main-profilebox-wrapper header {
-  font-size: 4vw;
+  font-size: 2em;
   font-weight: 600;
-  padding: 1vw;
+  padding: 0.5em;
 }
-.customer-main main .main-profilebox-wrapper {
-  row-gap: 5vw;
-}
-.main-profilebox-wrapper a > section {
-  padding: 5vw;
+
+.main-profilebox-wrapper > section {
+  padding: min(1em, 20px);
   background-color: #e0f2f1;
   display: grid;
   grid-template-columns: 25% auto;
@@ -88,26 +100,59 @@ div.customer-main {
 .main-profilebox-content {
   display: flex;
   flex-direction: column;
-  padding-left: 5vw;
+  padding-left: 1em;
 }
 .main-profilebox-content > article {
   display: flex;
   flex-direction: column;
 }
+.main-profilebox-content > article > section > span {
+  font-size: min(1.5em, 18px);
+}
+.main-profilebox-content > article header{
+  font-size: min(2.5em, 20px);
+}
 .main-profilebox-content .main-job-chips {
-  padding-top: 3vw;
-  padding-bottom: 2vw;
+  padding-top: 1em;
+  padding-bottom: 1em;
   display: flex;
   flex-wrap: wrap;
-  gap: 2vw;
-  font-size: 3vw;
+  gap: 1em;
+  font-size: min(1.5em, 16px);
 }
 .main-profilebox-content .main-job-chips span {
   background-color: #ffbed798;
-  padding: 1vw;
+  padding: 0.25em;
   border-radius: 10px;
 }
 
 .main-profilebox-content article header {
   padding-left: 0vw;
+}
+
+@media (min-width: 600px) {
+  div.customer-main {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2em;
+    background-color: white;
+    padding: 2em 5em 5em 5em;
+    height: 80vh;
+    width: auto;
+  }
+  .customer-main > header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+    background-color: #80cbc4;
+    border-radius: 30px;
+  }
+  .customer-main > main {
+    border-radius: 30px;
+    border: 0.2em solid #80cbc4;
+    overflow-y: scroll;
+    padding-left: 5em;
+    padding-right: 5em;
+  }
 }

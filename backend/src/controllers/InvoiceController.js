@@ -553,7 +553,7 @@ const getSummaryInvoiceMaidside = async (req, res) => {
               WHERE Invoice.invoice_id = $1
               GROUP BY Invoice.invoice_id) inv 
             INNER JOIN Account acc 
-            ON acc.user_id = inv.maid_id
+            ON acc.user_id = inv.customer_id
 			      INNER JOIN Address 
 			      ON Address.user_id = acc.user_id
             INNER JOIN Room
@@ -568,6 +568,37 @@ const getSummaryInvoiceMaidside = async (req, res) => {
   }
 };
 
+  const getSummaryInvoiceCustomerside= async (req, res) => {
+    const { invoice_id } = req.params
+
+    try {
+  
+        const search_by_id = await pool.query(
+          /*"SELECT * FROM Invoice WHERE (status = 'wait' OR status = 'work') AND (work_date + start_time > CURRENT_TIMESTAMP)AND customer_id = $1",*/
+          `SELECT inv.*, acc.*, jobtype, Address.latitude, Address.longitude, Address.address,Room.* 
+            FROM ( 
+              SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobtype 
+              FROM Invoice 
+              INNER JOIN InvoiceJob 
+              ON Invoice.invoice_id = InvoiceJob.invoice_id 
+              INNER JOIN Job ON Job.job_id = InvoiceJob.job_id 
+              WHERE Invoice.invoice_id = $1
+              GROUP BY Invoice.invoice_id) inv 
+            INNER JOIN Account acc 
+            ON acc.user_id = inv.maid_id
+			      INNER JOIN Address 
+			      ON Address.user_id = acc.user_id
+            INNER JOIN Room
+            ON Room.room_id = inv.room_id`,
+          [invoice_id]
+        );
+        console.log(search_by_id.rows[0])
+        res.status(200).json(search_by_id.rows)
+    } catch (error) {
+      console.error("Error executing query:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }  
 module.exports = {
   getInvoice,
   getInvoiceById,
@@ -583,4 +614,5 @@ module.exports = {
   updateInvoiceStatus,
   getInvoiceByDate,
   getSummaryInvoiceMaidside,
+  getSummaryInvoiceCustomerside
 };

@@ -7,39 +7,204 @@
       background: rgba(0, 0, 0, 0.5);
       z-index: 999;
   }
-  
-  .invoice-summary {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #fff;
-      border-radius: 20px;
-      padding: 20px;
-      width: 90%;
-      max-width: 600px;
-      max-height: 90%;
-      overflow-y: auto;
-      z-index: 1000;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  .content-invoice-summary{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    width: min(60em, 80vw);
+    max-height: 70vh;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    font-size: 2vw;
   }
-  
+  .content-invoice-summary .cancel-icon{
+    align-self: flex-end;
+    font-size: min(2em, 30px);
+  }
+  .content-invoice-summary > header {
+    border-bottom: 0.25em solid #00897B;
+    padding-bottom: 1em;
+  }
   .invoice-summary header {
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
   }
-  
-  .invoice-summary img {
-      border-radius: 50%;
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      margin-bottom: 15px;
+  .invoice-summary header > header,
+  .invoice-summary main > header,
+  .invoice-summary header > .profile-descript > header
+   {
+    font-size: min(2em, 25px);
+    color: #00897B;
+    font-weight: 600;
   }
   
+  .invoice-summary img {
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    max-width: min(50%, 150px);
+    height: auto;
+    grid-row: 1 / 2;
+    align-items: center;
+    align-self: center;
+  }
+
   .invoice-summary .user-profile {
+    display: flex;
+    flex-direction: column;
+  }
+  .invoice-summary .user-profile > section{
+    background-color:  #E0F2F1;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.invoice-summary .user-profile > section > header,
+.invoice-summary .invoice-profile b{
+    font-size: min(2em, 20px);
+    color: #00897B;
+    font-weight: 600;
+}
+.invoice-summary .user-profile > section > section > b,
+.invoice-summary .user-profile .address-info > section > section > b,
+.invoice-summary .user-profile > section > section > span,
+.invoice-summary .user-profile .address-info > section > section > span,
+.invoice-summary .invoice-profile span {
+    font-size: min(1.5em, 18px);
+}
+.invoice-summary .user-profile .personal-info > section{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+}
+.invoice-summary .user-profile .contact-info > section{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+}
+.invoice-summary .user-profile .address-info {
+    gap: 0.5em;
+}
+.invoice-summary .user-profile .address-info > section:nth-child(2){
+    border-bottom: 0.1em solid #00897B;
+    padding-bottom: 0.5em;
+}
+.invoice-summary .user-profile .address-info > section:nth-child(2) > section{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+}
+.invoice-summary .user-profile .address-info > section:nth-child(3){
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.invoice-summary .invoice-profile {
+    display: flex;
+    flex-direction: column;
+}
+.invoice-summary .invoice-profile .dateroom-info{
+    display: grid;
+    grid-template-areas: 
+        'date date'
+        'room amount'
+    ;
+    gap: 0.5em;
+}
+.invoice-summary .invoice-profile .dateroom-info > section:nth-child(1) > section{
+    background-color: #FFBED7;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: min(1.5em, 30px);
+}
+.invoice-summary .invoice-profile .dateroom-info > section:nth-child(1) > section > span {
+    font-size: min(2em, 20px);
+    font-weight: 600;
+}
+.invoice-summary .invoice-profile .dateroom-info > section:nth-child(1){
+    grid-area: room;
+    display: flex;
+    flex-direction: column;
+    background-color: #E0F2F1;
+    border-radius: 10px;
+    align-items: center;
+}
+.invoice-summary .invoice-profile .dateroom-info > section:nth-child(2){
+    grid-area: date;
+    display: flex;
+    flex-direction: column;
+}
+.invoice-summary .invoice-profile .dateroom-info > section:nth-child(3){
+    grid-area: amount;
+    background-color: #FFBED7;
+    border-radius: 10px;
+}
+.invoice-summary .invoice-profile .dateroom-info > section:nth-child(2) > span:nth-child(2){
+    font-weight: 600;
+    font-size: min(1.5em, 20px);
+}
+.invoice-summary .invoice-profile .dateroom-info > section:nth-child(3) > span{
+    font-weight: 600;
+    padding-left: 0.5em;
+}
+.invoice-summary .invoice-profile .dateroom-info > section:nth-child(1) > span:nth-child(2) {
+    background-color: #FFBED7;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    max-width: min(3em, 150px);
+    height: auto;
+    grid-row: 1 / 2;
+    align-items: center;
+    align-self: center;
+    
+}
+.invoice-summary .invoice-profile .job-chips{
+    display: flex;
+    flex-direction: column;
+    background-color: #E0F2F1;
+    border-radius: 10px;
+    height: 100%;
+}
+.invoice-summary .invoice-profile .job-chips span {
+    background-color: #FFBED7;
+    width: fit-content;
+    border-radius: 30px;
+    top: 0%;
+  }
+
+  .invoice-summary .user-profile ,
+  .invoice-summary .invoice-profile,
+  .content-invoice-summary{
+    gap: 0.5em;
+  }
+  .invoice-summary .user-profile > section,
+  .invoice-summary .invoice-profile .dateroom-info > section,
+  .invoice-summary .invoice-profile .job-chips
+   {
+    padding: 1em;
+  }
+  .invoice-summary .invoice-profile .job-chips > section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    overflow-y: scroll;
+  }
+  /* 
+  invoice-summary .user-profile {
       width: 100%;
   }
   
@@ -102,4 +267,74 @@
           max-width: 800px;
       }
   }
-  
+
+   */
+
+
+   @media (min-width: 600px) {
+    .content-invoice-summary {
+        display: grid;
+        grid-template-areas: 
+        'button button'
+        'profile invoice';
+        max-height: none;
+    }
+    .content-invoice-summary .cancel-icon{
+        grid-area: button;
+        justify-self: end;
+    }
+    .content-invoice-summary > header {
+        grid-area: profile;
+        border-bottom: none;
+        padding-bottom: 0px;
+        border-right: 0.2em solid #00897B;
+        /* padding-right: 1em; */
+    }
+    .content-invoice-summary > main {
+        grid-area: invoice;
+    }
+    .invoice-summary .user-profile{
+        display: '';
+    }
+    .invoice-summary .user-profile {
+        display: grid;
+        grid-template-areas: 
+            'personal contact'
+            'address address'
+        ;
+      }
+      .invoice-summary .user-profile .personal-info{
+        grid-area: personal;
+      }
+      .invoice-summary .user-profile .contact-info{
+        grid-area: contact;
+      }
+      .invoice-summary .user-profile .address-info{
+        grid-area: address;
+        display: grid;
+        grid-template-areas: 
+        'topic topic topic'
+        'la-long info info'
+        'la-long info info';
+      }
+      .invoice-summary .user-profile .address-info > header{
+        grid-area: topic;
+      }
+      .invoice-summary .user-profile .address-info > section:nth-child(2){
+        grid-area: la-long;
+      }
+      .invoice-summary .invoice-profile .dateroom-info{
+        display: grid;
+        grid-template-areas: 
+            'room date date'
+            'room amount amount' 
+        ;
+        gap: 1em;
+    }
+    .invoice-summary .user-profile .address-info > section:nth-child(2){
+        padding-right: 0.5em;
+        border-right: 0.1em solid #00897B;
+        border-bottom: none;
+        padding-bottom: 0em;
+    }
+   }
