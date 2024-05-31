@@ -38,7 +38,7 @@ var distance = function (a, b) {
       const diff = a[key] - b[key];
 
       if (scaledKeys.includes(key)) {
-        sumSquaredDiff += Math.pow(diff, 2) * 10000;
+        sumSquaredDiff += Math.pow(diff, 2) * 1600;
       } else {
         sumSquaredDiff += Math.pow(diff, 2);
       }
@@ -106,7 +106,7 @@ const giveRecommendation = async (req, res) => {
 
       const keys = Object.keys(dataset[0]);
       const tree = new kdtree.kdTree(filteredDataset, distance, keys);
-      const nearest = tree.nearest(sCustomerData, 3);
+      const nearest = tree.nearest(sCustomerData, 7);
 
       const sortedNearest = nearest
         .map((item) => ({

@@ -25,7 +25,7 @@ function MaidProfile() {
     firstname: "atchima",
     lastname: "nateepradap",
     birthday: "12-09-2003",
-    jobtype: [
+    jobs: [
       { job_id: 1, job_name: "กวาดบ้าน" },
       { job_id: 2, job_name: "ถูบ้าน" },
       { job_id: 3, job_name: "ล้างจาน" },

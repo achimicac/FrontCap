@@ -162,9 +162,8 @@ function CustomerMain() {
   return (
     <div className="customer-main">
       <header>
-          <p> แม่บ้านที่เคยเรียกใช้ </p>
-          <RecommendBox maids={maids.maids_hired} handleClick={handleClick} />
-      
+        <p> แม่บ้านที่เคยเรียกใช้ </p>
+        <RecommendBox maids={maids.maids_hired} handleClick={handleClick} />
       </header>
       <main>
         <header>
@@ -186,9 +185,8 @@ function CustomerMain() {
             </select>
           </label>
           <label>
-              <span>งาน</span>
+            <span>งาน</span>
             <ul className="category_list">
-
               <li
                 style={
                   jchoiceSelector.every((job) => job[1])

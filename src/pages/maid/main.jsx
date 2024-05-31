@@ -13,11 +13,11 @@ function MaidMain() {
       const [invoice_id, setInvoiceId] = useState(null);
       const [selected, setSelected] = useState(today); 
       const [invoices, setInvoices] = useState([
-            {invoice_id: 1, user_id: 1, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], start_time: '13:00:00'},
-            {invoice_id: 2, user_id: 2, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], start_time: '13:00:00'},
-            {invoice_id: 3, user_id: 3, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], start_time: '13:00:00'},
-            {invoice_id: 4, user_id: 4, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], start_time: '13:00:00'},
-                                                                                                                                                                {invoice_id: 5, user_id: 5, user_pic: "", firstname: "atchi", lastname: "nate", jobtype: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], start_time: '13:00:00'}
+            {invoice_id: 1, user_id: 1, user_pic: "", firstname: "atchi", lastname: "nate", jobs: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], start_time: '13:00:00'},
+            {invoice_id: 2, user_id: 2, user_pic: "", firstname: "atchi", lastname: "nate", jobs: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], start_time: '13:00:00'},
+            {invoice_id: 3, user_id: 3, user_pic: "", firstname: "atchi", lastname: "nate", jobs: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], start_time: '13:00:00'},
+            {invoice_id: 4, user_id: 4, user_pic: "", firstname: "atchi", lastname: "nate", jobs: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], start_time: '13:00:00'},
+                                                                                                                                                                {invoice_id: 5, user_id: 5, user_pic: "", firstname: "atchi", lastname: "nate", jobs: [{job_id: 1, job_name: "กวาดบ้าน"}, {job_id: 2, job_name: "ถูบ้าน"}], start_time: '13:00:00'}
       ])
 
       useEffect(() => {
@@ -90,10 +90,10 @@ function MaidMain() {
                                           <article>
                                                 <header>{custom.firstname} {custom.lastname}</header>
                                                 <section>
-                                                      {custom.jobtype.slice(0, 5).map((job, jobid) => (
+                                                      {custom.jobs.slice(0, 5).map((job, jobid) => (
                                                                   <span key={jobid}>{job.job_name}</span>
                                                       ))}
-                                                      {custom.jobtype.length > 5 && <span> more... </span>}
+                                                      {custom.jobs.length > 5 && <span> more... </span>}
                                                 </section>
                                           </article>
                                     </section>

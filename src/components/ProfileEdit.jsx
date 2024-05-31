@@ -7,15 +7,14 @@ function ProfileEdit({
   handleChange,
   handleImageChange,
   manageJob = null,
-  jobchoices,
   clickSubmit,
   clickCancle,
-  handleJobChange,
 }) {
-  const userImg = useRef("");
+  const userImg = useRef(null);
+  const [hidepw, setHidepw] = useState(true);
   const [cfpw, setCfpw] = useState("");
 
-  const isMatch = user.pass === cfpw;
+  const isMatch = user.password === cfpw;
 
   return (
     <main className="editprofile-wrapper">
@@ -34,54 +33,40 @@ function ProfileEdit({
               type="file"
               ref={userImg}
               style={{ display: "none" }}
-              onChange={(e) => handleImageChange(e)}
+              onChange={handleImageChange}
             ></input>
           </label>
         </figure>
       </header>
       <main>
         <section className="radio-wrapper">
-          <b> บทบาท </b>
+          <b> Role </b>
           <div>
             <label className="radio-container">
-              
               <input
                 name="role"
                 type="radio"
                 onChange={handleChange}
                 autoComplete="off"
-                value="customer"
-                checked={user.user_role === "customer"}
+                value="user"
+                checked={user.role === "user"}
                 disabled={true}
               />
               <span className="checkmark">ผู้ใช้ทั่วไป</span>
             </label>
             <label className="radio-container">
-              แม่บ้าน
               <input
                 type="radio"
                 name="role"
                 onChange={handleChange}
                 autoComplete="off"
                 value="maid"
-                checked={user.user_role === "maid"}
+                checked={user.role === "maid"}
                 disabled={true}
               />
-              <span className="checkmark"></span>
+              <span className="checkmark">แม่บ้าน</span>
             </label>
           </div>
-        </section>
-
-        <section>
-          <b>วันเกิด</b>
-          <input
-            name="birthday"
-            type="date"
-            onChange={handleChange}
-            autoComplete="off"
-            value={user.birthday}
-            required
-          />
         </section>
 
         <section>
@@ -109,14 +94,27 @@ function ProfileEdit({
         </section>
 
         <section>
-          <b>โทรศัพท์</b>
+          <b>วันเกิด</b>
           <input
-            name="tel"
+            name="birthday"
+            type="date"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.birthday}
+            required
+          />
+        </section>
+
+        <section>
+          <b>เบอร์โทร</b>
+          <input
+            name="telephone"
             type="text"
             onChange={handleChange}
             autoComplete="off"
             value={user.tel}
             //placeholder="xxx-xxx-xxxx"
+            //pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             maxLength={10}
             required
           />
@@ -124,8 +122,16 @@ function ProfileEdit({
 
         <section>
           <b>อีเมล</b>
-          <span>{user.email}</span>
+          <input
+            name="email"
+            type="email"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.email}
+            required
+          />
         </section>
+
         <section>
           <b>เกี่ยวกับฉัน</b>
           <textarea
@@ -136,12 +142,6 @@ function ProfileEdit({
             value={user.description}
           />
         </section>
-        {manageJob && (
-          <ManageJob
-            user={user}
-            handleChange={handleChange}
-          />
-        )}
         <section>
           <b>รหัสผ่านเก่า</b>
           <input
@@ -176,14 +176,7 @@ function ProfileEdit({
             required
           />
         </section>
-        <div>
-          {user.checkPass ? (
-            <p style={isMatch ? { display: "none" } : {}}>รหัสผ่านไม่ตรงกัน</p>
-          ) : (
-            <p>รหัสผ่านเก่าผิด</p>
-          )}
-        </div>
-
+        {manageJob && <ManageJob user={user} handleChange={handleChange} />}
         <footer className="profile-footer">
           <button onClick={clickSubmit}> ตกลง </button>
           <button onClick={clickCancle} className="cancle">
@@ -194,7 +187,6 @@ function ProfileEdit({
       </main>
     </main>
   );
-
 }
 
 export default ProfileEdit;

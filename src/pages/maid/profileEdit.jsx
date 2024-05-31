@@ -85,11 +85,10 @@ function MaidProfileEdit() {
       jobs: jobs,
     };
     setMaid(maid_data);
-    //     console.log(maid_data);
+        console.log(maid_data);
   }, [user]);
 
   const checkOldPass = async (_oldPass) => {
-    // console.log(_oldPass);checkOldPass(oldPass);
     const check_old_pass = {
       token: window.localStorage.getItem("authtoken"),
       oldPass: _oldPass,
@@ -113,6 +112,23 @@ function MaidProfileEdit() {
         const oldPass = e.target.value;
         setMaid({ ...maid, ["oldpass"]: oldPass });
         setInputOldPass(oldPass);
+      } else if (e.target.name === "jobs") {
+        const [valueId, valueName] = e.target.value.split("-");
+        const jobTypeId = parseInt(valueId, 10);
+        if (e.target.checked) {
+          setMaid((prevMaid) => ({
+            ...prevMaid,
+            jobs: [
+              ...prevMaid.jobs,
+              { job_id: jobTypeId, job_name: valueName },
+            ],
+          }));
+        } else {
+          setMaid((prevMaid) => ({
+            ...prevMaid,
+            jobs: prevMaid.jobs.filter((job) => job.job_id !== jobTypeId),
+          }));
+        }
       } else {
         setMaid({ ...maid, [e.target.name]: e.target.value });
       }
@@ -120,9 +136,14 @@ function MaidProfileEdit() {
     [maid]
   );
 
-  const handleJobChange = (_selectedJobs) => {
-    setMaid({ ...maid, ["jobs"]: _selectedJobs });
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    uploadImage(file);
   };
+
+  // const handleJobChange = (_selectedJobs) => {
+  //   setMaid({ ...maid, ["jobtype"]: _selectedJobs });
+  // };
 
   const handleClickConfirmOK = async (e) => {
     e.preventDefault();
@@ -149,11 +170,6 @@ function MaidProfileEdit() {
     } catch (error) {
       console.error("Error:", error);
     }
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    uploadImage(file);
   };
 
   const handleClickCancelOK = () => {
@@ -199,7 +215,6 @@ function MaidProfileEdit() {
             user={maid}
             handleChange={handleChange}
             handleImageChange={handleImageChange}
-            handleJobChange={handleJobChange}
             handleCancle={handleClickCancel}
             manageJob={handleChange}
             clickSubmit={handleSubmit}

@@ -9,4 +9,3 @@ router.put("/:job_id", jobController.updateJob);
 router.delete("/:job_id", jobController.deleteJob);
 
 module.exports = router;
-

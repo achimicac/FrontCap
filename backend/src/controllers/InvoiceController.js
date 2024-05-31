@@ -40,7 +40,7 @@ const getInvoice = async (req, res) => {
           work_date: invoice_data[i].work_date,
           start_time: invoice_data[i].start_time,
           work_time: invoice_data[i].work_time,
-          submit_time: invoice_data[i].submit_time,
+          end_time: invoice_data[i].end_time,
           amount: invoice_data[i].amount,
           jobs: jobs,
         };
@@ -178,7 +178,7 @@ const updateInvoice = async (req, res) => {
     Work_Date,
     Start_Time,
     Work_Time,
-    Submit_Time,
+    end_Time,
     Amount,
   } = req.body;
 
@@ -196,7 +196,7 @@ const updateInvoice = async (req, res) => {
       Work_Date,
       Start_Time,
       Work_Time,
-      Submit_Time,
+      end_Time,
       Amount,
       id,
     ]);
@@ -243,7 +243,7 @@ const getInvoiceForCustomerWait = async (req, res) => {
 
       const search_customer_wait = await pool.query(
         /*"SELECT * FROM Invoice WHERE (status = 'wait' OR status = 'work') AND (work_date + start_time > CURRENT_TIMESTAMP)AND customer_id = $1",*/
-        `SELECT inv.*, acc.*, jobtype FROM ( SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobtype 
+        `SELECT inv.*, acc.*, jobs FROM ( SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobs 
         FROM Invoice 
         LEFT JOIN InvoiceJob 
         ON Invoice.invoice_id = InvoiceJob.invoice_id 
@@ -280,8 +280,8 @@ const getInvoiceForCustomerWork = async (req, res) => {
 
       const search_customer_work = await pool.query(
         /*"SELECT * FROM Invoice WHERE (status = 'wait' OR status = 'work') AND (work_date + start_time > CURRENT_TIMESTAMP)AND customer_id = $1",*/
-        `SELECT inv.*, acc.*, jobtype 
-          FROM (SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobtype 
+        `SELECT inv.*, acc.*, jobs 
+          FROM (SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobs 
           FROM Invoice 
           LEFT JOIN InvoiceJob 
             ON Invoice.invoice_id = InvoiceJob.invoice_id 
@@ -318,8 +318,8 @@ const getInvoiceForCustomerEnd = async (req, res) => {
 
       const search_customer_end = await pool.query(
         /*"SELECT * FROM Invoice WHERE (status = 'wait' OR status = 'work') AND (work_date + start_time > CURRENT_TIMESTAMP)AND customer_id = $1",*/
-        `SELECT inv.*, acc.*, jobtype 
-        FROM (SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobtype 
+        `SELECT inv.*, acc.*, jobs 
+        FROM (SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobs 
         FROM Invoice 
         LEFT JOIN InvoiceJob 
         ON Invoice.invoice_id = InvoiceJob.invoice_id 
@@ -356,8 +356,8 @@ const getInvoiceForMaidWork = async (req, res) => {
 
       const search_customer_work = await pool.query(
         /*"SELECT * FROM Invoice WHERE (status = 'wait' OR status = 'work') AND (work_date + start_time > CURRENT_TIMESTAMP)AND customer_id = $1",*/
-        `SELECT inv.*, acc.*, jobtype 
-          FROM (SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobtype 
+        `SELECT inv.*, acc.*, jobs 
+          FROM (SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobs 
           FROM Invoice 
           LEFT JOIN InvoiceJob 
             ON Invoice.invoice_id = InvoiceJob.invoice_id 
@@ -392,9 +392,9 @@ const getInvoiceForMaidWait = async (req, res) => {
 
       const search_customer_wait = await pool.query(
         /*"SELECT * FROM Invoice WHERE (status = 'wait' OR status = 'work') AND (work_date + start_time > CURRENT_TIMESTAMP)AND customer_id = $1",*/
-        `SELECT inv.*, acc.*, jobtype 
+        `SELECT inv.*, acc.*, jobs 
         FROM ( 
-          SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobtype 
+          SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobs 
           FROM Invoice 
           LEFT JOIN InvoiceJob 
           ON Invoice.invoice_id = InvoiceJob.invoice_id 
@@ -432,9 +432,9 @@ const getInvoiceForMaidEnd = async (req, res) => {
 
       const search_customer_end = await pool.query(
         /*"SELECT * FROM Invoice WHERE (status = 'wait' OR status = 'work') AND (work_date + start_time > CURRENT_TIMESTAMP)AND customer_id = $1",*/
-        `SELECT inv.*, acc.*, jobtype 
+        `SELECT inv.*, acc.*, jobs 
         FROM ( 
-          SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobtype 
+          SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobs 
           FROM Invoice 
           INNER JOIN InvoiceJob 
           ON Invoice.invoice_id = InvoiceJob.invoice_id 
@@ -472,7 +472,7 @@ const updateInvoiceStatus = async (req, res) => {
     if (current_time) {
       const result = await pool.query(
         `UPDATE Invoice 
-                SET status = $1, submit_time = $2
+                SET status = $1, end_time = $2
                 WHERE Invoice_ID = $3 RETURNING *`,
         [status, current_time, id]
       );
@@ -513,9 +513,9 @@ const getInvoiceByDate = async (req, res) => {
 
       const search_by_date = await pool.query(
         /*"SELECT * FROM Invoice WHERE (status = 'wait' OR status = 'work') AND (work_date + start_time > CURRENT_TIMESTAMP)AND customer_id = $1",*/
-        `SELECT inv.*, acc.*, jobtype 
+        `SELECT inv.*, acc.*, jobs 
           FROM ( 
-            SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobtype 
+            SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobs 
             FROM Invoice 
             INNER JOIN InvoiceJob 
             ON Invoice.invoice_id = InvoiceJob.invoice_id 
@@ -543,9 +543,9 @@ const getSummaryInvoiceMaidside = async (req, res) => {
   try {
     const search_by_id = await pool.query(
       /*"SELECT * FROM Invoice WHERE (status = 'wait' OR status = 'work') AND (work_date + start_time > CURRENT_TIMESTAMP)AND customer_id = $1",*/
-      `SELECT inv.*, acc.*, jobtype, Address.latitude, Address.longitude, Address.address,Room.* 
+      `SELECT inv.*, acc.*, jobs, Address.latitude, Address.longitude, Address.address,Room.* 
             FROM ( 
-              SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobtype 
+              SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobs 
               FROM Invoice 
               INNER JOIN InvoiceJob 
               ON Invoice.invoice_id = InvoiceJob.invoice_id 
@@ -568,16 +568,15 @@ const getSummaryInvoiceMaidside = async (req, res) => {
   }
 };
 
-  const getSummaryInvoiceCustomerside= async (req, res) => {
-    const { invoice_id } = req.params
+const getSummaryInvoiceCustomerside = async (req, res) => {
+  const { invoice_id } = req.params;
 
-    try {
-  
-        const search_by_id = await pool.query(
-          /*"SELECT * FROM Invoice WHERE (status = 'wait' OR status = 'work') AND (work_date + start_time > CURRENT_TIMESTAMP)AND customer_id = $1",*/
-          `SELECT inv.*, acc.*, jobtype, Address.latitude, Address.longitude, Address.address,Room.* 
+  try {
+    const search_by_id = await pool.query(
+      /*"SELECT * FROM Invoice WHERE (status = 'wait' OR status = 'work') AND (work_date + start_time > CURRENT_TIMESTAMP)AND customer_id = $1",*/
+      `SELECT inv.*, acc.*, jobs, Address.latitude, Address.longitude, Address.address,Room.* 
             FROM ( 
-              SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobtype 
+              SELECT Invoice.*, ARRAY_AGG(json_build_object('job_id', Job.job_id, 'job_name', Job.job_name)) AS jobs 
               FROM Invoice 
               INNER JOIN InvoiceJob 
               ON Invoice.invoice_id = InvoiceJob.invoice_id 
@@ -590,15 +589,15 @@ const getSummaryInvoiceMaidside = async (req, res) => {
 			      ON Address.user_id = acc.user_id
             INNER JOIN Room
             ON Room.room_id = inv.room_id`,
-          [invoice_id]
-        );
-        console.log(search_by_id.rows[0])
-        res.status(200).json(search_by_id.rows)
-    } catch (error) {
-      console.error("Error executing query:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  }  
+      [invoice_id]
+    );
+    console.log(search_by_id.rows[0]);
+    res.status(200).json(search_by_id.rows);
+  } catch (error) {
+    console.error("Error executing query:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 module.exports = {
   getInvoice,
   getInvoiceById,
@@ -614,5 +613,5 @@ module.exports = {
   updateInvoiceStatus,
   getInvoiceByDate,
   getSummaryInvoiceMaidside,
-  getSummaryInvoiceCustomerside
+  getSummaryInvoiceCustomerside,
 };
