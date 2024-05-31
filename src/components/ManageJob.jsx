@@ -1,10 +1,34 @@
-import './css/ManageJob.css'
-function ManageJob({user, jobchoices, handleChange}) {
-      return (
+import { useState, useEffect } from "react";
+import "./css/ManageJob.css";
+import api from "../axios";
+
+function ManageJob({ user, handleJobChange }) {
+  const [jobchoices, setJobchoices] = useState([]);
+
+  const fetchJobs = async () =>
+    await api
+      .get("/api/v1/job")
+      .then((res) => {
+        // const user_job_ids = user.jobs.map((ujob) => ujob.job_id);
+        // const job_exists = res.data.map((job) =>
+        //   user_job_ids.includes(job.job_id) ? [job, true] : [job, false]
+        // );
+        setJobchoices(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+
+  return (
             <section className='manage-job'>
                   <b>ชนิดงาน</b>
                   <section className='joblist'>
-                        {user.jobtype.map((job, jobin) => (
+                        {user.jobs.map((job, jobin) => (
                             <span key={jobin}> {job.job_name} </span>
                         ))}
                   </section>
@@ -16,7 +40,7 @@ function ManageJob({user, jobchoices, handleChange}) {
                                           name="jobtype"
                                           type="checkbox"
                                           value={`${job.job_id}-${job.job_name}`}
-                                          checked={user.jobtype.some(maidJob => maidJob.job_id === job.job_id)}
+                                          checked={user.jobs.some(maidJob => maidJob.job_id === job.job_id)}
                                           onChange={handleChange}
                                     />
                                     <span></span>
@@ -25,7 +49,8 @@ function ManageJob({user, jobchoices, handleChange}) {
                         ))}
                   </section>
             </section>
-      )
+      );
+
 }
 
 export default ManageJob;

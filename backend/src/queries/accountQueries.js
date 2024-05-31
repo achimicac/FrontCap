@@ -1,4 +1,5 @@
-const getAccount = "SELECT * FROM Account";
+const getAccount =
+  "SELECT *, NULL AS user_id, NULL AS pass FROM Account WHERE email = $1";
 const getAccountById = `SELECT 
                         User_ID,
                         User_Role,

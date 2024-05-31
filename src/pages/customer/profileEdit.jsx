@@ -1,109 +1,168 @@
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import ProfileEdit from "../../components/ProfileEdit";
 import Popup from "../../components/Popup";
 import { useNavigate } from "react-router-dom";
-import Axios  from "../../axios"
-import { HiAnnotation } from "react-icons/hi";
+import api from "../../axios";
 
 function UserProfileEdit() {
-      const navigate = useNavigate();
+  const navigate = useNavigate();
 
-      const [user, setUser] = useState({ 
-            id: 1, 
-            firstname: "atchima", 
-            lastname: "nateepradap",
-            birthday: '12-09-2003',  
-            role: 'user' ,
-            tel: '0925097833',
-            email: 'atchi@gmail.com',
-            description: 'hello, I really need maid'
+  const [user, setUser] = useState();
+  const [inputOldPass, setInputOldPass] = useState("");
+  const [isOldPass, setOldPass] = useState(false);
+  
+  const [alertConfirm, setAlertConfirm] = useState(false);
+  const [alertCancel, setAlertCancel] = useState(false);
+
+  const fetchUser = async () =>
+    await api
+      .post("/api/v1/account/getAccount", {
+        token: window.localStorage.getItem("authtoken"),
+      })
+      .then((res) => {
+        if (res.data.success) setUser(res.data.user);
+
       });
-      //const [user, setUser] = useState();
-      const [alertConfirm, setAlertConfirm] = useState(false);
-      const [alertCancel, setAlertCancel] = useState(false);
 
-      /*useEffect(() => {
-            const fetchProfile = async () => {
-                  try {
-                        const res = await Axios.get('/api/customer/profile/edit')
-                        setUser(res.data.profile);
-                  } catch (err) {
-                        console.log(err)
-                  }
-            }
+  const uploadImage = async (_fileImage) => {
+    const formData = new FormData();
+    formData.append("image", _fileImage);
+    formData.append("token", window.localStorage.getItem("authtoken"));
+    await api
+      .post("/api/v1/account/uploadImage", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Important for file uploads
+        },
+      })
+      .then((res) => {
+        if (res.data.success)
+          setUser({ ...user, ["user_pic"]: res.data.imageName });
+      });
+  };
 
-            fetchProfile();
-      }, [])*/
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
-      const handleChange = useCallback((e) => {
-            if (e.target.name === 'user_pic') {
-                const file = e.target.files[0];
-                setUser({ ...user, [e.target.name]: file });
-            } else {
-                setUser({ ...user, [e.target.name]: e.target.value });
-            }
-      }, [user]);
+  useEffect(() => {
+    checkOldPass(inputOldPass);
+  }, [inputOldPass]);
 
-      const handleClickConfirmOK = async (e) => {
-            e.preventDefault();
-            try {
-                const formData = new FormData();
-                for (const key in user) {
-                    formData.append(key, user[key]);
-                }
-    
-                const {editprofile} = await Axios.put('/api/customer/profile/edit', formData)
-    
-                if ( !editprofile.data.success ) {
-                    setMessage(editprofile.data.text)
-                    setAlert(true);
-                    return;
-                }
-                navigate(-1);
-            } catch (error) {
-                console.error("Error:", error);
-            }
+  useEffect(() => {
+    if (isOldPass) {
+      setUser({ ...user, ["checkPass"]: isOldPass });
+      // console.log({ ...user, ["checkPass"]: isOldPass });
+      setOldPass(false);
+    }
+  }, [isOldPass]);
+
+  const checkOldPass = async (_oldPass) => {
+    // console.log(_oldPass);checkOldPass(oldPass);
+    const check_old_pass = {
+      token: window.localStorage.getItem("authtoken"),
+      oldPass: _oldPass,
+    };
+
+    await api
+      .post("/api/v1/account/checkOldPass", check_old_pass)
+      .then((res) => {
+        if (res.data.success && res.data.check_pass) {
+          setOldPass(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleChange = useCallback(
+    (e) => {
+      if (e.target.name === "oldpass") {
+        const oldPass = e.target.value;
+        setUser({ ...user, ["oldpass"]: oldPass });
+        // console.log({ ...user, ["oldpass"]: oldPass });
+        setInputOldPass(oldPass);
+      } else {
+        setUser({ ...user, [e.target.name]: e.target.value });
       }
-      
-      const handleClickCancelOK = () => {
-            navigate(-1)
-      }
-      
-      const handleSubmit = () => {
-            setAlertConfirm(true);
-      }
-      
-      const handleClickCancel = () => {
-            setAlertCancel(true);
-      }
+    },
+    [user]
+  );
 
-      console.log(user)
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    uploadImage(file);
+  };
 
-      return (
-            <>
-                  <Popup 
-                        alert={alertConfirm} 
-                        message={"ต้องการทยืนยันการแก้ไข ใช่ หรือ ไม่"}
-                        clickCancel={() => { setAlertConfirm(false) }} 
-                        clickOK={handleClickConfirmOK}
-                  />
-                  <Popup 
-                        alert={alertCancel} 
-                        message={"ต้องการยกเลิกการแก้ไข ใช่ หรือ ไม่"}
-                        clickCancel={() => { setAlertCancel(false) }} 
-                        clickOK={handleClickCancelOK} 
-                  />
+  const handleClickConfirmOK = async (e) => {
+    e.preventDefault();
+    console.log(user);
+    try {
+      const updateData = {
+        user_pic: user.user_pic,
+        user_role: user.user_role,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        user_gender: user.user_gender,
+        birthday: user.birthday,
+        email: user.email,
+        pass: user.pass,
+        tel: user.tel,
+        description: user.description,
+      };
+      await api.post("/api/v1/account/editCustomerProfile", updateData);
 
-                  <form>
-                        <ProfileEdit 
-                              user={user} 
-                              handleChange={handleChange} 
-                              clickSubmit={handleSubmit}
-                              clickCancel={handleClickCancel}
-                        />
-                  </form>
-            </>
-      )
+      navigate(-1);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleClickCancelOK = () => {
+    navigate(-1);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setAlertConfirm(true);
+  };
+
+  const handleClickCancel = () => {
+    setAlertCancel(true);
+  };
+
+  return (
+    <>
+      <Popup
+        alert={alertConfirm}
+        message={"ต้องการยืนยันการแก้ไข ใช่ หรือ ไม่"}
+        clickCancel={() => {
+          setAlertConfirm(false);
+        }}
+        clickOK={handleClickConfirmOK}
+      />
+      <Popup
+        alert={alertCancel}
+        message={"ต้องการยกเลิกการแก้ไข ใช่ หรือ ไม่"}
+        clickCancel={() => {
+          setAlertCancel(false);
+        }}
+        clickOK={handleClickCancelOK}
+      />
+
+      <form>
+        {user && (
+          <ProfileEdit
+            user={user}
+            handleChange={handleChange}
+            handleImageChange={handleImageChange}
+            clickSubmit={handleSubmit}
+            clickCancel={handleClickCancel}
+          />
+        )}
+      </form>
+    </>
+  );
 }
 
 export default UserProfileEdit;

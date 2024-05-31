@@ -3,7 +3,7 @@ const router = express.Router();
 const userJobController = require("../controllers/UserJobController");
 const { auth } = require("../middleware/auth");
 
-// router.get("/Userjobs", userJobController.getUserJobs);
+router.post("/Userjobs", auth, userJobController.getUserJobs);
 // router.get('/Userjobs/:User_id/:job_id', UserJobController.getUserJobById);
 router.post("/addUserjobs", userJobController.addUserJob);
 router.post("/updateUserJob", auth, userJobController.updateUserJob);

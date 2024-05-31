@@ -1,10 +1,9 @@
 import { useState, useCallback, useContext } from "react";
-import axios from "axios";
+import api from "../axios";
 import { useNavigate } from "react-router-dom";
 import Popup from "../components/Popup";
 import "./styles/login.css";
 import useAuth from "../Auth/useAuth";
-import api from "../axios";
 
 function Login() {
   const { auth, setAuth } = useAuth();
@@ -17,8 +16,7 @@ function Login() {
   const [alert, setAlert] = useState(false);
   const [alertMessage, setMessage] = useState("");
 
-  const login = async (value) =>
-    await api.post("/api/v1/account/login", value);
+  const login = async (value) => await api.post("/api/v1/account/login", value);
 
   const handleChange = useCallback(
     (e) => {

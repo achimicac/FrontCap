@@ -1,176 +1,200 @@
 import { useRef, useState } from "react";
 import ManageJob from "./ManageJob";
-import './css/ProfileEdit.css'
+import "./css/ProfileEdit.css";
 
-function ProfileEdit({ user, handleChange, manageJob=null, jobchoices, clickSubmit, clickCancle }) {
-  const userImg = useRef(null);
-  const [hidepw, setHidepw] = useState(true);
+function ProfileEdit({
+  user,
+  handleChange,
+  handleImageChange,
+  manageJob = null,
+  jobchoices,
+  clickSubmit,
+  clickCancle,
+  handleJobChange,
+}) {
+  const userImg = useRef("");
   const [cfpw, setCfpw] = useState("");
 
-  const seePassword = () => {
-    console.log("kuay");
-  };
-  const handleClickImg = () => {
-    userImg.current.click();
-  };
-  const isMatch = user.password === cfpw;
+  const isMatch = user.pass === cfpw;
 
-    return (
-        <main className="editprofile-wrapper">
-            <header>
-                <figure onClick={handleClickImg}>
-                        <label>
-                            {user.user_pic ? (
-                                    <img src={`data:image/jpeg;base64,${maid.user_pic}`} style={{width: '30vw'}} />
-                                    ) : (
-                                    <img src={"/sudlore.png"} style={{width: '30vw'}} />
-                            )}
-                        <input name='user_pic' type="file" ref={userImg} style={{display: 'none'}} onChange={handleChange}></input>
-                        </label>
-                </figure>
-            </header>
-            <main>
-                <section className="radio-wrapper">
-                    <b> Role </b>
-                    <div>
-                        <label className="radio-container">
-                            
-                                <input
-                                    name="role"
-                                    type="radio"
-                                    onChange={handleChange}
-                                    autoComplete="off"
-                                    value="user"
-                                    checked={user.role === 'user'}
-                                    disabled={true}
-                                    
-                                />
-                            <span className="checkmark">ผู้ใช้ทั่วไป</span>
-                            
-                        </label>
-                        <label className="radio-container">
-                            
-                            <input
-                            type="radio"
-                            name="role"
-                            onChange={handleChange}
-                            autoComplete="off"
-                            value="maid"
-                            checked={user.role === "maid"}
-                            disabled={true}
-                            />
-                            <span className="checkmark">แม่บ้าน</span>
-                        </label>
-                    </div>
-                </section>
-
-            <section>
-                <b>ชื่อ</b>
-                <input
-                name="firstname"
-                type="text"
+  return (
+    <main className="editprofile-wrapper">
+      <header>
+        <figure>
+          <label>
+            {user.user_pic ? (
+              <img src={"../../public/imageGalleries/" + user.user_pic} />
+            ) : (
+              <img
+                src={"../../public/imageGalleries/1716567567852no_account.png"}
+              />
+            )}
+            <input
+              name="user_pic"
+              type="file"
+              ref={userImg}
+              style={{ display: "none" }}
+              onChange={(e) => handleImageChange(e)}
+            ></input>
+          </label>
+        </figure>
+      </header>
+      <main>
+        <section className="radio-wrapper">
+          <b> บทบาท </b>
+          <div>
+            <label className="radio-container">
+              
+              <input
+                name="role"
+                type="radio"
                 onChange={handleChange}
                 autoComplete="off"
-                value={user.firstname}
-                required
-                />
-            </section>
-
-            <section>
-                <b>นามสกุล</b>
-                <input
-                name="lastname"
-                type="text"
+                value="customer"
+                checked={user.user_role === "customer"}
+                disabled={true}
+              />
+              <span className="checkmark">ผู้ใช้ทั่วไป</span>
+            </label>
+            <label className="radio-container">
+              แม่บ้าน
+              <input
+                type="radio"
+                name="role"
                 onChange={handleChange}
                 autoComplete="off"
-                value={user.lastname}
-                required
-                />
-            </section>
+                value="maid"
+                checked={user.user_role === "maid"}
+                disabled={true}
+              />
+              <span className="checkmark"></span>
+            </label>
+          </div>
+        </section>
 
-            <section>
-                <b>วันเกิด</b>
-                <input
-                name="birthday"
-                type="date"
-                onChange={handleChange}
-                autoComplete="off"
-                value={user.birthday}
-                required
-                />
-            </section>
+        <section>
+          <b>วันเกิด</b>
+          <input
+            name="birthday"
+            type="date"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.birthday}
+            required
+          />
+        </section>
 
-            <section>
-                <b>เบอร์โทร</b>
-                <input
-                name="telephone"
-                type="text"
-                onChange={handleChange}
-                autoComplete="off"
-                value={user.tel}
-                //placeholder="xxx-xxx-xxxx"
-                //pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                maxLength={10}
-                required
-                />
-            </section>
+        <section>
+          <b>ชื่อ</b>
+          <input
+            name="firstname"
+            type="text"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.firstname}
+            required
+          />
+        </section>
 
-            <section>
-                <b>อีเมล</b>
-                <input
-                name="email"
-                type="email"
-                onChange={handleChange}
-                autoComplete="off"
-                value={user.email}
-                required
-                />
-            </section>
+        <section>
+          <b>นามสกุล</b>
+          <input
+            name="lastname"
+            type="text"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.lastname}
+            required
+          />
+        </section>
 
-            {/*<section>
-                <b>Password</b>
-                <input
-                name="password"
-                type="password"
-                onChange={handleChange}
-                autoComplete="off"
-                value={user.password}
-                required
-                />
-            </section>
+        <section>
+          <b>โทรศัพท์</b>
+          <input
+            name="tel"
+            type="text"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.tel}
+            //placeholder="xxx-xxx-xxxx"
+            maxLength={10}
+            required
+          />
+        </section>
 
-            <section>
-                <b> Confirm Password</b>
-                <input
-                name="cfpw"
-                type="password"
-                onChange={(e) => setCfpw(e.target.value)}
-                autoComplete="off"
-                value={cfpw}
-                required
-                />
-            </section>
-            <p style={isMatch ? { display: "none" } : {}}>Password is not Match!</p>*/}
-            <section>
-                <b>เกี่ยวกับฉัน</b>
-                <textarea
-                    name="descript"
-                    type="text"
-                    onChange={handleChange}
-                    autoComplete="off"
-                    value={user.description}
-                />
-            </section>
-                {manageJob &&
-                    <ManageJob user={user} jobchoices={jobchoices} handleChange={handleChange} />
-                }   
-                <footer className="profile-footer">
-                    <button onClick={clickSubmit}> ตกลง </button>
-                    <button onClick={clickCancle} className="cancle"> ยกเลิก </button>
-                </footer>
-            </main>
-        </main>
-    );
+        <section>
+          <b>อีเมล</b>
+          <span>{user.email}</span>
+        </section>
+        <section>
+          <b>เกี่ยวกับฉัน</b>
+          <textarea
+            name="description"
+            type="text"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.description}
+          />
+        </section>
+        {manageJob && (
+          <ManageJob
+            user={user}
+            handleChange={handleChange}
+          />
+        )}
+        <section>
+          <b>รหัสผ่านเก่า</b>
+          <input
+            name="oldpass"
+            type="password"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.oldpass ? user.oldpass : ""}
+            required
+          />
+        </section>
+        <section>
+          <b>รหัสผ่าน</b>
+          <input
+            name="pass"
+            type="password"
+            onChange={handleChange}
+            autoComplete="off"
+            value={user.pass ? user.pass : ""}
+            required
+          />
+        </section>
+
+        <section>
+          <b> ยืนยันรหัสผ่าน </b>
+          <input
+            name="cfpw"
+            type="password"
+            onChange={(e) => setCfpw(e.target.value)}
+            autoComplete="off"
+            value={cfpw}
+            required
+          />
+        </section>
+        <div>
+          {user.checkPass ? (
+            <p style={isMatch ? { display: "none" } : {}}>รหัสผ่านไม่ตรงกัน</p>
+          ) : (
+            <p>รหัสผ่านเก่าผิด</p>
+          )}
+        </div>
+
+        <footer className="profile-footer">
+          <button onClick={clickSubmit}> ตกลง </button>
+          <button onClick={clickCancle} className="cancle">
+            {" "}
+            ยกเลิก{" "}
+          </button>
+        </footer>
+      </main>
+    </main>
+  );
+
 }
 
 export default ProfileEdit;
