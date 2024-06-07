@@ -5,6 +5,8 @@ const { upload } = require("../middleware/uploadImage");
 const { auth } = require("../middleware/auth");
 
 router.post("/getAccount", auth, AccountController.getAccount);
+router.post("/getMaid", auth, AccountController.getMaid);
+router.post("/getMaidRehired", auth, AccountController.getMaidRehired);
 router.post("/getByIDs", AccountController.getAccountByIds);
 router.post("/", AccountController.addAccount);
 router.post("/login", AccountController.login);

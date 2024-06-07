@@ -88,7 +88,6 @@ function UserMaidEmploy() {
       if (newInvoice.work_date === "" || newInvoice.start_time === "") {
         return setAlertSelectJob(true);
       }
-      // console.log(value);
       let updatedJobs = [...newInvoice.jobs];
 
       const selected_job = JSON.parse(value);
@@ -191,7 +190,7 @@ function UserMaidEmploy() {
         work_date: newInvoice.work_date,
         start_time: newInvoice.start_time,
         work_time: newInvoice.work_time,
-        end_time: newInvoice.end_time,
+        end_time: endTime,
         amount: amount,
         note: newInvoice.note,
         jobs: newInvoice.jobs,

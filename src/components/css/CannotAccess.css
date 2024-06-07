@@ -1,50 +1,36 @@
-.login {
-  background-color: #80cbc4;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-}
-.login > main {
-  background-color: white;
+.protect-route {
+  font-size: 2vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 50vh;
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
+  justify-content: center;
 }
-.login h1 {
+.protect-route header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.protect-route header span {
+  font-size: min(5em, 100px);
+  font-weight: 600;
   color: #00897b;
 }
-.login form {
+.protect-route header img {
+  aspect-ratio: 1 / 1;
+  width: min(5em, 200px);
+}
+.protect-route main span {
+  font-size: min(3em, 50px);
+  font-weight: 400;
+}
+.protect-route footer {
+  padding: 1em;
   display: flex;
-  flex-direction: column;
-  gap: 5vw;
+  align-self: center;
+  gap: 1.5em;
 }
-.login form label {
-  display: flex;
-  flex-direction: column;
-  width: 60vw;
-}
-.login input {
-  appearance: none;
-  border: none;
-  /*outline: none;*/
-  -webkit-appearance: none;
-  background-color: #e0f2f1;
-  border-radius: 30px;
-  caret-color: #00897b;
-  transition: border 0.3s ease;
-  padding: 1.5vw;
-  font-size: 3vw;
-  &:focus {
-    outline: none;
-    box-shadow: #00897b 0px 1px 2px 0px, #00897b 0px 1px 4px 1px;
-  }
-}
-.login button {
+.protect-route footer button {
   appearance: button;
   background-color: #00897b;
   background-image: linear-gradient(
@@ -61,11 +47,11 @@
   cursor: pointer;
   display: inline-block;
   font-family: Inter, sans-serif;
-  font-size: 4vw;
+  font-size: min(1.5em, 20px);
   font-weight: 600;
   line-height: 1.5;
   margin: 0;
-  padding: 0.5vh 5vw;
+  padding: 0.25em 1em;
   text-align: center;
   text-transform: none;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
@@ -75,66 +61,42 @@
   touch-action: manipulation;
   vertical-align: middle;
 }
-.login button:focus:not(:focus-visible),
-.login button {
+.protect-route footer button.cancle {
+  background-color: white;
+  border: 0.2em solid #00897b;
+  color: #00897b;
+}
+.protect-route footer button:focus:not(:focus-visible),
+.protect-route footer button:focus {
   outline: 0;
 }
-.login button:hover {
+.protect-route footer button:hover {
   background-color: #00897b;
   border-color: #00897b;
 }
-.login button:focus {
+.protect-route footer button.cancle {
+  background-color: white;
+  border-color: #00897b;
+}
+.protect-route footer button:focus {
   background-color: #80cbce;
   border-color: #93c9ca;
   box-shadow: rgba(255, 255, 255, 0.15) 0 1px 0 inset,
     rgba(46, 54, 80, 0.075) 0 1px 1px, rgba(104, 101, 235, 0.5) 0 0 0 0.2rem;
 }
-.login button:active {
+.protect-route footer button:active {
   background-color: #519ea1;
   background-image: none;
   border-color: #5bc6cc;
   box-shadow: rgba(46, 54, 80, 0.125) 0 3px 5px inset;
 }
-.login button:focus {
+.protect-route footer button:focus {
   box-shadow: rgba(3, 84, 69, 0.125) 0 3px 5px inset,
     rgba(104, 101, 235, 0.5) 0 0 0 0.2rem;
 }
-.login button:disabled {
+.protect-route footer button:disabled {
   background-image: none;
   box-shadow: none;
   opacity: 0.65;
   pointer-events: none;
-}
-
-.non-account p a {
-  color: #E1829B;
-}
-
-@media (min-width: 600px) {
-  .login {
-    justify-content: center;
-    align-items: center;
-  }
-  .login h1 {
-    font-size: 4vh;
-  }
-  .login > main {
-    width: 50vw;
-    height: 50vh;
-    padding-bottom: 5vh;
-    border-radius: 30px;
-  }
-  .login form {
-    gap: 5vh;
-  }
-  .login form label {
-    width: 40vh;
-  }
-  .login input {
-    padding: 0.5vw;
-    font-size: 16px;
-  }
-  .login button {
-    font-size: 3vh;
-  }
 }

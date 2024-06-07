@@ -1,24 +1,29 @@
-.profilebox-wrapper {
+.profilebox-wrapper{
   padding: 1vw 5vw 1vw 5vw;
-  font-size: 4vw;
   font-size: 2vw;
 }
-
-.profilebox-wrapper header {
+.profilebox-wrapper header{
   font-weight: 600;
   padding-bottom: 0.5em;
-  font-size: 1.5em;
+  font-size: min(1.75em, 22px);
 }
-
+#cancel {
+  background-color:  #FFBED7;
+}
+.maid-cancel {
+  color: red;
+  font-size: min(1em, 18px);
+  align-self: flex-end;
+}
 .profilebox-container {
-  padding: 1em;
-  background-color: #e0f2f1;
+  padding: max(1em, 5px);
+  background-color: #E0F2F1;
   display: grid;
   grid-template-columns: 25% auto;
   border-radius: 30px;
 }
 
-.profilebox-container img {
+.profilebox-container img{
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   max-width: 100%;
@@ -32,20 +37,21 @@
   display: flex;
   flex-direction: column;
   padding-left: 1em;
+  
 }
 
-.profilebox-information {
+.profilebox-information{
   display: flex;
   flex-direction: column;
 }
 
-.profilebox-information .job-chips {
+.profilebox-information .job-chips{
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5em;
-  font-size: 3vw;
+  font-size: min(1em, 18px);
 }
 
 .profilebox-information .job-chips span {
@@ -54,17 +60,16 @@
   border-radius: 10px;
 }
 
-.profilebox-information .job-date {
-  font-size: 1em;
+.profilebox-information .job-date{
+  font-size: min(1em, 18px);
   border-bottom: 1px solid black;
 }
 
-.profilebox-information .job-date span {
+.profilebox-information .job-date span{
   font-weight: 400px;
-
   padding-right: 1em;
   margin-left: 0.25em;
-  font-size: 1em;
+  font-size: min(1em, 18px);
 }
 
 .profilebox-content footer {
@@ -72,8 +77,8 @@
   align-self: flex-end;
 }
 
-.profilebox-content .footer-nobutton {
-  font-size: 1em;
+.profilebox-content .footer-nobutton{
+  font-size: min(1em, 18px);
   display: flex;
   flex-direction: column;
 }
@@ -84,50 +89,50 @@
 
 .profilebox-content .footer-nobutton span {
   align-self: flex-end;
-  font-size: 1em;
+  font-size: min(1em, 18px);
 }
 
 .profilebox-wrapper footer button {
-  border: 3px solid #00897b;
-  font-size: 1em;
+  border: 3px solid #00897B;
+  font-size: min(1em, 18px);
   border-radius: 30px;
   margin-left: 1vw;
-  width: 10em;
-  height: 3em;
+  width: min(10em, 100px);
+  height: min(3em, 50px);
 }
 
-.profilebox-wrapper footer button:first-child {
-  background-color: #00897b;
+.profilebox-wrapper footer button:first-child{
+  background-color: #00897B;
   color: white;
 }
 
-.profilebox-wrapper footer button:nth-child(2) {
+.profilebox-wrapper footer button:nth-child(2){
   background-color: transparent;
-  color: #00897b;
+  color:  #00897B;
 }
 
 @media (min-width: 600px) {
   .profilebox-wrapper {
-    padding-left: 30vw;
-    padding-right: 30vw;
+        padding-left: 30vw;
+        padding-right: 30vw;
   }
-  .profilebox-wrapper header {
-    font-size: 20px;
-  }
-  .profilebox-wrapper footer button {
-    font-size: 14px;
-    /* width: 10vw;
-            height: 4vw; */
-  }
-  .profilebox-content .footer-nobutton,
-  .profilebox-content .footer-nobutton span {
-    font-size: 14;
-  }
-  .profilebox-information .job-date,
+  /* .profilebox-wrapper header{
+        font-size: 20px;
+  } */
+  /* .profilebox-wrapper footer button {
+        font-size: 14px;
+        /* width: 10vw;
+        height: 4vw; */
+  /* } */ 
+  /* .profilebox-content .footer-nobutton, .profilebox-content .footer-nobutton span {
+        font-size: 14;
+  } */
+  /* .profilebox-information .job-date,
   .profilebox-information .job-date span,
   .profilebox-information .job-chips,
   .profilebox-content .footer-nobutton span,
-  .profilebox-content .footer-nobutton {
-    font-size: 14px;
-  }
+  .profilebox-content .footer-nobutton
+  {
+        font-size: 14px;
+  } */
 }

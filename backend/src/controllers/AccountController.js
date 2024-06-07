@@ -2,7 +2,6 @@ const queries = require("../queries/accountQueries");
 const pool = require("../../db");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const multer = require("multer");
 
 const getAccount = async (req, res) => {
   const { email, role } = req.user;
@@ -18,6 +17,118 @@ const getAccount = async (req, res) => {
     const user_cut = rows[0];
 
     res.status(200).json({ success: true, user: user_cut });
+  } catch (error) {
+    console.error("Error executing query:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
+const getMaid = async (req, res) => {
+  const { email, role } = req.user;
+
+  if (!email || !role) {
+    return res
+      .status(400)
+      .json({ success: false, error: "Invalid request data" });
+  }
+
+  try {
+    const get_ids = await pool.query(
+      "SELECT user_id FROM Account WHERE email = $1 LIMIT 1",
+      [email]
+    );
+    const user_id = get_ids.rows[0].user_id;
+
+    const maid_query = `SELECT acc.user_role, acc.user_gender, acc.user_pic, acc.firstname, acc.lastname, acc.birthday, acc.tel, acc.email, acc.description, jobtype.jobs
+                        FROM account acc
+                        INNER JOIN (
+                            SELECT userjob.user_id,
+                                  ARRAY_AGG(json_build_object('job_id', job.job_id, 'job_name', job.job_name)) AS jobs
+                            FROM job
+                            INNER JOIN userjob ON job.job_id = userjob.job_id
+                            WHERE userjob.user_id = $1
+                            GROUP BY userjob.user_id
+                        ) jobtype ON acc.user_id = jobtype.user_id
+                        WHERE acc.user_id = $1;`;
+    const maid = await pool.query(maid_query, [user_id]);
+
+    const maid_data = maid.rows[0];
+    return res.status(200).json({ success: true, maid_data: maid_data });
+  } catch (error) {
+    console.error("Error executing query:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
+const getMaidRehired = async (req, res) => {
+  const { email, role } = req.user;
+  const { maid_id } = req.body;
+
+  if (!email || !role) {
+    return res
+      .status(400)
+      .json({ success: false, error: "Invalid request data" });
+  }
+
+  try {
+    if (role === "customer") {
+      const customer = await pool.query(
+        "SELECT user_id FROM Account WHERE email = $1",
+        [email]
+      );
+      const customer_id = customer.rows[0].user_id;
+
+      const customer_address = await pool.query(
+        "SELECT latitude, longitude FROM address WHERE user_id = $1",
+        [customer_id]
+      );
+
+      const customer_lat = customer_address.rows[0].latitude;
+      const customer_long = customer_address.rows[0].longitude;
+
+      const maid_query = `SELECT acc.user_role, acc.user_gender, acc.user_pic, acc.firstname, acc.lastname, acc.birthday, acc.tel, acc.email, acc.description, add.latitude, add.longitude, jobtype.jobs, r.avg_rate
+                        FROM account acc
+                        INNER JOIN (
+                            SELECT userjob.user_id,
+                                  ARRAY_AGG(json_build_object('job_id', job.job_id, 'job_name', job.job_name)) AS jobs
+                            FROM job
+                            INNER JOIN userjob ON job.job_id = userjob.job_id
+                            WHERE userjob.user_id = $1
+                            GROUP BY userjob.user_id
+                        ) jobtype ON acc.user_id = jobtype.user_id
+                        INNER JOIN address add ON acc.user_id = add.user_id
+                        INNER JOIN rating r ON acc.user_id = r.user_id
+                        WHERE acc.user_id = $1;`;
+      const maid = await pool.query(maid_query, [maid_id]);
+
+      const maid_lat = maid.rows[0].latitude;
+      const maid_long = maid.rows[0].longitude;
+
+      const diff_lat = Math.pow(customer_lat - maid_lat, 2);
+      const diff_long = Math.pow(customer_long - maid_long, 2);
+      const address_distance = Math.sqrt(diff_lat + diff_long);
+
+      const selected_maid = {
+        user_role: maid.rows[0].user_role,
+        user_gender: maid.rows[0].user_gender,
+        user_pic: maid.rows[0].user_pic,
+        firstname: maid.rows[0].firstname,
+        lastname: maid.rows[0].lastname,
+        birthday: maid.rows[0].birthday,
+        email: maid.rows[0].email,
+        tel: maid.rows[0].tel,
+        address_distance: address_distance,
+        jobs: maid.rows[0].jobs,
+        avg_rate: maid.rows[0].avg_rate,
+        description: maid.rows[0].description,
+      };
+
+      return res
+        .status(200)
+        .json({ success: true, selected_maid: selected_maid });
+    } else {
+      return res.status(403).json({ success: false, error: "Forbidden User" });
+    }
   } catch (error) {
     console.error("Error executing query:", error);
     res.status(500).json({ success: false, error: "Internal server error" });
@@ -173,6 +284,7 @@ const register = async (req, res) => {
       tel,
       email,
       pass,
+      description,
     } = req.body;
     const { rows } = await pool.query(
       "SELECT user_id FROM Account WHERE email = $1 OR tel = $2",
@@ -202,14 +314,14 @@ const register = async (req, res) => {
     const insertAccountValues = [
       user_role,
       user_gender,
-      null,
+      "1716567567852no_account.png",
       firstname,
       lastname,
       birthday,
       tel,
       email,
       passwordEncoded,
-      null,
+      description,
     ];
     await pool.query(insertAccountQuery, insertAccountValues);
 
@@ -233,7 +345,9 @@ const login = async (req, res) => {
       const isMatch = await bcrypt.compare(pass, rows[0].pass);
 
       if (!isMatch) {
-        return res.status(400).send("รหัสผ่านไม่ถูกต้อง");
+        return res
+          .status(400)
+          .json({ err: "pass", text: "รหัสผ่านไม่ถูกต้อง" });
       }
 
       const payload = {
@@ -248,7 +362,7 @@ const login = async (req, res) => {
         return res.json({ token, payload });
       });
     } else {
-      return res.status(400).send("ไม่พบบัญชีผู้ใช้");
+      return res.status(400).json({ err: "acc", text: "ไม่พบบัญชีผุ้ใช้" });
     }
   } catch (error) {
     console.error("Error signing up", error);
@@ -306,27 +420,43 @@ const editCustomerProfile = async (req, res) => {
   } = req.body;
 
   try {
-    const salt = await bcrypt.genSalt(10);
-    const passwordEncoded = await bcrypt.hash(pass, salt);
     const user = await pool.query("SELECT * FROM Account WHERE email = $1", [
       email,
     ]);
     const user_id = user.rows[0].user_id;
 
-    const { rows } = await pool.query(queries.updateAccount, [
-      user_role,
-      user_gender,
-      user_pic,
-      firstname,
-      lastname,
-      new Date(birthday),
-      tel,
-      email,
-      passwordEncoded,
-      description,
-      user_id,
-    ]);
-    if (rows.length > 0) return res.status(200).json({ success: true });
+    if (pass !== "") {
+      const salt = await bcrypt.genSalt(10);
+      const passwordEncoded = await bcrypt.hash(pass, salt);
+      const account = await pool.query(queries.updateAccount, [
+        user_role,
+        user_gender,
+        user_pic,
+        firstname,
+        lastname,
+        new Date(birthday),
+        tel,
+        email,
+        passwordEncoded,
+        description,
+        user_id,
+      ]);
+    } else {
+      const account = await pool.query(queries.updateAccountNoPass, [
+        user_role,
+        user_gender,
+        user_pic,
+        firstname,
+        lastname,
+        new Date(birthday),
+        tel,
+        email,
+        description,
+        user_id,
+      ]);
+    }
+
+    return res.status(200).json({ success: true });
   } catch (err) {
     return res.status(500).json({ success: false, error: err });
   }
@@ -348,26 +478,41 @@ const editMaidProfile = async (req, res) => {
   } = req.body;
 
   try {
-    const salt = await bcrypt.genSalt(10);
-    const passwordEncoded = await bcrypt.hash(pass, salt);
     const user = await pool.query("SELECT * FROM Account WHERE email = $1", [
       email,
     ]);
     const user_id = user.rows[0].user_id;
 
-    const account = await pool.query(queries.updateAccount, [
-      user_role,
-      user_gender,
-      user_pic,
-      firstname,
-      lastname,
-      new Date(birthday),
-      tel,
-      email,
-      passwordEncoded,
-      description,
-      user_id,
-    ]);
+    if (pass !== "") {
+      const salt = await bcrypt.genSalt(10);
+      const passwordEncoded = await bcrypt.hash(pass, salt);
+      const account = await pool.query(queries.updateAccount, [
+        user_role,
+        user_gender,
+        user_pic,
+        firstname,
+        lastname,
+        new Date(birthday),
+        tel,
+        email,
+        passwordEncoded,
+        description,
+        user_id,
+      ]);
+    } else {
+      const account = await pool.query(queries.updateAccountNoPass, [
+        user_role,
+        user_gender,
+        user_pic,
+        firstname,
+        lastname,
+        new Date(birthday),
+        tel,
+        email,
+        description,
+        user_id,
+      ]);
+    }
 
     const deleteUserJob = "DELETE FROM UserJob WHERE User_ID = $1 RETURNING *";
     const delete_query = await pool.query(deleteUserJob, [user_id]);
@@ -392,7 +537,7 @@ const editMaidProfile = async (req, res) => {
         .json({ success: false, error: "Can't Insert UserJob" });
     }
 
-    if (account.rows.length > 0) return res.status(200).json({ success: true });
+    return res.status(200).json({ success: true });
   } catch (err) {
     return res.status(500).json({ success: false, error: err });
   }
@@ -434,4 +579,6 @@ module.exports = {
   editCustomerProfile,
   editMaidProfile,
   checkOldPass,
+  getMaid,
+  getMaidRehired,
 };

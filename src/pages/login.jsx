@@ -1,20 +1,18 @@
 import { useState, useCallback, useContext } from "react";
 import api from "../axios";
 import { useNavigate } from "react-router-dom";
-import Popup from "../components/Popup";
 import "./styles/login.css";
-import useAuth from "../Auth/useAuth";
+import Alert from "../components/Alert";
+import toast from "react-hot-toast";
 
 function Login() {
-  const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
 
   const [user, setUser] = useState({
     account: "",
     password: "",
   });
-  const [alert, setAlert] = useState(false);
-  const [alertMessage, setMessage] = useState("");
+  const [alert, setAlert] = useState("");
 
   const login = async (value) => await api.post("/api/v1/account/login", value);
 
@@ -30,45 +28,50 @@ function Login() {
     login({ email: user.account, pass: user.password })
       .then((res) => {
         window.localStorage.setItem("authtoken", res.data.token);
-        setAuth({
-          role: res.data.payload.user.role,
-          user: res.data.payload.user.email,
-        });
         navigate("/" + res.data.payload.user.role + "/main");
       })
       .catch((err) => {
-        console.log(err);
+        setAlert(err.response.data.err);
+        toast.error("กรุณาลองใหม่อีกครั้ง");
       });
   };
 
   return (
     <div className="login">
-      <Popup
-        alert={alert}
-        message={alertMessage}
-        clickCancel={() => {
-          setAlert(false);
-        }}
-      />
+      <Alert />
       <main>
-        <h1> LogIn </h1>
+        <h1> ลงชื่อเข้าใช้ </h1>
         <form onSubmit={handleSubmit} className="login-container">
-          <label>
+          <label
+            onClick={() => {
+              setAlert("");
+            }}
+          >
             <span>อีเมล</span>
             <input
               name="account"
               type="text"
               onChange={handleChange}
               autoComplete="off"
-              value={user.telephone}
-              //placeholder="xxx-xxx-xxxx"
-              //pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              //maxLength={10}
+              value={user.account}
               required
             />
+            <span
+              style={
+                alert === "acc"
+                  ? { color: "red", "font-size": "14px" }
+                  : { display: "none" }
+              }
+            >
+              ไม่พบบัญชีผู้ใช้
+            </span>
           </label>
 
-          <label>
+          <label
+            onClick={() => {
+              setAlert("");
+            }}
+          >
             <span>รหัสผ่าน</span>
             <input
               name="password"
@@ -78,9 +81,22 @@ function Login() {
               value={user.password}
               required
             />
+            <span
+              style={
+                alert === "pass"
+                  ? { color: "red", "font-size": "14px" }
+                  : { display: "none" }
+              }
+            >
+              รหัสผ่านไม่ถูกต้อง
+            </span>
           </label>
-
-          <button type="submit"> Login </button>
+          <label className="non-account">
+            <p>
+              ยังไม่มีบัญชีผู้ใช้ &nbsp; <a href="/register">สร้างบัญชี</a>
+            </p>
+          </label>
+          <button type="submit"> เข้าสู่ระบบ </button>
         </form>
       </main>
     </div>

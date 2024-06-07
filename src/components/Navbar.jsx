@@ -8,11 +8,7 @@ import {
 import { GiBroom } from "react-icons/gi";
 import "./css/NewNavbar.css";
 function StatusBar() {
-  /*const iconStyle = {
-    color: "#035445",
-    fontSize: "42px",
-};*/
-  //const navigate = useNavigate()
+  const isStatusActive = location.pathname.startsWith("/status");
   const [showNavbar, setShowNavbar] = useState(false);
   const handleShowNavbar = () => {
     setShowNavbar(!showNavbar);
@@ -27,7 +23,7 @@ function StatusBar() {
       <header>
         <nav className="navbar">
           <div className="container">
-            <div className="logo">logo</div>
+            <div className="logo"></div>
             <div className="menu-icon" onClick={handleShowNavbar}>
               <BsListUl />
             </div>
@@ -40,7 +36,12 @@ function StatusBar() {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="status/wait">
+                  <NavLink
+                    to="status/wait"
+                    className={({ isActive }) =>
+                      isActive || isStatusActive ? "active" : ""
+                    }
+                  >
                     <GiBroom />
                     งานของคุณ
                   </NavLink>

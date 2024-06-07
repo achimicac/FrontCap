@@ -10,7 +10,9 @@ function UserProfileEdit() {
   const [user, setUser] = useState();
   const [inputOldPass, setInputOldPass] = useState("");
   const [isOldPass, setOldPass] = useState(false);
-  
+  const [checkPass, setCheckPass] = useState(false);
+  const [userPass, setUserPass] = useState("");
+
   const [alertConfirm, setAlertConfirm] = useState(false);
   const [alertCancel, setAlertCancel] = useState(false);
 
@@ -20,8 +22,9 @@ function UserProfileEdit() {
         token: window.localStorage.getItem("authtoken"),
       })
       .then((res) => {
-        if (res.data.success) setUser(res.data.user);
-
+        if (res.data.success) {
+          setUser(res.data.user);
+        }
       });
 
   const uploadImage = async (_fileImage) => {
@@ -50,8 +53,7 @@ function UserProfileEdit() {
 
   useEffect(() => {
     if (isOldPass) {
-      setUser({ ...user, ["checkPass"]: isOldPass });
-      // console.log({ ...user, ["checkPass"]: isOldPass });
+      setCheckPass(true);
       setOldPass(false);
     }
   }, [isOldPass]);
@@ -80,8 +82,9 @@ function UserProfileEdit() {
       if (e.target.name === "oldpass") {
         const oldPass = e.target.value;
         setUser({ ...user, ["oldpass"]: oldPass });
-        // console.log({ ...user, ["oldpass"]: oldPass });
         setInputOldPass(oldPass);
+      } else if (e.target.name === "pass") {
+        setUserPass(e.target.value);
       } else {
         setUser({ ...user, [e.target.name]: e.target.value });
       }
@@ -106,7 +109,7 @@ function UserProfileEdit() {
         user_gender: user.user_gender,
         birthday: user.birthday,
         email: user.email,
-        pass: user.pass,
+        pass: userPass,
         tel: user.tel,
         description: user.description,
       };
@@ -154,6 +157,8 @@ function UserProfileEdit() {
         {user && (
           <ProfileEdit
             user={user}
+            checkPass={checkPass}
+            userPass={userPass}
             handleChange={handleChange}
             handleImageChange={handleImageChange}
             clickSubmit={handleSubmit}

@@ -6,6 +6,9 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
+import AuthRoute from "./Auth/AuthRoute";
+import ProtectedRoute from "./Auth/ProtectedRoute";
+import CannotAccess from "./components/CannotAccess";
 import Register from "./pages/register";
 import Login from "./pages/login";
 import Navbar from "./components/Navbar";
@@ -29,22 +32,33 @@ import CustomerMain from "./pages/customer/main";
 //Component 3 หน้าของ Maid Status รูปแบบเหมือนกันเลย อาจจะมาแก้ให้เป็นใช้ component ร่วมกันไปเลย
 
 function App() {
-
-    const router = createBrowserRouter([{
-        path: '',
-        element: <roleAccess />
-    },{
-        path: 'register',
-        element: <Register />
-    },{
-        path: 'login',
-        element: <Login />
-    },{
-        path: 'logout'
+  const router = createBrowserRouter([
+    {
+      path: "/*",
+      element: <CannotAccess message={"ไม่พบหน้านี้"} status={404} />,
+    },
+    {
+      path: "/",
+      element: (
+        <AuthRoute>
+          <div>Loading...</div>
+        </AuthRoute>
+      ),
+    },
+    {
+      path: "register",
+      element: <Register />,
+    },
+    {
+      path: "login",
+      element: <Login />,
+    },
+    {
+      path: "logout",
     },
     //Maid Routes
     {
-      //element: <ProtectRoute />,
+      element: <ProtectedRoute role={"maid"} />,
       children: [
         {
           path: "maid",
@@ -96,7 +110,7 @@ function App() {
     },
     //Customer route
     {
-      //element: <ProtectRoute />,
+      element: <ProtectedRoute role={"customer"} />,
       children: [
         {
           path: "customer",

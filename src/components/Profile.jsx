@@ -22,7 +22,7 @@ function Profile({ user, isMaid = false, clickEdit }) {
   const year = birthday.year() + 543;
 
   const birthday_thai = date + " " + month + " " + year;
-  const age = moment().year() - moment(user.birthday).year();
+  const age = moment().diff(moment(user.birthday), "years");
 
   return (
     <main className="profile-wrapper">
@@ -64,13 +64,14 @@ function Profile({ user, isMaid = false, clickEdit }) {
         {isMaid && (
           <section className="jobs">
             <b>ประเภทงาน</b>
-            {user.jobs && (user.jobs.map((job, index) => (
-              <span key={index}> {job.job_name} </span>
-            )))}
+            {user.jobs &&
+              user.jobs.map((job, index) => (
+                <span key={index}> {job.job_name} </span>
+              ))}
           </section>
         )}
         <footer className="profile-footer">
-          <button onClick={clickEdit}> Edit </button>
+          <button onClick={clickEdit}> แก้ไข </button>
         </footer>
       </main>
     </main>
@@ -78,4 +79,3 @@ function Profile({ user, isMaid = false, clickEdit }) {
 }
 
 export default Profile;
-

@@ -5,16 +5,8 @@ import RecommendBox from "../../components/RecommendBox";
 import "./css/Main.css";
 
 function CustomerMain() {
-  const [distance, setDistance] = useState(1);
-  const [maids, setMaids] = useState({
-    maids_hired: [
-      { user_id: 1, user_pic: "" },
-      { user_id: 2, user_pic: "" },
-      { user_id: 3, user_pic: "" },
-      { user_id: 4, user_pic: "" },
-      { user_id: 5, user_pic: "" },
-    ],
-  });
+  const [distance, setDistance] = useState("all");
+  const [maidsHired, setMaidsHired] = useState([]);
   const [jobchoices, setJobchoices] = useState([]);
   const [jchoiceSelector, setJChoiceSelector] = useState([]);
   const [recommendMaid, setRecommendMaid] = useState([]);
@@ -26,6 +18,15 @@ function CustomerMain() {
     await api.post("/api/v1/account/getByIDs", {
       ids: _ids,
     });
+  const fetchHiredMaid = async () =>
+    await api
+      .post("/api/v1/invoice/getHiredMaid", {
+        token: window.localStorage.getItem("authtoken"),
+      })
+      .then((res) => {
+        setMaidsHired(res.data.maid_hired);
+      })
+      .catch((err) => {});
 
   const updateJobs = async (_jobs) =>
     await api.post("/api/v1/userJob/updateUserJob", {
@@ -39,7 +40,6 @@ function CustomerMain() {
         token: window.localStorage.getItem("authtoken"),
       })
       .then((res) => {
-        // if (res.data.success) console.log("แนะนำแม่บ้านสำเร็จ");
         const recommend_data = res.data.recommend_maid;
         const maid_ids = recommend_data.map((maid) => maid.user.user_id);
 
@@ -47,9 +47,6 @@ function CustomerMain() {
 
         fetchUsers(maid_ids).then((res) => {
           const maid_data = res.data.maid_data;
-          console.log(
-            mergeRecommendMaid(recommend_data, maid_data, customer_address)
-          );
           setRecommendMaid(
             mergeRecommendMaid(recommend_data, maid_data, customer_address)
           );
@@ -57,6 +54,7 @@ function CustomerMain() {
       });
 
   useEffect(() => {
+    fetchHiredMaid();
     fetchJobs().then((res) => {
       setJobchoices(res.data);
       setJChoiceSelector(res.data.map((job) => [job, true]));
@@ -150,7 +148,6 @@ function CustomerMain() {
     if (window.localStorage.getItem("selectedMaid"))
       window.localStorage.removeItem("selectedMaid");
     window.localStorage.setItem("selectedMaid", JSON.stringify(cut_id_maid));
-    // navigate(`/customer/maids/profile/${email}`);
   };
   const handleFilter = (e) => {
     const { name, value } = e.target;
@@ -159,11 +156,30 @@ function CustomerMain() {
     }
   };
 
+  const handleClickHired = async (_maid_id) => {
+    // /customer/maids/profile/${maid.email}
+    const selected_hired_maid = await api
+      .post("/api/v1/account/getMaidRehired", {
+        token: window.localStorage.getItem("authtoken"),
+        maid_id: _maid_id,
+      })
+      .then((res) => {
+        const maid_data = res.data.selected_maid;
+        if (window.localStorage.getItem("selectedMaid"))
+          window.localStorage.removeItem("selectedMaid");
+        window.localStorage.setItem("selectedMaid", JSON.stringify(maid_data));
+        window.location.href = `http://localhost:5173/customer/maids/profile/${maid_data.email}`;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="customer-main">
       <header>
         <p> แม่บ้านที่เคยเรียกใช้ </p>
-        <RecommendBox maids={maids.maids_hired} handleClick={handleClick} />
+        <RecommendBox maids={maidsHired} handleClickHired={handleClickHired} />
       </header>
       <main>
         <header>
@@ -231,52 +247,47 @@ function CustomerMain() {
                   <a
                     href={`/customer/maids/profile/${maid.email}`}
                     style={{ textDecoration: "none", color: "inherit" }}
+                    onClick={() => handleClick(maid.email)}
                   >
-                    <section
-                      key={maid.user_id}
-                      onClick={() => handleClick(maid.email)}
-                    >
-                      {maid.user_pic ? (
-                        <img
-                          src={
-                            "../../../public/imageGalleries/" + maid.user_pic
-                          }
-                          style={{ width: "30vw" }}
-                        />
-                      ) : (
-                        <img
-                          src={
-                            "../../../public/imageGalleries/1716567567852no_account"
-                          }
-                          style={{ width: "30vw" }}
-                        />
-                      )}
-                      <div className="main-profilebox-content">
-                        <article>
-                          <header>
-                            {maid.firstname} {maid.lastname}
-                          </header>
-                          <section>
-                            <span>Rating: </span>
-                            <span> {maid.avg_rating} / 5.0 </span>
-                          </section>
-                          <section>
-                            <span>Distance: </span>
-                            <span>
-                              {maid.address_distance.toFixed(2)}
-                              km.
+                    {maid.user_pic ? (
+                      <img
+                        src={"../../../public/imageGalleries/" + maid.user_pic}
+                        style={{ width: "30vw" }}
+                      />
+                    ) : (
+                      <img
+                        src={
+                          "../../../public/imageGalleries/1716567567852no_account"
+                        }
+                        style={{ width: "30vw" }}
+                      />
+                    )}
+                    <div className="main-profilebox-content">
+                      <article>
+                        <header>
+                          {maid.firstname} {maid.lastname}
+                        </header>
+                        <section>
+                          <span>Rating: </span>
+                          <span> {maid.avg_rating} / 5.0 </span>
+                        </section>
+                        <section>
+                          <span>Distance: </span>
+                          <span>
+                            {maid.address_distance.toFixed(2)}
+                            km.
+                          </span>
+                        </section>
+                        <section className="main-job-chips">
+                          {maid.jobs?.slice(0, 10).map((job, job_index) => (
+                            <span key={job_index}>
+                              {jobchoices[job - 1]?.job_name}
                             </span>
-                          </section>
-                          <section className="main-job-chips">
-                            {maid.jobs.map((job, index) => (
-                              <span key={index}>
-                                {jobchoices[job - 1].job_name}
-                              </span>
-                            ))}
-                          </section>
-                        </article>
-                      </div>
-                    </section>
+                          ))}
+                          {maid.jobs?.length > 10 && <span> more... </span>}
+                        </section>
+                      </article>
+                    </div>
                   </a>
                 </div>
               ))

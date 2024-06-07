@@ -1,9 +1,12 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import ManageJob from "./ManageJob";
 import "./css/ProfileEdit.css";
+import moment from "moment/moment";
 
 function ProfileEdit({
   user,
+  checkPass,
+  userPass,
   handleChange,
   handleImageChange,
   manageJob = null,
@@ -11,10 +14,13 @@ function ProfileEdit({
   clickCancle,
 }) {
   const userImg = useRef(null);
-  const [hidepw, setHidepw] = useState(true);
   const [cfpw, setCfpw] = useState("");
 
-  const isMatch = user.password === cfpw;
+  const isMatch = userPass !== "" ? userPass === cfpw : false;
+
+  // useEffect(() => {
+  //   console.log(userPass);
+  // }, [userPass]);
 
   return (
     <main className="editprofile-wrapper">
@@ -49,7 +55,7 @@ function ProfileEdit({
                 onChange={handleChange}
                 autoComplete="off"
                 value="user"
-                checked={user.role === "user"}
+                checked={user.user_role === "customer"}
                 disabled={true}
               />
               <span className="checkmark">ผู้ใช้ทั่วไป</span>
@@ -61,7 +67,7 @@ function ProfileEdit({
                 onChange={handleChange}
                 autoComplete="off"
                 value="maid"
-                checked={user.role === "maid"}
+                checked={user.user_role === "maid"}
                 disabled={true}
               />
               <span className="checkmark">แม่บ้าน</span>
@@ -76,7 +82,7 @@ function ProfileEdit({
             type="text"
             onChange={handleChange}
             autoComplete="off"
-            value={user.firstname}
+            value={user.firstname || ""}
             required
           />
         </section>
@@ -88,7 +94,7 @@ function ProfileEdit({
             type="text"
             onChange={handleChange}
             autoComplete="off"
-            value={user.lastname}
+            value={user.lastname || ""}
             required
           />
         </section>
@@ -100,7 +106,7 @@ function ProfileEdit({
             type="date"
             onChange={handleChange}
             autoComplete="off"
-            value={user.birthday}
+            value={moment(user.birthday).format("YYYY-MM-DD")}
             required
           />
         </section>
@@ -112,9 +118,7 @@ function ProfileEdit({
             type="text"
             onChange={handleChange}
             autoComplete="off"
-            value={user.tel}
-            //placeholder="xxx-xxx-xxxx"
-            //pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            value={user.tel || ""}
             maxLength={10}
             required
           />
@@ -127,19 +131,19 @@ function ProfileEdit({
             type="email"
             onChange={handleChange}
             autoComplete="off"
-            value={user.email}
+            value={user.email || ""}
             required
           />
         </section>
 
         <section>
           <b>เกี่ยวกับฉัน</b>
-          <textarea
+          <input
             name="description"
             type="text"
             onChange={handleChange}
             autoComplete="off"
-            value={user.description}
+            value={user.description || ""}
           />
         </section>
         <section>
@@ -149,18 +153,18 @@ function ProfileEdit({
             type="password"
             onChange={handleChange}
             autoComplete="off"
-            value={user.oldpass ? user.oldpass : ""}
+            value={user.oldpass || ""}
             required
           />
         </section>
         <section>
-          <b>รหัสผ่าน</b>
+          <b>รหัสผ่านใหม่</b>
           <input
             name="pass"
             type="password"
             onChange={handleChange}
             autoComplete="off"
-            value={user.pass ? user.pass : ""}
+            value={userPass || ""}
             required
           />
         </section>
@@ -176,7 +180,17 @@ function ProfileEdit({
             required
           />
         </section>
+
+        {checkPass ? (
+          <p style={isMatch ? { display: "none" } : {}}> รหัสผ่านไม่ตรงกัน</p>
+        ) : user.oldpass != undefined ? (
+          <p>รหัสผ่านเก่าผิด</p>
+        ) : (
+          ""
+        )}
+
         {manageJob && <ManageJob user={user} handleChange={handleChange} />}
+
         <footer className="profile-footer">
           <button onClick={clickSubmit}> ตกลง </button>
           <button onClick={clickCancle} className="cancle">

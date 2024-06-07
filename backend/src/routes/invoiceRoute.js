@@ -6,8 +6,9 @@ const { auth } = require("../middleware/auth");
 router.post("/getInvoice", auth, invoiceController.getInvoice);
 router.get('/:Invoice_ID', invoiceController.getInvoiceById);
 router.post("/addInvoice", auth, invoiceController.addInvoice);
+router.post("/getHiredMaid", auth, invoiceController.getHiredMaid);
 router.put('/:Invoice_ID', invoiceController.updateInvoice);
-router.delete('/:Invoice_ID', invoiceController.deleteInvoice);
+router.delete("/:Invoice_ID", invoiceController.deleteInvoice);
 
 router.put('/:Invoice_ID/:status', invoiceController.updateInvoiceStatus)
 

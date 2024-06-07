@@ -106,7 +106,7 @@ const giveRecommendation = async (req, res) => {
 
       const keys = Object.keys(dataset[0]);
       const tree = new kdtree.kdTree(filteredDataset, distance, keys);
-      const nearest = tree.nearest(sCustomerData, 7);
+      const nearest = tree.nearest(sCustomerData, 25);
 
       const sortedNearest = nearest
         .map((item) => ({

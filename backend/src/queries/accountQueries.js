@@ -37,6 +37,17 @@ const updateAccount = `UPDATE Account SET
                         Pass = $9, 
                         Description = $10 
                     WHERE User_ID = $11 RETURNING *`;
+const updateAccountNoPass = `UPDATE Account SET 
+                        User_Role = $1, 
+                        User_Gender = $2, 
+                        User_Pic = $3, 
+                        Firstname = $4, 
+                        Lastname = $5, 
+                        Birthday = $6, 
+                        Tel = $7, 
+                        Email = $8, 
+                        Description = $9
+                    WHERE User_ID = $10 RETURNING *`;
 const deleteAccount =
   "DELETE FROM Account WHERE User_ID = $1 RETURNING *', [user_id]";
 
@@ -50,6 +61,7 @@ module.exports = {
   checkEmailExists,
   addAccount,
   updateAccount,
+  updateAccountNoPass,
   updatePicture,
   deleteAccount,
 };

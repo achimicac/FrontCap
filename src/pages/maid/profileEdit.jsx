@@ -9,34 +9,29 @@ import "./styles/blurBackground.css";
 function MaidProfileEdit() {
   const navigate = useNavigate();
 
-  const [user, setUser] = useState({});
-  const [jobs, setJobs] = useState([]);
   const [maid, setMaid] = useState({});
 
   const [inputOldPass, setInputOldPass] = useState("");
   const [isOldPass, setOldPass] = useState(false);
+  const [checkPass, setCheckPass] = useState(false);
+  const [userPass, setuserPass] = useState("");
 
   const [alertConfirm, setAlertConfirm] = useState(false);
   const [alertCancel, setAlertCancel] = useState(false);
 
-  const fetchUser = async () =>
+  const fetchMaid = async () =>
     await api
-      .post("/api/v1/account/getAccount", {
+      .post("/api/v1/account/getMaid", {
         token: window.localStorage.getItem("authtoken"),
       })
       .then((res) => {
-        if (res.data.success) setUser(res.data.user);
-        fetchUserJob();
+        if (res.data.success) setMaid(res.data.maid_data);
+        // console.log(res.data.maid_data);
       });
 
-  const fetchUserJob = async () =>
-    await api
-      .post("/api/v1/userJob/Userjobs", {
-        token: window.localStorage.getItem("authtoken"),
-      })
-      .then((res) => {
-        if (res.data.success) setJobs(res.data.jobs);
-      });
+  useEffect(() => {
+    fetchMaid();
+  }, []);
 
   const uploadImage = async (_fileImage) => {
     const formData = new FormData();
@@ -60,33 +55,10 @@ function MaidProfileEdit() {
 
   useEffect(() => {
     if (isOldPass) {
-      setMaid({ ...maid, ["checkPass"]: isOldPass });
+      setCheckPass(true);
       setOldPass(false);
     }
   }, [isOldPass]);
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
-  useEffect(() => {
-    const maid_data = {
-      user_role: user.user_role,
-      user_gender: user.user_gender,
-      user_pic: user.user_pic,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      birthday: user.birthday,
-      tel: user.tel,
-      email: user.email,
-      pass: null,
-      oldpass: "",
-      description: user.description,
-      jobs: jobs,
-    };
-    setMaid(maid_data);
-        console.log(maid_data);
-  }, [user]);
 
   const checkOldPass = async (_oldPass) => {
     const check_old_pass = {
@@ -112,6 +84,8 @@ function MaidProfileEdit() {
         const oldPass = e.target.value;
         setMaid({ ...maid, ["oldpass"]: oldPass });
         setInputOldPass(oldPass);
+      } else if (e.target.name === "pass") {
+        setuserPass(e.target.value);
       } else if (e.target.name === "jobs") {
         const [valueId, valueName] = e.target.value.split("-");
         const jobTypeId = parseInt(valueId, 10);
@@ -159,7 +133,7 @@ function MaidProfileEdit() {
         lastname: maid.lastname,
         birthday: maid.birthday,
         email: maid.email,
-        pass: maid.pass,
+        pass: userPass,
         tel: maid.tel,
         description: maid.description,
         jobs: job_ids,
@@ -213,6 +187,8 @@ function MaidProfileEdit() {
         <form>
           <ProfileEdit
             user={maid}
+            checkPass={checkPass}
+            userPass={userPass}
             handleChange={handleChange}
             handleImageChange={handleImageChange}
             handleCancle={handleClickCancel}

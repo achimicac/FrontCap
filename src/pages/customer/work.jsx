@@ -34,18 +34,20 @@ function UserStatusWork() {
           clickCancel={() => setInvoiceId(null)}
         />
       )}
-      {maids.map((maid, index) => (
-        <section key={index}>
-          {maid.user_id && (
-            <ProfileBox
-              user={maid}
-              canClick={false}
-              buttonName="กำลังทำงาน..."
-              handleClickSummary={handleClickSummary}
-            />
-          )}
-        </section>
-      ))}
+      <div style={{ marginBottom: "10vw" }}>
+        {maids.map((maid, index) => (
+          <section key={index}>
+            {maid.user_id && (
+              <ProfileBox
+                user={maid}
+                canClick={false}
+                buttonName="กำลังทำงาน..."
+                handleClickSummary={handleClickSummary}
+              />
+            )}
+          </section>
+        ))}
+      </div>
     </>
   );
 }

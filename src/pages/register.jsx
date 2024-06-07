@@ -41,7 +41,7 @@ function Register() {
     if (name === "user_pic") {
       const file = files[0];
       setUser((prevUser) => ({ ...prevUser, user_pic: file }));
-    } else if (name === "jobtype") {
+    } else if (name === "jobs") {
       const [valueId, valueName] = value.split("-");
       const jobsId = parseInt(valueId, 10);
       setUser((prevUser) => ({
@@ -125,7 +125,7 @@ function Register() {
       )}
 
       <main>
-        <h1> Register </h1>
+        <h1> ลงทะเบียน </h1>
         <form className={showMap ? "blurred" : ""}>
           {page === 0 && (
             <section className="signup-form">
@@ -233,7 +233,7 @@ function Register() {
               <label>
                 <b>เกี่ยวกับฉัน</b>
                 <textarea
-                  name="descript"
+                  name="description"
                   type="text"
                   onChange={handleChange}
                   autoComplete="off"
@@ -312,9 +312,15 @@ function Register() {
                   value={cfpw}
                   //required
                 />
-                <p style={isMatch ? { display: "none" } : {}}>
+                <p
+                  style={
+                    isMatch
+                      ? { display: "none" }
+                      : { color: "red", "font-size": "14px" }
+                  }
+                >
                   {" "}
-                  Pass is not Match!
+                  รหัสผ่านไม่ตรงกัน
                 </p>
               </label>
 
@@ -339,19 +345,15 @@ function Register() {
                 <ManageJob user={user} handleChange={handleChange} />
               </section>
             )}
-
-            {/*page === 0 && user.user_role === "maid" && (
-                      <button type="button" onClick={nextPage}>
-                          {" "}
-                          Next{" "}
-                      </button>
-                      )*/}
             {page === 1 && (
               <button className="button-2" type="submit" onClick={handleSubmit}>
                 {" "}
                 ลงทะเบียน{" "}
               </button>
             )}
+            <label className="back-to-login">
+              <a href="/login">กลับหน้าสู่หน้าลงชื่อเข้าใช้งาน</a>
+            </label>
           </footer>
         </form>
       </main>

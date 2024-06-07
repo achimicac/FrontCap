@@ -105,7 +105,10 @@ function MaidStatusWork() {
           }}
         />
       )}
-      <div className={`page-container ${alertConfirm ? "blurred" : ""}`}>
+      <div
+        className={`page-container ${alertConfirm ? "blurred" : ""}`}
+        style={{ marginBottom: "10vw" }}
+      >
         {customers.map((customer, customerid) => (
           <section key={customerid}>
             {customer.user_id && (

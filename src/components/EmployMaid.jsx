@@ -14,7 +14,6 @@ function EmployMaid({
   handleStartTime,
 }) {
   const [startTime, setStartTime] = useState(dayjs());
-  const [submitTime, setSubmitTime] = useState(dayjs());
 
   const getCurrentDate = () => {
     const today = new Date();

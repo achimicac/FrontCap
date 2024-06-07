@@ -9,11 +9,7 @@ function ManageJob({ user, handleChange }) {
     await api
       .get("/api/v1/job/")
       .then((res) => {
-        // const user_job_ids = user.jobs.map((ujob) => ujob.job_id);
-        // const job_exists = res.data.map((job) =>
-        //   user_job_ids.includes(job.job_id) ? [job, true] : [job, false]
-        // );
-        console.log(res.data);
+        // console.log(res.data);
         setJobchoices(res.data);
       })
       .catch((err) => {
@@ -22,6 +18,7 @@ function ManageJob({ user, handleChange }) {
 
   useEffect(() => {
     fetchJobs();
+    // console.log(user);
   }, []);
 
   return (
@@ -40,7 +37,7 @@ function ManageJob({ user, handleChange }) {
               name="jobs"
               type="checkbox"
               value={`${job.job_id}-${job.job_name}`}
-              checked={user.jobs.some(
+              checked={user?.jobs?.some(
                 (maidJob) => maidJob.job_id === job.job_id
               )}
               onChange={handleChange}

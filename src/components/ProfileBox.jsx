@@ -3,6 +3,7 @@ import "moment/locale/th";
 
 function ProfileBox({
   user,
+  name = null,
   clickConfirm,
   clickCancel,
   buttonName = "ยืนยัน",
@@ -18,7 +19,7 @@ function ProfileBox({
 
   return (
     <div className="profilebox-wrapper">
-      <section className="profilebox-container">
+      <section className="profilebox-container" id={name && "cancel"}>
         {user.user_pic ? (
           <img
             src={"../../public/imageGalleries/" + user.user_pic}
@@ -46,21 +47,33 @@ function ProfileBox({
               {" "}
               {user.firstname} {user.lastname}{" "}
             </header>
+
             <section className="job-date">
-              <b>วันที่ :</b>
-              <span>{result}</span>
-              <b>เวลา :</b>
-              <span>
-                {user.start_time?.split(":")[0]}.
-                {user.start_time?.split(":")[1]} น. -{" "}
-                {user.end_time?.split(":")[0]}.{user.end_time?.split(":")[1]} น.
-              </span>
+              <section>
+                <b>วันที่ :</b>
+                <span>{result}</span>
+              </section>
+              <section>
+                <b>เวลา :</b>
+                <span>
+                  {user.start_time?.split(":")[0]}.
+                  {user.start_time?.split(":")[1]} น. -{" "}
+                  {user.end_time?.split(":")[0]}.{user.end_time?.split(":")[1]}{" "}
+                  น.
+                </span>
+              </section>
             </section>
             <section className="job-chips">
-              {user.jobs?.map((job, jobindex) => (
-                <span key={jobindex}> {job.job_name} </span>
+              {user.jobs?.slice(0, 10).map((job, job_index) => (
+                <span key={job_index}>{job.job_name}</span>
               ))}
+              {user.jobs?.length > 10 && <span> more... </span>}
             </section>
+            {name && (
+              <span className="maid-cancel">
+                แม่บ้านไม่รับงานนี้ กรุณากดยกเลิก
+              </span>
+            )}
           </article>
           {canClick ? (
             <footer>

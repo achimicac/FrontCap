@@ -77,37 +77,30 @@ function MaidStatusWait() {
         setCustomers((prevInvoice) =>
           prevInvoice.filter((item) => item.invoice_id !== invoiceID.current)
         );
-        console.log(changestatus.data);
       }
       setAlertConfirm(false);
     } catch (err) {
       console.log(err);
+      toast.error("คุณมีงานในวันและเวลานี้อยู่แล้ว");
     }
   };
 
   const handleClickCancelOK = async (e) => {
     setAlertCancel(false);
     try {
-      const deleteInvoiceJob = await api.delete(
-        `/api/v1/invoiceJob/${invoiceID.current}`
+      const cancleJob = await api.put(
+        `/api/v1/invoice/${invoiceID.current}/${"cancel"}`
       );
-      if (deleteInvoiceJob.status !== 200) {
-        console.log(deletetask.data.error);
+      if (cancleJob.status !== 200) {
+        toast.error("กรุณาลองอีกครั้ง");
+        console.log(cancleJob.data.error);
       } else {
-        const deletetask = await api.delete(
-          `/api/v1/invoice/${invoiceID.current}`
+        toast.success("ยกเลิกงานแล้วเรียบร้อย");
+        setCustomers((prevInvoice) =>
+          prevInvoice.filter((item) => item.invoice_id !== invoiceID.current)
         );
-        if (deletetask.status !== 200) {
-          console.log(deletetask.data.error);
-        } else {
-          toast.success("ยกเลิกงานแล้วเรียบร้อย");
-          setCustomers((prevInvoice) =>
-            prevInvoice.filter((item) => item.invoice_id !== invoiceID.current)
-          );
-          console.log(deletetask.data.message);
-        }
+        console.log(cancleJob.data.message);
       }
-      setAlertConfirm(false);
     } catch (err) {
       console.log(err);
     }
@@ -159,6 +152,7 @@ function MaidStatusWait() {
         className={`page-container ${
           alertConfirm || alertCancel ? "blurred" : ""
         }`}
+        style={{ marginBottom: "10vw" }}
       >
         {customers.map((customer, customerid) => (
           <section key={customerid}>

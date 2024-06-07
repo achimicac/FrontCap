@@ -248,7 +248,7 @@ const getInvoiceForCustomerWait = async (req, res) => {
         LEFT JOIN InvoiceJob 
         ON Invoice.invoice_id = InvoiceJob.invoice_id 
         LEFT JOIN Job ON Job.job_id = InvoiceJob.job_id 
-        WHERE (Invoice.status = 'wait' OR Invoice.status = 'work') 
+        WHERE (Invoice.status = 'wait' OR Invoice.status = 'work' OR Invoice.status = 'cancel') 
         AND (Invoice.work_date + Invoice.start_time > CURRENT_TIMESTAMP) 
         AND Invoice.customer_id = $1 GROUP BY Invoice.invoice_id) inv 
         LEFT JOIN Account acc 
@@ -267,7 +267,6 @@ const getInvoiceForCustomerWait = async (req, res) => {
 };
 
 const getInvoiceForCustomerWork = async (req, res) => {
-  console.log("hello");
   const { email, role } = req.user;
   try {
     if (role === "customer") {
@@ -462,7 +461,7 @@ const updateInvoiceStatus = async (req, res) => {
   const id = parseInt(req.params.Invoice_ID);
   const status = req.params.status;
   const { current_time } = req.body;
-  console.log(current_time);
+  // console.log(current_time);
 
   if (isNaN(id)) {
     return res.status(400).json({ error: "Invalid ID" });
@@ -481,6 +480,36 @@ const updateInvoiceStatus = async (req, res) => {
       }
       res.status(200).json(result.rows[0]);
     } else {
+      if (status === "work") {
+        const findInvoice = await pool.query(
+          `SELECT * from Invoice WHERE Invoice_ID = $1`,
+          [id]
+        );
+        // console.log(findInvoice.rows[0]);
+        if (findInvoice.rowCount !== 0) {
+          const checkOverlayJob = await pool.query(
+            `SELECT * FROM Invoice 
+              WHERE maid_id = $4 AND status = 'work' AND work_date = $1 AND(
+                  ($2 >= start_time AND $3 <= end_time ) 
+                OR
+                (start_time BETWEEN $2 AND $3)
+                OR 
+                (end_time BETWEEN $2 AND $3)
+              )`,
+            [
+              findInvoice.rows[0].work_date,
+              findInvoice.rows[0].start_time,
+              findInvoice.rows[0].end_time,
+              findInvoice.rows[0].maid_id,
+              // id
+            ]
+          );
+
+          if (checkOverlayJob.rowCount > 0) {
+            return res.status(404).json("overlab");
+          }
+        }
+      }
       const result = await pool.query(
         `UPDATE Invoice 
                 SET status = $1
@@ -521,6 +550,7 @@ const getInvoiceByDate = async (req, res) => {
             ON Invoice.invoice_id = InvoiceJob.invoice_id 
             INNER JOIN Job ON Job.job_id = InvoiceJob.job_id 
             WHERE Invoice.maid_id = $1 AND Invoice.work_date = $2
+            AND Invoice.status = 'work'
             GROUP BY Invoice.invoice_id) inv 
           INNER JOIN Account acc 
           ON acc.user_id = inv.maid_id`,
@@ -598,6 +628,35 @@ const getSummaryInvoiceCustomerside = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+const getHiredMaid = async (req, res) => {
+  const { email, role } = req.user;
+  try {
+    if (role === "customer") {
+      const user = await pool.query(
+        "SELECT user_id FROM Account WHERE email = $1",
+        [email]
+      );
+      const user_id = user.rows[0].user_id;
+
+      const { rows } = await pool.query(
+        `SELECT acc.user_id, acc.user_pic, acc.email
+            FROM account acc
+            RIGHT JOIN invoice 
+            ON invoice.maid_id = acc.user_id
+			      WHERE invoice.customer_id = $1 AND invoice.status = 'end'`,
+        [user_id]
+      );
+      return res.status(200).json({ success: true, maid_hired: rows });
+    } else {
+      return res.status(403).json({ success: false, error: "Forbidden User" });
+    }
+  } catch (error) {
+    console.error("Error executing query:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   getInvoice,
   getInvoiceById,
@@ -614,4 +673,5 @@ module.exports = {
   getInvoiceByDate,
   getSummaryInvoiceMaidside,
   getSummaryInvoiceCustomerside,
+  getHiredMaid,
 };

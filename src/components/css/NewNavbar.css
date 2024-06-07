@@ -6,13 +6,14 @@
   justify-content: space-between;
   align-items: center;
   height: 100%;
+  font-size: 2vw;
 }
 
 .navbar {
   height: 60px;
   background-color: #80cbc4;
   position: relative;
-  z-index:99;
+  z-index: 99;
 }
 
 .menu-icon {
@@ -30,7 +31,7 @@
 }
 
 .nav-elements ul a {
-  font-size: 16px;
+  font-size: min(1em, 18px);
   font-weight: 400;
   color: #2f234f;
   text-decoration: none;
@@ -43,7 +44,7 @@
 }
 
 .nav-elements ul a.active::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -4px;
   left: 0;

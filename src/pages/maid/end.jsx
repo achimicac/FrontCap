@@ -34,21 +34,23 @@ function MaidStatusEnd() {
           clickCancel={() => setInvoiceId(null)}
         />
       )}
-      {customers.map((customer, customerid) => (
-        <section
-          key={customerid}
-          //     onClick={handleClickSummary(customer.invoice_id)}
-        >
-          {customer.user_id && (
-            <ProfileBox
-              user={customer}
-              canClick={false}
-              handleClickSummary={handleClickSummary}
-              buttonName="เสร็จสิ้นแล้ว"
-            />
-          )}
-        </section>
-      ))}
+      <div style={{ marginBottom: "10vw" }}>
+        {customers.map((customer, customerid) => (
+          <section
+            key={customerid}
+            //     onClick={handleClickSummary(customer.invoice_id)}
+          >
+            {customer.user_id && (
+              <ProfileBox
+                user={customer}
+                canClick={false}
+                handleClickSummary={handleClickSummary}
+                buttonName="เสร็จสิ้นแล้ว"
+              />
+            )}
+          </section>
+        ))}
+      </div>
     </>
   );
 }

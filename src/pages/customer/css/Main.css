@@ -16,7 +16,7 @@ div.customer-main {
 }
 
 .customer-main main {
-  padding: min(1.5em, 20px);
+  padding: min(1em, 20px);
   background-color: white;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
@@ -24,6 +24,7 @@ div.customer-main {
   flex-direction: column;
   gap: 1em;
   overflow-y: scroll;
+  scrollbar-width: none;
 }
 
 .customer-main > main > header {
@@ -55,7 +56,8 @@ div.customer-main {
   list-style-type: none;
   font-size: min(0.5em, 16px);
   overflow-y: scroll;
-  height: min(10em, 50px);
+  scrollbar-width: none;
+  height: min(15em, 80px);
   width: auto;
   border: min(0.5em, 3px) solid palevioletred;
   border-radius: 10px;
@@ -81,7 +83,7 @@ div.customer-main {
   padding: 0.5em;
 }
 
-.main-profilebox-wrapper > section {
+.main-profilebox-wrapper > a {
   padding: min(1em, 20px);
   background-color: #e0f2f1;
   display: grid;
@@ -113,12 +115,12 @@ div.customer-main {
   font-size: min(2.5em, 20px);
 }
 .main-profilebox-content .main-job-chips {
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
   display: flex;
   flex-wrap: wrap;
-  gap: 1em;
-  font-size: min(1.5em, 16px);
+  gap: 0.5em;
+  font-size: min(1em, 14px);
 }
 .main-profilebox-content .main-job-chips span {
   background-color: #ffbed798;
@@ -134,10 +136,9 @@ div.customer-main {
   div.customer-main {
     display: grid;
     grid-template-columns: 1fr 2fr;
-    gap: 2em;
+    gap: 1.5em;
     background-color: white;
-    padding: 2em 5em 5em 5em;
-    height: 80vh;
+    padding: 2em 2.5em 2.5em 2.5em;
     width: auto;
   }
   .customer-main > header {
@@ -147,12 +148,15 @@ div.customer-main {
     padding: 1em;
     background-color: #80cbc4;
     border-radius: 30px;
+    height: 70vh;
   }
   .customer-main > main {
     border-radius: 30px;
     border: 0.2em solid #80cbc4;
     overflow-y: scroll;
+    scrollbar-width: none;
     padding-left: 5em;
     padding-right: 5em;
+    height: 70vh;
   }
 }

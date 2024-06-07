@@ -1,21 +1,22 @@
-section.recommend-box{
-      display: flex;
-      flex-direction: row;
-      overflow-x: scroll;
+section.recommend-box {
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  scrollbar-width: none;
 }
 .recommend-box figure {
-      margin: 0 1.5em;
+  margin: 0 1.5em;
 }
-.recommend-box figure img{
-      width: min(7em, 100px);
-      aspect-ratio: 1/1;
-      border-radius: 50%;
+.recommend-box figure img {
+  width: min(7em, 100px);
+  aspect-ratio: 1/1;
+  border-radius: 50%;
 }
 
 @media (min-width: 600px) {
-      section.recommend-box{
-            display: flex;
-            flex-direction: column;
-            overflow-y: scroll;
-      }
+  section.recommend-box {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+  }
 }

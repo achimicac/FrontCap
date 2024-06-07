@@ -13,22 +13,51 @@ function UserOtherProfile() {
     return maidData;
   });
   const [jobchoices, setJobchoices] = useState([]);
+  const [allReview, setAllReview] = useState([]);
+  const [reviewCount, setReviewCount] = useState(0);
+  const [rating, setRating] = useState(0);
 
   const fetchJobs = async (_mode) =>
     await api.get("/api/v1/job").then((res) => {
       setJobchoices(res.data);
     });
 
+  const fetchReviews = async () => {
+    await api
+      .post("/api/v1/review/getReview", { maid_email: maid?.email })
+      .then((res) => {
+        setReviewCount(res.data.review_count);
+        setAllReview(res.data.review_data);
+        const rate_sum = res.data.review_data.reduce(
+          (acc, review) => acc + review.star,
+          0
+        );
+        setRating(rate_sum / res.data.review_count);
+      });
+  };
+
+  const updateRating = async () =>
+    await api
+      .put("/api/v1/rating/updateRating", {
+        maid_email: maid?.email,
+        rating: rating,
+      })
+      .then((res) => {
+        console.log(res.data.text);
+      });
+
   useEffect(() => {
+    fetchReviews();
     fetchJobs();
   }, []);
+
+  useEffect(() => {
+    updateRating();
+  }, [rating]);
 
   const clickButton = () => {
     navigate("employ");
   };
-
-  //     console.log("length:  " + maid.reviews.length);
-  //     console.log("cal rating" + CalculateRating());
 
   return (
     <>
@@ -37,7 +66,7 @@ function UserOtherProfile() {
           <figure>
             {maid.user_pic ? (
               <img
-                src={`../../../public/imageGalleries/${maid.user_pic}`}
+                src={`../../../public/imageGalleries/${maid?.user_pic}`}
                 style={{ width: "30vw" }}
               />
             ) : (
@@ -53,7 +82,7 @@ function UserOtherProfile() {
             </header>
             <section>
               <span>คะแนน</span>
-              <span>{maid.avg_rating} / 5.0</span>
+              <span>{rating} / 5.0</span>
             </section>
             <section>
               <span>ระยะทาง</span>
@@ -82,20 +111,22 @@ function UserOtherProfile() {
         </article>
         <article>
           <header>รีวิว</header>
-          {/* {maid.reviews.map((review, reviewid) => (
-            <section key={reviewid}>
+          {allReview?.map((review, index) => (
+            <section key={index}>
               <section>
                 <span>
-                  <b>{review.firstname}***</b>
+                  <b>
+                    {review.firstname} {review.lastname} &nbsp;&nbsp;
+                  </b>
                 </span>
-                ให้คะแนน
+                ให้คะแนน &nbsp;
                 {[...Array(5)].map((star, starid) => {
                   const ratingValue = starid + 1;
                   return (
                     <label key={starid}>
                       <FaStar
                         color={
-                          ratingValue <= review.rating ? "#ffc107" : "#e4e5e9"
+                          ratingValue <= review.star ? "#E1829B" : "#e4e5e9"
                         }
                       />
                     </label>
@@ -104,22 +135,23 @@ function UserOtherProfile() {
               </section>
               <section className="read-more mb-12">
                 <input
-                  id={`read-more-checkbox-${reviewid}`}
+                  id={`read-more-checkbox-${index}`}
                   type="checkbox"
                   className="read-more__checkbox"
                   aria-hidden="true"
                 />
                 <p className="read-more__text mb-2">{review.comment}</p>
                 <label
-                  htmlFor={`read-more-checkbox-${reviewid}`}
+                  style={{ color: "#E1829B" }}
+                  htmlFor={`read-more-checkbox-${index}`}
                   className="read-more__label"
-                  data-read-more="Read more"
-                  data-read-less="See less"
+                  data-read-more="อ่านเพิ่มเติม"
+                  data-read-less="อ่านน้อยลง"
                   aria-hidden="true"
                 ></label>
               </section>
             </section>
-          ))} */}
+          ))}
         </article>
       </main>
     </>

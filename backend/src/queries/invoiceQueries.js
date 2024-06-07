@@ -12,7 +12,6 @@ const updateInvoice = `UPDATE Invoice SET
                             Work_Date = $6, 
                             Start_Time = $7, 
                             Work_Time = $8, 
-                            end_Time = $9, 
                             Amount = $10 
                         WHERE Invoice_ID = $11 RETURNING *`;
 const deleteInvoice = "DELETE FROM Invoice WHERE Invoice_ID = $1 RETURNING *";
